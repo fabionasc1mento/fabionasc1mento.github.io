@@ -1,0 +1,47 @@
+.header {
+    max-width: 1200px;
+    padding: 40px 20px;
+    /* alinhar os itens independente do tamanho da pag */
+    margin: 0 auto;
+    /* um item do lado do outro */
+    display: flex;
+    /* itens separados */
+    justify-content: space-between;
+    /* alinhar os itens */
+    align-items: center;
+}
+
+.header-menu {
+    display: flex;
+    /* quebrar os itens conforme tamanho pag */
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.header-menu a {
+    font-size: 1.125rem;
+    line-height: 1.3;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #141414;
+    display: block;
+}
+
+.marca {
+    max-width: 60px;
+}
+
+@media (max-width: 800px) {
+    .header {
+        flex-direction: column;
+        gap: 40px;
+        padding: 20px;
+    }
+
+    .header a {
+        background: #f5f5f5;
+        border-radius: 4px;
+
+    }
+}
