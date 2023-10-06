@@ -28,6 +28,20 @@
     display: block;
 }
 
+.header-menu li a::after {
+    content: "";
+    display: block;
+    height: 3px;
+    width: 0%;
+    background: #141414;
+    margin-top: 4px;
+}
+
+.header-menu a:hover:after {
+    width: 100%;
+    transition-duration: 0.5s;
+}
+
 .marca {
     max-width: 60px;
 }
