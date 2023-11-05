@@ -7,7 +7,7 @@
     padding: 120px 20px 60px 20px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 100px;
     align-items: center;
 }
@@ -16,6 +16,12 @@
     font-size: 1.5rem;
     line-height: 1.33;
     color: #cccccc;
+}
+
+.footer-contato{
+    display: flex;
+    margin: 10px;
+    justify-content: center;
 }
 
 .footer-contato li {

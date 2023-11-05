@@ -13,12 +13,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap" rel="stylesheet">
-  <!-- <link rel="stylesheet" href="./css/header.css"> -->
 </head>
 
 <body>
   <header class="header">
-    <img class="marca" src="./img/marca.svg" alt="Lobo" width="104px" height="50px">
+    <img class="marca" src="./img/marca.svg" alt="Fabius" width="104px" height="50px">
     <nav>
       <ul class="header-menu">
         <li><a href="#experiencia">Experiência</a></li>
@@ -80,35 +79,68 @@
           <strong>Técnico</strong> em <strong>Design Gráfico</strong> e em <strong>Montagem e Reparo de
             Computadores</strong> pelo <strong>SENAI</strong>.
         </p>
-        <ul class="faculdade-lista">
-          <li class="faculdade">
-            <span class="faculdade-tipo">Bacharelado</span>
-            <h3 class="faculdade-curso">Engenharia de Software</h3>
-            <span class="faculdade-instituicao">2/8</span>
-            <span class="faculdade-instituicao">UNIC</span>
-          </li>
 
-          <li class="faculdade">
-            <span class="faculdade-tipo">Bacharelado</span>
-            <h3 class="faculdade-curso">Engenharia de Controle e Automação</h3>
-            <span class="faculdade-instituicao">7/10 🔐</span>
-            <span class="faculdade-instituicao">UFMT</span>
-          </li>
+        <!-- .... -->
+        <div class="card-group">
+          <article class="card">
+            <header class="card-header">
+              <span class="card-date">
+                <strong> Bacharelado </strong>
+                início em Mar, 2023 - 3/8
+              </span>
+              <h3 class="card-title">
+                <a class="card-title">Engenharia de Software</a>
+              </h3>
+            </header>
+            <footer class="card-footer">
+              <h4 class="card-author">UNIC</h4>
+            </footer>
+          </article>
+          <article class="card">
+            <header class="card-header">
+              <span class="card-date">
+                <strong> Bacharelado </strong>
+                em 2019, trancada 🔐
+              </span>
+              <h3 class="card-title">
+                <a class="card-title">Engenharia de Controle e Automação</a>
+              </h3>
+            </header>
+            <footer class="card-footer">
+              <h4 class="card-author">UFMT</h4>
+            </footer>
+          </article>
+          <article class="card">
+            <header class="card-header">
+              <span class="card-date">
+                <strong> Técnico </strong>
+                em Ago 17, Set 2017 ✅
+              </span>
+              <h3 class="card-title">
+                <a class="card-title">Designer Gráfico</a>
+              </h3>
+            </header>
+            <footer class="card-footer">
+              <h4 class="card-author">SENAI - MT</h4>
+            </footer>
+          </article>
+          <article class="card">
+            <header class="card-header">
+              <span class="card-date">
+                <strong> Técnico </strong>
+                em Jan 17, Mar 2017 ✅
+              </span>
+              <h3 class="card-title">
+                <a class="card-title">Montador e Reparador de computador</a>
+              </h3>
+            </header>
+            <footer class="card-footer">
+              <h4 class="card-author">SENAI - MT</h4>
+            </footer>
+          </article>
+        </div>
+        <!-- .... -->
 
-          <li class="faculdade">
-            <span class="faculdade-tipo">Técnico</span>
-            <h3 class="faculdade-curso">Designer Gráfico</h3>
-            <span class="faculdade-instituicao">Completo✅</span>
-            <span class="faculdade-instituicao">SENAI - MT</span>
-          </li>
-
-          <li class="faculdade">
-            <span class="faculdade-tipo">Técnico</span>
-            <h3 class="faculdade-curso">Montador e Reparador de computador</h3>
-            <span class="faculdade-instituicao">Completo✅</span>
-            <span class="faculdade-instituicao">SENAI - MT</span>
-          </li>
-        </ul>
 
         <div class="formacao-extra">
           <div class="cursos">
@@ -136,15 +168,37 @@
     <div class="footer-container">
       <p class="footer-texto"> Estou buscando novos projetos atualmente. Entre em contato comigo para iniciarmos uma
         conversa.😄</p>
-      <ul class="footer-contato">
-        <li>fabiotcn333@gmail.com</li>
-        <li>+55 (65) 99985-3869</li>
-        <li><a href="https://www.linkedin.com/in/fabio-tcn">Linkedin</a></li>
-        <li><a href="https://www.instagram.com/fabtarcio/">@fabtarcio</a></li>
-      </ul>
+        
+      <div class="redes-sociais">
+        <ul>
+          <li style="--i:#fff; --j:#b22222">
+            <span class="icon"><ion-icon name="mail-outline"></ion-icon></span>
+            <span class="title"><a href="mailto:fabiotcn333@gmail.com">Gmail</a></span>
+          </li>
+          <li style="--i:#fff; --j:#028a0f">
+            <span class="icon"><ion-icon name="call-outline"></ion-icon></span>
+            <span class="title"><a href="tel:+556599853869">Telefone</a></span>
+          </li>
+          <li style="--i:#fff; --j:#00f">
+            <span class="icon"><ion-icon name="logo-linkedin"></ion-icon></span>
+            <span class="title"><a href="https://www.linkedin.com/in/fabio-tcn">LinkedIn</a></span>
+          </li>
+          <li style="--i:#8f00ff; --j:#f00">
+            <span class="icon"><ion-icon name="logo-instagram"></ion-icon></span>
+            <span class="title"><a href="https://www.instagram.com/fabtarcio/">Instagram</a></span>
+          </li>
+          <li style="--i:#fff; --j:#000">
+            <span class="icon"><ion-icon name="logo-github"></ion-icon></span>
+            <span class="title"><a href="https://github.com/fabionasc1mento">GitHub</a></span>
+          </li>
+        </ul>
+      </div>
       <p class="footer-copy"> &copy Fabius. Alguns direitos reservados</p>
     </div>
   </footer>
+
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
 </body>
 
