@@ -17,9 +17,9 @@
 
 <body>
   <header class="header">
-    <img class="marca" src="./img/marca.svg" alt="Fabius" width="104px" height="50px">
+    <img class="marca fadeInLeft" src="./img/marca.svg" alt="Fabius" width="104px" height="50px" data-anime="200">
     <nav>
-      <ul class="header-menu">
+      <ul class="header-menu fadeInRight" data-anime="200">
         <li><a href="#experiencia">Experiência</a></li>
         <li><a href="#formacao">Formação</a></li>
         <li><a href="#contato">Contato</a></li>
@@ -28,19 +28,19 @@
   </header>
 
   <main class="introducao">
-    <div class="personalizacao-foto">
+    <div class="personalizacao-foto fadeInLeft" data-anime="300">
       <img src="./img/perfil.png" alt="Foto - Fábio Tarcio">
     </div>
-    <div>
-      <h1>Desenvolvedor<br>Front End &<br>"Baby" Software engineer</h1>
-      <p>Localizado em Cuiabá - MT 🇧🇷</p>
+    <div class="fadeInRight" data-anime="300">
+      <h1>Desenvolvedor<br>Front End &<br>Estudante De Engenharia de Software</h1>
+      <p class="fadeInLeft" data-anime="400">Localizado em Cuiabá - MT 🇧🇷</p>
     </div>
   </main>
 
   <section class="experiencia" id="experiencia" aria-label="Experiência">
-    <h2 class="subtitulo">Experiência</h2>
+    <h2 class="subtitulo fadeInLeft" data-anime="400">Experiência</h2>
     <div>
-      <p class="experiencia-texto">Atuo fazendo projetos pessoais com a intuição de facilitar ou automatizar minhas
+      <p class="experiencia-texto fadeInRight" data-anime="400">Atuo fazendo projetos pessoais com a intuição de facilitar ou automatizar minhas
         tarefas diárias. Decidi me
         tornar um <strong>DEV</strong> de <strong> Front End</strong> pois vejo como um bom meio de ingressar na área do
         desenvolvimento. Minha
@@ -49,14 +49,14 @@
         <strong>Python</strong>. Sempre estou apto a aprender uma nova tecnologia.
       </p>
 
-      <div class="empresa">
-        <span class="empresa-ano">2022-23</span>
-        <h3 class="empresa-titulo">Conselho Regional de Engenharia e Agronomia - CREA-MT</h3>
-        <span class="empresa-titulo">Estagiário de TI</span>
-        <p class="empresa-texto">Estagiei como Suporte de TI no CREA - MT, onde pude aprimorar minhas habilidades
+      <div class="empresa fadeInUp" data-anime="500">
+        <span class="empresa-ano fadeInLeft" data-anime="500">2022-23</span>
+        <h3 class="empresa-titulo fadeInLeft" data-anime="500">Conselho Regional de Engenharia e Agronomia - CREA-MT</h3>
+        <span class="empresa-titulo fadeInRight" data-anime="500">Estagiário de TI</span>
+        <p class="empresa-texto fadeInLeft" data-anime="500">Estagiei como Suporte de TI no CREA - MT, onde pude aprimorar minhas habilidades
           técnicas em resolução de problemas e atendimento ao usuário. Meu tempo lá me permitiu adquirir experiência
           prática em ambientes de trabalho reais, e fui capaz de aplicar meu conhecimento de forma efetiva.</p>
-        <ul class="empresa-habilidades">
+        <ul class="empresa-habilidades fadeInRight" data-anime="500">
           <li>Análise e Suporte ao Usuário na Área da TI</li>
           <li>Suporte técnico</li>
           <li>Montador e reparador de computador</li>
@@ -69,10 +69,10 @@
 
   <section class="formacao" id="formacao" aria-label="Formação">
     <div class="formacao-container">
-      <h2 class="subtitulo">Formação</h2>
+      <h2 class="subtitulo fadeInLeft" data-anime="600">Formação</h2>
 
       <div>
-        <p class="formacao-texto">
+        <p class="formacao-texto fadeInRight" data-anime="600">
           Sou estudante de <strong>Engenharia de Software</strong>🧑‍💻 e cursei até o 7° semestre o
           curso <strong>Engenharia de Controle e Automação</strong> na <strong>UFMT</strong>. Atualmente, estou cursando
           <strong>Engenharia de Software</strong> na <strong>UNIC</strong>. Possuo certificado de
@@ -81,14 +81,14 @@
         </p>
 
         <!-- .... -->
-        <div class="card-group">
+        <div class="card-group fadeInDown" data-anime="600">
           <article class="card">
             <header class="card-header">
               <span class="card-date">
                 <strong> Bacharelado </strong>
                 início em Mar, 2023 - 3/8
               </span>
-              <h3 class="card-title">
+              <h3 class="card-title ">
                 <a class="card-title">Engenharia de Software</a>
               </h3>
             </header>
@@ -142,7 +142,7 @@
         <!-- .... -->
 
 
-        <div class="formacao-extra">
+        <div class="formacao-extra fadeInUp" data-anime="600">
           <div class="cursos">
             <h3>Cursos extra-curricular</h3>
             <ul>
@@ -166,28 +166,28 @@
 
   <footer class="footer" id="contato">
     <div class="footer-container">
-      <p class="footer-texto"> Estou buscando novos projetos atualmente. Entre em contato comigo para iniciarmos uma
+      <p class="footer-texto fadeInLeft" data-anime="300"> Estou buscando novos projetos atualmente. Entre em contato comigo para iniciarmos uma
         conversa.😄</p>
-        
+
       <div class="redes-sociais">
         <ul>
-          <li style="--i:#fff; --j:#b22222">
+          <li style="--i:#fff; --j:#b22222" data-anime="300">
             <span class="icon"><ion-icon name="mail-outline"></ion-icon></span>
             <span class="title"><a href="mailto:fabiotcn333@gmail.com">Gmail</a></span>
           </li>
-          <li style="--i:#fff; --j:#028a0f">
+          <li style="--i:#fff; --j:#028a0f" data-anime="400">
             <span class="icon"><ion-icon name="call-outline"></ion-icon></span>
             <span class="title"><a href="tel:+556599853869">Telefone</a></span>
           </li>
-          <li style="--i:#fff; --j:#00f">
+          <li style="--i:#fff; --j:#00f" data-anime="500">
             <span class="icon"><ion-icon name="logo-linkedin"></ion-icon></span>
             <span class="title"><a href="https://www.linkedin.com/in/fabio-tcn">LinkedIn</a></span>
           </li>
-          <li style="--i:#8f00ff; --j:#f00">
+          <li style="--i:#8f00ff; --j:#f00" data-anime="600">
             <span class="icon"><ion-icon name="logo-instagram"></ion-icon></span>
             <span class="title"><a href="https://www.instagram.com/fabtarcio/">Instagram</a></span>
           </li>
-          <li style="--i:#fff; --j:#000">
+          <li style="--i:#fff; --j:#000" data-anime="700">
             <span class="icon"><ion-icon name="logo-github"></ion-icon></span>
             <span class="title"><a href="https://github.com/fabionasc1mento">GitHub</a></span>
           </li>
@@ -199,6 +199,9 @@
 
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+  <script src="./js/plugins/simple-anime.js"></script>
+  <script src="./js/script.js"></script>
 
 </body>
 
