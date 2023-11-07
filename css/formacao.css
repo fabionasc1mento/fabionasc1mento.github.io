@@ -225,19 +225,25 @@
     color: #fff;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1200px) {
 
     .card:hover,
     .card:hover~.card {
         transform: none;
     }
 
+    .formacao-texto{
+        margin-bottom: 40px;
+    }
+
     .card-group {
         justify-content: center;
         max-width: 0px;
         column-gap: 16px;
-        padding: 180px;
+        margin-left: 90px;
+        padding: 10px 180px;
         display: grid;
+        grid-template-columns: 1fr 1fr;
     }
 
     .card {
@@ -246,6 +252,13 @@
     }
 
     .card:not(:first-child) {
+        margin-left: 0px;
+    }
+}
+
+@media (max-width: 950px) {
+    .card-group{
+        grid-template-columns: 1fr;
         margin-left: 0px;
     }
 }
