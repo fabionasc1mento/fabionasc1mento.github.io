@@ -4,7 +4,7 @@
   gap: 25px;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  padding: 0px 0px 20px 0px;
+  padding: 0px 0px 15px 0px;
 }
 
 
@@ -12,28 +12,27 @@
 .redes-sociais ul li {
   position: relative;
   list-style: none;
-  width: 60px;
-  height: 60px;
-  background: #fff;
-  border-radius: 60px;
+  width: 40px;
+  height: 40px;
+  background:#fff;
+  border-radius: 10px;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 16px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 16px 25px rgba(0, 0, 0, 0);
   transition: 0.5s;
 }
 
 .redes-sociais ul li:hover {
-  width: 180px;
-  box-shadow: 0 16px 25px rgba(0, 0, 0, 0);
+  width: 150px;
 }
 
 .redes-sociais ul li:before {
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 60px;
+  border-radius: 10px;
   background: linear-gradient(45deg, var(--i), var(--j));
   opacity: 0;
   transition: 0.5s;
@@ -52,7 +51,7 @@
   border-radius: 60px;
   background: linear-gradient(45deg, var(--i), var(--j));
   transform: 0.5s;
-  filter: blur(15px);
+  filter: blur(5px);
   z-index: -1;
   opacity: 0;
 }
