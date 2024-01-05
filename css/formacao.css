@@ -186,7 +186,7 @@
 }
 
 .card:hover~.card {
-    transform: translateX(130px);
+    transform: translateX(90px);
 }
 
 .card-date {
@@ -230,7 +230,7 @@
         max-width: 0px;
         column-gap: 16px;
         margin-left: 90px;
-        padding: 10px 180px;
+        padding: 10px 120px;
         display: grid;
         grid-template-columns: 1fr 1fr;
     }
