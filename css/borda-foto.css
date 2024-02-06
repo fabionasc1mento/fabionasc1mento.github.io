@@ -13,17 +13,21 @@
     border: #B0B7C0 solid 4px;
     border-radius: 1000px;
     border-top-color: #B0FC38;
-    animation: girando-borda 5s infinite;
+    animation: girando-borda 50s infinite;
+}
+
+.introducao img {
+    border-radius: 1000px;
 }
 
 @keyframes girando-borda {
     to {
-        transform: rotate(1turn);
+        transform: rotate(10turn);
     }
 }
 
-@media (max-width: 400px) {
-    .personalizacao-foto {
+@media (max-width: 540px) {
+    .personalizacao-foto::before {
         display: none;
     }
 }
