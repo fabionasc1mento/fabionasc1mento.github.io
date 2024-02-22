@@ -18,8 +18,10 @@
 </head>
 
 <body>
-  <header class="header">
-    <img class="marca fadeInLeft" src="./img/marca.svg" alt="Fabius" width="104px" height="50px" data-anime="200">
+  <header class="header js-menu">
+    <a href="#introducao" class="logo-site">
+      <img class="marca fadeInLeft" src="./img/marca.svg" alt="Fabius" width="104px" height="50px" data-anime="200">
+    </a>
     <nav class="js-menu">
       <ul class="header-menu fadeInRight" data-anime="200">
         <li><a href="#experiencia">Experiência</a></li>
@@ -29,7 +31,7 @@
     </nav>
   </header>
 
-  <main class="introducao-main" data-anime="300">
+  <main class="introducao-main js-scroll" id="introducao" data-anime="300">
     <div class="introducao">
       <div class="personalizacao-foto fadeInLeft" data-anime="300">
         <img src="./img/perfil.jpeg" alt="Foto - Fábio Tarcio">
@@ -44,14 +46,9 @@
   <section class="experiencia js-scroll" id="experiencia" aria-label="Experiência">
     <h2 class="subtitulo fadeInLeft" data-anime="400">Experiência</h2>
     <div>
-      <p class="experiencia-texto fadeInRight" data-anime="400">Atuo fazendo projetos pessoais com a intuição de
-        facilitar ou automatizar minhas
-        tarefas diárias. Decidi me
-        tornar um <strong>DEV</strong> de <strong> Front End</strong> pois vejo como um bom meio de ingressar na área do
-        desenvolvimento. Minha
-        especialidade
-        no momento inclui <strong>HTML5</strong>, <strong>CSS3</strong>, <strong>JavaScript</strong> e
-        <strong>Python</strong>. Sempre estou apto a aprender uma nova tecnologia.
+      <p class="experiencia-texto fadeInRight" data-anime="400">Sou um <strong>DEV-Front End</strong>. Minha
+        especialidade inclui <strong>HTML5</strong>, <strong>CSS3</strong>, <strong>JavaScript</strong>, <strong>Git/GitHub</strong> e
+        <strong>React</strong>. Sempre estou apto a aprender uma nova tecnologia ou framework.
       </p>
 
       <div class="empresa fadeInUp" data-anime="500">
@@ -80,9 +77,7 @@
 
       <div>
         <p class="formacao-texto fadeInRight" data-anime="600">
-          Sou estudante de <strong>Engenharia de Software</strong>🧑‍💻 e cursei até o 7° semestre o
-          curso <strong>Engenharia de Controle e Automação</strong> na <strong>UFMT</strong>. Atualmente, estou cursando
-          <strong>Engenharia de Software</strong> na <strong>UNIC</strong>. Possuo certificado de
+          Sou estudante de <strong>Engenharia de Software</strong>🧑‍💻. Possuo certificado de
           <strong>Técnico</strong> em <strong>Design Gráfico</strong> e em <strong>Montagem e Reparo de
             Computadores</strong> pelo <strong>SENAI</strong>.
         </p>
@@ -201,7 +196,7 @@
           </li>
         </ul>
       </div>
-      <p class="footer-copy"> &copy Fabius. Alguns direitos reservados</p>
+      <p class="footer-copy"> &copy Fabius. Todos direitos reservados</p>
     </div>
   </section>
 

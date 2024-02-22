@@ -20,7 +20,7 @@
 
 .introducao {
     max-width: 1200px;
-    padding: 50px 60px 50px;
+    padding: 100px 60px 100px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 2fr;
