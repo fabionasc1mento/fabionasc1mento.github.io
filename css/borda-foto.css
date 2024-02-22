@@ -10,9 +10,9 @@
     left: -4px;
     width: 100%;
     height: 100%;
-    border: #B0B7C0 solid 4px;
+    border: #B0B7C0 solid 2px;
     border-radius: 1000px;
-    border-top-color: #B0FC38;
+    border-top-color: rgba(0, 0, 0, 0.5);
     animation: girando-borda 50s infinite;
 }
 

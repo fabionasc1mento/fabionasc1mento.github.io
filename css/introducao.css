@@ -1,6 +1,26 @@
+.introducao-main {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    animation: trocarImagens 10s infinite normal;
+}
+
+@keyframes trocarImagens {
+
+    0%,
+    100% {
+        background-image: url('../img/imgbkdg2.jpeg');
+    }
+
+    50% {
+        background-image: url('../img/imgbkgd.jpeg');
+    }
+}
+
+
 .introducao {
     max-width: 1200px;
-    padding: 50px 60px 0px;
+    padding: 50px 60px 50px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -9,13 +29,14 @@
 }
 
 .introducao h1 {
+    color: #fff;
     font-size: 4.5rem;
     line-height: 1.125;
     margin-bottom: 30px;
     position: relative;
 }
 
-.introducao h1::before {
+/* .introducao h1::before {
     content: "";
     display: block;
     width: 130px;
@@ -25,11 +46,11 @@
     top: -15px;
     left: -40px;
     z-index: -1;
-}
+} */
 
 .introducao p {
     font-size: 1.5rem;
-    color: #525252;
+    color: #fff;
 }
 
 @media (max-width: 1000px) {
