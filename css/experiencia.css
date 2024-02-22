@@ -84,6 +84,7 @@
 
 @media (max-width: 800px) {
     .experiencia {
+        padding: 60px 20px;
         grid-template-columns: 1fr;
         gap: 40px;
     }
