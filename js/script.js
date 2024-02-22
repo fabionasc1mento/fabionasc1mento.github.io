@@ -28,17 +28,19 @@ linksInternos.forEach((link) => {
 })
 
 const section = document.querySelectorAll('.js-scroll');
-  if (section.length) {
-    const windowApresentation = window.innerHeight * 0.7;
+if (section.length) {
+  const windowApresentation = window.innerHeight * 0.65;
 
-    function animaScroll() {
-      section.forEach((section) => {
-        const sectionTop = section.getBoundingClientRect().top - windowApresentation;
-        if (sectionTop < 0) {
-          section.classList.add('ativo')
-        }
-      })
-    }
+  function animaScroll() {
+    section.forEach((section) => {
+      const sectionTop = section.getBoundingClientRect().top - windowApresentation;
+      if (sectionTop < 0)
+        section.classList.add('ativo');
+      else
+        section.classList.remove('ativo');
+
+    })
   }
-  animaScroll()
-  window.addEventListener('scroll', animaScroll)
+}
+animaScroll()
+window.addEventListener('scroll', animaScroll)

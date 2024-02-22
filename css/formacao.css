@@ -5,7 +5,7 @@
 
 .formacao-container {
     max-width: 1200px;
-    padding: 120px 20px;
+    padding: 150px 20px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -221,7 +221,7 @@
         transform: none;
     }
 
-    .formacao-texto{
+    .formacao-texto {
         margin-bottom: 40px;
     }
 
@@ -246,8 +246,8 @@
 }
 
 @media (max-width: 950px) {
-    .card-group{
+    .card-group {
         grid-template-columns: 1fr;
-        margin-left: 0px;
+        margin-left: 55px;
     }
 }

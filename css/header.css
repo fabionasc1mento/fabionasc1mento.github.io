@@ -1,19 +1,17 @@
 .header {
-    max-width: 1200px;
-    padding: 40px 20px;
-    /* alinhar os itens independente do tamanho da pag */
-    margin: 0 auto;
-    /* um item do lado do outro */
+    position: sticky;
     display: flex;
-    /* itens separados */
-    justify-content: space-between;
-    /* alinhar os itens */
+    padding: 10px 10px;
+    justify-content: center;
     align-items: center;
+    top: 0;
+    z-index: 1000;
+    background-color: #fff;
+    gap: 90px;
 }
 
 .header-menu {
     display: flex;
-    /* quebrar os itens conforme tamanho pag */
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
@@ -48,9 +46,10 @@
 
 @media (max-width: 800px) {
     .header {
+        position: relative;
+        max-width: 100%;
         flex-direction: column;
         gap: 40px;
-        padding: 20px;
     }
 
     .header a {

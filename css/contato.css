@@ -4,7 +4,9 @@
   gap: 25px;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  padding: 0px 0px 15px 0px;
+  padding: 15px 10px 15px 10px;
+  justify-content: center;
+  align-items: center;
 }
 
 
@@ -14,7 +16,7 @@
   list-style: none;
   width: 40px;
   height: 40px;
-  background:#fff;
+  background: #fff;
   border-radius: 10px;
   cursor: pointer;
   display: flex;
@@ -97,12 +99,12 @@
 }
 
 @media(max-width:800px) {
-  .redes-sociais{
+  .redes-sociais {
     display: grid;
     grid-template-columns: 1fr;
   }
 
-  .redes-sociais ul li:before{
+  .redes-sociais ul li:before {
     border-radius: 10px;
   }
 
@@ -111,11 +113,12 @@
     height: 100%;
     border-radius: 10px;
   }
-  
+
 
   .redes-sociais ul li ion-icon {
     font-size: 1.25em;
   }
+
   .redes-sociais ul li .title {
     font-size: 1.1em;
     text-transform: none;

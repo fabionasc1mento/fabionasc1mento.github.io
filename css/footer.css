@@ -4,7 +4,7 @@
 
 .footer-container {
     max-width: 1200px;
-    padding: 120px 20px 60px 20px;
+    padding: 60px 20px 60px 20px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr;
@@ -18,7 +18,7 @@
     color: #cccccc;
 }
 
-.footer-contato{
+.footer-contato {
     display: flex;
     margin: 10px;
     justify-content: center;
