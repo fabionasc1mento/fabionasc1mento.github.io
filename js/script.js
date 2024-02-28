@@ -29,11 +29,10 @@ linksInternos.forEach((link) => {
 
 const section = document.querySelectorAll('.js-scroll');
 if (section.length) {
-  const windowApresentation = window.innerHeight * 0.70;
 
   function animaScroll() {
     section.forEach((section) => {
-      const sectionTop = section.getBoundingClientRect().top - windowApresentation;
+      const sectionTop = section.getBoundingClientRect().top - window.innerHeight * 0.7;
       if (sectionTop < 0)
         section.classList.add('ativo');
       else

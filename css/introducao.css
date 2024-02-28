@@ -5,17 +5,26 @@
     animation: trocarImagens 10s infinite normal;
 }
 
-@keyframes trocarImagens {
 
+@-webkit-keyframes trocarImagens {
     0%,
     100% {
         background-image: url('../img/imgbkdg2.jpeg');
     }
-
     50% {
         background-image: url('../img/imgbkgd.jpeg');
     }
-}
+  }
+  
+  @keyframes trocarImagens {
+    0%,
+    100% {
+        background-image: url('../img/imgbkdg2.jpeg');
+    }
+    50% {
+        background-image: url('../img/imgbkgd.jpeg');
+    }
+  }
 
 
 .introducao {
