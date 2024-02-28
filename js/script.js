@@ -29,7 +29,7 @@ linksInternos.forEach((link) => {
 
 const section = document.querySelectorAll('.js-scroll');
 if (section.length) {
-  const windowApresentation = window.innerHeight * 0.65;
+  const windowApresentation = window.innerHeight * 0.70;
 
   function animaScroll() {
     section.forEach((section) => {

@@ -1,0 +1,42 @@
+.cardProjeto {
+  width: 360px;
+  display: grid;
+  grid-template-areas: 1fr;
+  margin: 10px 5px;
+}
+
+a {
+  padding: 0px;
+  text-decoration: none;
+  color: #e0e0e0;
+}
+
+.cardProjeto img {
+  border-radius: 20px;
+  transition: .5s;
+}
+
+.cardProjeto:hover img {
+  border-radius: 50px;
+  transition: .5s;
+}
+
+.cardProjeto>* {
+  grid-area: stack;
+}
+
+figcaption {
+  margin-top: 5px;
+  text-align: center;
+}
+
+.cardProjeto figcaption {
+  opacity: 0.3;
+}
+
+.cardProjeto:hover figcaption {
+  opacity: 1;
+  cursor: pointer;
+  transition: 0.8s;
+
+}

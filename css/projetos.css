@@ -1,0 +1,88 @@
+@import url(cardProjeto.css);
+
+.projeto {
+  background: #141414;
+  color: #fff;
+}
+
+.projeto-container {
+  max-width: 1200px;
+  height: auto;
+  padding: 120px 20px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 100px;
+}
+
+.projeto .subtitulo {
+  color: #000;
+}
+
+.projeto-texto {
+  font-size: 1.5rem;
+  line-height: 1.33;
+  max-width: 70ch;
+  margin-bottom: 60px;
+  color: #a3a3a3;
+}
+
+.projeto-texto strong {
+  color: #fff;
+}
+
+.divProjeto {
+  margin-top: -40px;
+  margin-left: -7px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+
+
+@media (max-width: 1200px) {
+  .cardProjeto {
+    width: 330px;
+  }
+}
+
+@media (max-width: 1150px) {
+  .cardProjeto {
+    width: 250px;
+  }
+}
+
+@media (max-width: 915px) {
+  .divProjeto {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .projeto-container {
+    padding: 60px 20px;
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .divProjeto {
+    grid-template-columns: 1fr;
+  }
+
+  .projeto-container .subtitulo {
+    color: #fff;
+  }
+
+  .projeto-container-texto {
+    font-size: 1.25rem;
+  }
+
+}
+
+
+
+
+@media (max-width: 400px) {
+  .projeto-container {
+    padding: 40px 20px;
+  }
+}

@@ -1,5 +1,5 @@
 .formacao {
-    background: #141414;
+    background: #fff;
     color: #fff;
 }
 
@@ -14,7 +14,7 @@
 }
 
 .formacao .subtitulo {
-    color: #000000;
+    color: #e0e0e0;
     max-width: 5ch;
 }
 
@@ -23,11 +23,11 @@
     line-height: 1.33;
     max-width: 40ch;
     margin-bottom: 60px;
-    color: #a3a3a3;
+    color: #525252;
 }
 
 .formacao-texto strong {
-    color: #fff;
+    color: #141414;
 }
 
 .faculdade-lista {
@@ -73,7 +73,7 @@
 
 .faculdade-instituicao {
     font-size: 1.125rem;
-    color: #a3a3a3;
+    color: #141414;
 }
 
 .cursos {
@@ -83,7 +83,7 @@
 .formacao-extra h3 {
     font-size: 0.875rem;
     line-height: 1.4;
-    color: #8f8f8f;
+    color: #141414;
     text-transform: uppercase;
     margin-bottom: 30px;
     position: relative;
@@ -111,6 +111,7 @@
     font-size: 1.125rem;
     line-height: 1.1;
     margin-bottom: 20px;
+    color: #141414;
 }
 
 .formacao-extra span {
@@ -130,7 +131,7 @@
     }
 
     .formacao .subtitulo {
-        color: #ffffff;
+        color: #141414;
     }
 
     .formacao-texto {
@@ -161,7 +162,6 @@
     height: 250px;
     background-image: linear-gradient(85deg, #434343, #262626);
     padding: 32px;
-    box-shadow: -5px 0 16px 32px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
     transition: transform 250ms;
     margin-bottom: 20px;
@@ -201,7 +201,7 @@
 }
 
 .card-title {
-    font-size: 26px;
+    font-size: 1.2rem;
     color: #fff;
     text-decoration: none;
 }
@@ -230,7 +230,7 @@
         max-width: 0px;
         column-gap: 16px;
         margin-left: 90px;
-        padding: 10px 120px;
+        padding: 10px 180px;
         display: grid;
         grid-template-columns: 1fr 1fr;
     }
@@ -249,5 +249,20 @@
     .card-group {
         grid-template-columns: 1fr;
         margin-left: 55px;
+    }
+}
+
+@media (max-width: 880px) {
+    .card-group {
+        padding: 10px 120px;
+    }
+
+    .card {
+        width: 180px;
+        height: 150px;
+    }
+
+    .card:not(:first-child) {
+        margin-left: 0px;
     }
 }
