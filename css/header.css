@@ -57,4 +57,7 @@
         font-size: 0.9rem;
         border-radius: 4px;
     }
+    .header-menu{
+        flex-wrap: nowrap;
+    }
 }
