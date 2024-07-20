@@ -1,0 +1,77 @@
+
+
+.cube {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  animation: rotate 10s infinite linear;
+}
+
+.facebox {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  color: rgb(21, 153, 214);
+  font-size: 18px;
+  text-align: center;
+  line-height: 200px;
+  background: transparent;
+  opacity: 0.9;
+  border: 2px solid;
+  border-image: linear-gradient(
+    90deg,
+    rgba(14, 8, 110, 1) 0%,
+    rgba(15, 15, 167, 1) 26%,
+    rgba(20, 45, 255, 1) 85%
+  );
+  box-shadow: 0 0 100px rgba(8, 178, 245, 0.61);
+}
+
+.frontbox {
+  transform: translateZ(50px);
+  background-color: #0093e9;
+  background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+}
+
+.backbox {
+  transform: rotateY(180deg) translateZ(50px);
+  background-color: #0093e9;
+  background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+}
+
+.rightbox {
+  transform: rotateY(90deg) translateZ(50px);
+  background-color: #0093e9;
+  background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+}
+
+.leftbox {
+  transform: rotateY(-90deg) translateZ(50px);
+  background-color: #0093e9;
+  background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+}
+
+.topbox {
+  transform: rotateX(90deg) translateZ(50px);
+  background-color: #0093e9;
+  background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+}
+
+.bottombox {
+  transform: rotateX(-90deg) translateZ(50px);
+  background-color: #0093e9;
+  background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+}
+
+
+
+@keyframes rotate {
+  0% {
+    transform: rotateX(0) rotateY(0) rotateZ(0);
+  }
+
+  100% {
+    transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+  }
+}

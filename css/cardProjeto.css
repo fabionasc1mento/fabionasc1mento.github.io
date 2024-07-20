@@ -1,5 +1,5 @@
 .cardProjeto {
-  width: 360px;
+  min-width: 360px;
   display: grid;
   grid-template-areas: 1fr;
   margin: 10px 5px;
@@ -39,4 +39,10 @@ figcaption {
   cursor: pointer;
   transition: 0.8s;
 
+}
+
+@media (max-width: 400px) {
+  .cardProjeto {
+    min-width: 300px;
+  }
 }

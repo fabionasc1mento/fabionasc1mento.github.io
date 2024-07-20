@@ -50,6 +50,7 @@
         max-width: 100%;
         flex-direction: column;
         gap: 40px;
+        overflow: scroll;
     }
 
     .header li a {
@@ -59,5 +60,6 @@
     }
     .header-menu{
         flex-wrap: nowrap;
+
     }
 }
