@@ -2,14 +2,14 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    animation: trocarImagens 10s infinite normal;
+    animation: trocarImagens 15s infinite normal;
 }
 
 
 @-webkit-keyframes trocarImagens {
     0%,
     100% {
-        background-image: url('../img/imgbkdg2.jpeg');
+        background-image: url('../img/imgbkgd2.jpeg');
     }
     50% {
         background-image: url('../img/imgbkgd.jpeg');
@@ -19,7 +19,7 @@
   @keyframes trocarImagens {
     0%,
     100% {
-        background-image: url('../img/imgbkdg2.jpeg');
+        background-image: url('../img/imgbkgd2.jpeg');
     }
     50% {
         background-image: url('../img/imgbkgd.jpeg');
