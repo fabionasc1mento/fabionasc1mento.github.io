@@ -42,7 +42,7 @@
 /* Só muda a cor, não o peso: negrito alargaria a palavra e empurraria a linha */
 .marker[data-on="true"] {
   background-size: 100% 100%;
-  color: var(--ink);
+  color: var(--on-marker);
 }
 
 /* Tabela de saída: o dado limpo */

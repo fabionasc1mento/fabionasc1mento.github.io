@@ -1,13 +1,17 @@
 /* Tokens do design: mude aqui para ajustar o site inteiro. */
 :root {
-  --paper: #f6f5fa;      /* fundo: papel frio */
-  --surface: #ffffff;    /* blocos sobre o papel */
-  --ink: #1d1736;        /* texto principal: tinta violeta-escura */
-  --muted: #6d6786;      /* texto secundário */
-  --line: #e2dfec;       /* bordas e divisórias */
-  --violet: #6b3fd1;     /* roxo de ipê: links e ações */
-  --violet-deep: #4e2aa6;
-  --marker: #ffd84d;     /* marca-texto: só para dado extraído */
+  /* Visual escuro: fundo em tinta violeta (não preto puro), roxo de ipê
+     para ações e o amarelo de marca-texto só para dado extraído. */
+  --paper: #15112a;       /* fundo */
+  --deep: #0f0c20;        /* rodapé, um tom abaixo do fundo */
+  --surface: #1d1838;     /* blocos sobre o fundo */
+  --ink: #eeeaf7;         /* texto principal */
+  --muted: #a39cbd;       /* texto secundário */
+  --line: #2e2750;        /* bordas e divisórias */
+  --violet: #a98bff;      /* roxo de ipê: links, ações, letras animadas */
+  --violet-deep: #c8b6ff; /* hover: clareia no escuro */
+  --marker: #ffd84d;      /* marca-texto */
+  --on-marker: #15112a;   /* texto sobre o marca-texto */
 
   --font-sans: "Schibsted Grotesk", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
@@ -17,10 +21,15 @@
   --step-1: 1.3125rem;
   --step-2: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
   --step-3: clamp(2.5rem, 1.4rem + 4.6vw, 4.75rem);
+  --step-4: clamp(3rem, 0.5rem + 10.5vw, 9rem);
 
+  --header-h: 4rem;
+  --bar-h: 2.75rem;
   --gutter: clamp(1rem, 4vw, 3rem);
   --max: 72rem;
   --radius: 10px;
+
+  color-scheme: dark;
 }
 
 *,
@@ -86,8 +95,9 @@ a {
 }
 
 /* Âncoras do menu não ficam escondidas atrás do cabeçalho fixo */
-section[id] {
-  scroll-margin-top: 5rem;
+section[id],
+footer[id] {
+  scroll-margin-top: var(--header-h);
 }
 
 .container {
@@ -128,6 +138,7 @@ section[id] {
 .button-primary:hover {
   background: var(--violet);
   border-color: var(--violet);
+  color: var(--paper);
 }
 
 .button-ghost {
@@ -157,4 +168,11 @@ section[id] {
   color: var(--muted);
   font-size: var(--step--1);
   font-weight: 500;
+}
+
+/* Enquanto a animação do nome estiver ativa, os nomes do hero e do
+   cabeçalho viram só moldes invisíveis (a camada animada desenha as letras) */
+html.name-flight [data-name-start],
+html.name-flight [data-name-end] {
+  visibility: hidden;
 }

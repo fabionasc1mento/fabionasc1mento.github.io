@@ -9,7 +9,7 @@ export function Education() {
   const { degrees, coursesTitle, courses, languagesTitle, languages } = t.education;
 
   return (
-    <Section id="formacao" title={t.education.title}>
+    <Section id="formacao" number="03" title={t.education.title} meta={t.sections.education}>
       <ul className={styles.degrees}>
         {degrees.map((degree) => (
           <li key={degree.name} className={styles.degree}>

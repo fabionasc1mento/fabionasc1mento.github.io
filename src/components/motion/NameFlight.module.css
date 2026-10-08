@@ -1,0 +1,21 @@
+.layer {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.letter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+  /* line-height normal: a caixa da letra fica igual à das letras
+     originais, que usamos para medir início e fim */
+  line-height: normal;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}

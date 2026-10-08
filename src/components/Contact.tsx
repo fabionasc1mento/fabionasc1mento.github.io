@@ -1,13 +1,15 @@
 "use client";
 
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { SectionBar } from "./SectionBar";
 import styles from "./Contact.module.css";
 
 export function Contact() {
   const { t } = useLanguage();
 
   return (
-    <footer id="contato" className={styles.contact} aria-labelledby="contato-titulo">
+    <footer id="contato" className={styles.contact} aria-labelledby="contato-titulo" data-section>
+      <SectionBar number="04" title={t.nav.contact} meta={t.sections.contact} />
       <div className={`container ${styles.inner}`}>
         <img
           src="/img/fabio.webp"

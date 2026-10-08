@@ -4,6 +4,7 @@ import "@fontsource/schibsted-grotesk/500.css";
 import "@fontsource/schibsted-grotesk/600.css";
 import "@fontsource/schibsted-grotesk/800.css";
 import "@fontsource/jetbrains-mono/400.css";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 import { dictionaries } from "@/i18n/dictionary";
 import { LanguageProvider } from "@/i18n/LanguageProvider";
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f6f5fa",
+  themeColor: "#15112a",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

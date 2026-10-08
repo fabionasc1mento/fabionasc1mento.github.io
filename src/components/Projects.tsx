@@ -9,7 +9,7 @@ export function Projects() {
   const { featured, alpium, small } = t.projects;
 
   return (
-    <Section id="projetos" title={t.projects.title}>
+    <Section id="projetos" number="02" title={t.projects.title} meta={t.sections.projects}>
       {/* Estudo de caso principal: problema → solução → resultado */}
       <article className={styles.featured}>
         <header className={styles.featuredHeader}>

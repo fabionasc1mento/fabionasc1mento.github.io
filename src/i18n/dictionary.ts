@@ -29,6 +29,7 @@ export type Dictionary = {
   nav: { aria: string; experience: string; projects: string; education: string; contact: string };
   langSwitch: { label: string; aria: string };
   hero: {
+    name: string;
     title: string;
     lead: string;
     ctaProjects: string;
@@ -36,6 +37,13 @@ export type Dictionary = {
     demoCaption: string;
     demoReplay: string;
     demoColumns: [string, string];
+  };
+  sections: {
+    indexLabel: string;
+    experience: string;
+    projects: string;
+    education: string;
+    contact: string;
   };
   experience: { title: string; jobs: Job[] };
   projects: {
@@ -88,7 +96,15 @@ export const dictionaries: Record<Lang, Dictionary> = {
       contact: "Contato",
     },
     langSwitch: { label: "EN", aria: "Switch to English" },
+    sections: {
+      indexLabel: "Seções",
+      experience: "2022 – hoje",
+      projects: "Estudos de caso",
+      education: "Engenharia de Software",
+      contact: "Vagas e freelance",
+    },
     hero: {
+      name: "Fábio Tarcio",
       title: "Transformo processo manual em sistema.",
       lead: "Sou o Fábio, desenvolvedor full stack em Cuiabá. Trabalho com C# e ASP.NET MVC no back-end e com JavaScript e React no front-end, construindo sistemas web para empresas.",
       ctaProjects: "Ver projetos",
@@ -240,7 +256,15 @@ export const dictionaries: Record<Lang, Dictionary> = {
       contact: "Contact",
     },
     langSwitch: { label: "PT", aria: "Mudar para português" },
+    sections: {
+      indexLabel: "Sections",
+      experience: "2022 – present",
+      projects: "Case studies",
+      education: "Software Engineering",
+      contact: "Jobs and freelance",
+    },
     hero: {
+      name: "Fábio Tarcio",
       title: "I turn manual processes into software.",
       lead: "I'm Fábio, a full stack developer based in Cuiabá, Brazil. I work with C# and ASP.NET MVC on the back end and JavaScript and React on the front end, building web systems for businesses.",
       ctaProjects: "See projects",
