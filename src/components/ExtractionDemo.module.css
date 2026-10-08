@@ -1,0 +1,128 @@
+.demo {
+  display: grid;
+  gap: 0.9rem;
+}
+
+/* Documento de origem: texto corrido, como vem no PDF */
+.doc {
+  position: relative;
+  padding: 2.25rem 1.25rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 0.78rem;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+.fileName {
+  position: absolute;
+  top: 0.7rem;
+  left: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink);
+}
+
+.docLine + .docLine {
+  margin-top: 0.65rem;
+  padding-top: 0.65rem;
+  border-top: 1px dashed var(--line);
+}
+
+/* Marca-texto: a faixa amarela "passa" da esquerda para a direita */
+.marker {
+  padding: 0.05em 0.15em;
+  border-radius: 3px;
+  color: inherit;
+  background: linear-gradient(var(--marker), var(--marker)) no-repeat left / 0% 100%;
+  transition: background-size 0.45s ease-out, color 0.2s;
+}
+
+/* Só muda a cor, não o peso: negrito alargaria a palavra e empurraria a linha */
+.marker[data-on="true"] {
+  background-size: 100% 100%;
+  color: var(--ink);
+}
+
+/* Tabela de saída: o dado limpo */
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.table th {
+  padding: 0.7rem 1.1rem 0.5rem;
+  text-align: left;
+  font-family: var(--font-sans);
+  font-size: var(--step--1);
+  font-weight: 600;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+}
+
+.table td {
+  padding: 0.55rem 1.1rem;
+}
+
+.table th:last-child,
+.table td:last-child {
+  text-align: right;
+}
+
+.row {
+  opacity: 0;
+  transform: translateY(-0.4rem);
+  transition: opacity 0.35s, transform 0.35s;
+}
+
+.row[data-on="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+.caption span {
+  max-width: 38ch;
+}
+
+.replay {
+  padding: 0.35rem 0;
+  border: 0;
+  background: none;
+  color: var(--violet);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.replay:disabled {
+  color: var(--muted);
+  text-decoration: none;
+  cursor: default;
+  opacity: 0.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marker,
+  .row {
+    transition: none;
+  }
+}
