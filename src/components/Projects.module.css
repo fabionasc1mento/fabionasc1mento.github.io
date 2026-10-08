@@ -1,0 +1,184 @@
+/* Estudo de caso em destaque */
+.featured {
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: calc(var(--radius) * 1.6);
+}
+
+.featuredHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 1rem;
+}
+
+.featuredName {
+  font-size: var(--step-2);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.kind {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* Problema → solução → resultado: é uma sequência, por isso a seta
+   entre os passos (no desktop) e a linha à esquerda (no celular). */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.75rem;
+  margin-top: 1.75rem;
+}
+
+.step {
+  position: relative;
+}
+
+.step + .step::before {
+  content: "";
+  position: absolute;
+  left: -1.2rem;
+  top: 0.55rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-top: 2px solid var(--line);
+  border-right: 2px solid var(--line);
+  transform: rotate(45deg);
+}
+
+.stepLabel {
+  margin-bottom: 0.4rem;
+  font-size: var(--step-0);
+  font-weight: 700;
+}
+
+/* O resultado é o que o recrutador precisa ver: ganha destaque pela tipografia */
+.step:last-child p {
+  font-size: var(--step-1);
+  line-height: 1.45;
+  font-weight: 600;
+}
+
+.featuredFooter {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.note {
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+
+/* ALPIUM */
+.alpium {
+  margin-top: clamp(2.5rem, 6vw, 3.5rem);
+  max-width: 62ch;
+}
+
+.name {
+  font-size: var(--step-1);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  margin-bottom: 0.4rem;
+}
+
+.points {
+  display: grid;
+  gap: 0.4rem;
+  margin-block: 1rem;
+}
+
+.points li {
+  position: relative;
+  padding-left: 1.25rem;
+}
+
+.points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  width: 0.5rem;
+  height: 2px;
+  background: var(--violet);
+}
+
+/* Projetos menores */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin-top: clamp(2.5rem, 6vw, 3.5rem);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: top;
+  border-bottom: 1px solid var(--line);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+  padding: 1.25rem 1.25rem 1.4rem;
+}
+
+.cardBody .name {
+  margin-bottom: 0;
+}
+
+.cardText {
+  flex: 1;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-top: 0.4rem;
+}
+
+@media (max-width: 880px) {
+  .steps {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .step + .step::before {
+    display: none;
+  }
+
+  .step {
+    padding-left: 1rem;
+    border-left: 2px solid var(--line);
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

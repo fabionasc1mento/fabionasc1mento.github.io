@@ -1,0 +1,160 @@
+/* Tokens do design: mude aqui para ajustar o site inteiro. */
+:root {
+  --paper: #f6f5fa;      /* fundo: papel frio */
+  --surface: #ffffff;    /* blocos sobre o papel */
+  --ink: #1d1736;        /* texto principal: tinta violeta-escura */
+  --muted: #6d6786;      /* texto secundário */
+  --line: #e2dfec;       /* bordas e divisórias */
+  --violet: #6b3fd1;     /* roxo de ipê: links e ações */
+  --violet-deep: #4e2aa6;
+  --marker: #ffd84d;     /* marca-texto: só para dado extraído */
+
+  --font-sans: "Schibsted Grotesk", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --step--1: 0.875rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.3125rem;
+  --step-2: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
+  --step-3: clamp(2.5rem, 1.4rem + 4.6vw, 4.75rem);
+
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --max: 72rem;
+  --radius: 10px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  font-feature-settings: "tnum" 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--violet);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Âncoras do menu não ficam escondidas atrás do cabeçalho fixo */
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Botões e links de ação reaproveitados nas seções */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.75rem 1.4rem;
+  border-radius: 999px;
+  border: 2px solid var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.button-primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.button-primary:hover {
+  background: var(--violet);
+  border-color: var(--violet);
+}
+
+.button-ghost {
+  color: var(--ink);
+}
+
+.button-ghost:hover {
+  border-color: var(--violet);
+  color: var(--violet);
+}
+
+.text-link {
+  color: var(--violet);
+  font-weight: 600;
+  text-underline-offset: 0.2em;
+}
+
+.text-link:hover {
+  color: var(--violet-deep);
+}
+
+/* Lista de tecnologias: texto simples separado por espaço, sem "pílulas" */
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  color: var(--muted);
+  font-size: var(--step--1);
+  font-weight: 500;
+}

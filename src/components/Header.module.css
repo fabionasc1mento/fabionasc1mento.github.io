@@ -1,0 +1,63 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgb(246 245 250 / 0.88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  min-height: 4rem;
+}
+
+.name {
+  font-weight: 800;
+  font-size: var(--step-1);
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  margin-right: auto;
+}
+
+.links {
+  display: flex;
+  gap: 1.75rem;
+}
+
+.links a {
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.links a:hover {
+  color: var(--ink);
+}
+
+.lang {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  font-size: var(--step--1);
+  cursor: pointer;
+}
+
+.lang:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* No celular o menu some: o hero já tem os atalhos para projetos e contato */
+@media (max-width: 720px) {
+  .links {
+    display: none;
+  }
+}
