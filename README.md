@@ -4,6 +4,11 @@ Meu portfólio: [fabionasc1mento.github.io](https://fabionasc1mento.github.io)
 
 Feito com Next.js (export estático), TypeScript e CSS Modules, em português e inglês.
 
+Animações (em `src/components/motion/`): rolagem suave com Lenis, o nome que se monta
+no cabeçalho conforme a rolagem, barras numeradas por seção, índice de seções e o nome
+da seção atual montado na lateral, com régua de progresso. Tudo desliga para quem
+ativou "reduzir movimento" no sistema.
+
 ## Rodando localmente
 
 ```bash

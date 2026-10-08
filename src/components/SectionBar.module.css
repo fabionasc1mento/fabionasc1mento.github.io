@@ -1,0 +1,33 @@
+.bar {
+  position: sticky;
+  top: var(--header-h);
+  z-index: 5;
+  border-block: 1px solid var(--line);
+  background: color-mix(in srgb, var(--paper) 80%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: var(--bar-h);
+  font-size: var(--step--1);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.number {
+  color: var(--violet);
+}
+
+.slash {
+  margin-inline: 0.5em;
+  color: var(--line);
+}
+
+.meta {
+  color: var(--muted);
+  text-align: right;
+}

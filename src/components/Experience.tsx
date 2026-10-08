@@ -8,7 +8,7 @@ export function Experience() {
   const { t } = useLanguage();
 
   return (
-    <Section id="experiencia" title={t.experience.title}>
+    <Section id="experiencia" number="01" title={t.experience.title} meta={t.sections.experience}>
       <ol className={styles.timeline}>
         {t.experience.jobs.map((job, i) => (
           <li key={job.company} className={styles.job} data-current={i === 0}>

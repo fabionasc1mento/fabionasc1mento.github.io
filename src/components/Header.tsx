@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { SplitLetters } from "./motion/SplitLetters";
 import styles from "./Header.module.css";
 
 export function Header() {
@@ -17,7 +18,7 @@ export function Header() {
     <header className={styles.header}>
       <div className={`container ${styles.inner}`}>
         <a href="#topo" className={styles.name}>
-          Fábio Tarcio
+          <SplitLetters text={t.hero.name} dataAttr="name-end" />
         </a>
         <nav aria-label={t.nav.aria}>
           <ul className={styles.links}>

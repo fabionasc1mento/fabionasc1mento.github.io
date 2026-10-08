@@ -2,7 +2,7 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgb(246 245 250 / 0.88);
+  background: color-mix(in srgb, var(--paper) 85%, transparent);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
@@ -11,7 +11,7 @@
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  min-height: 4rem;
+  min-height: var(--header-h);
 }
 
 .name {

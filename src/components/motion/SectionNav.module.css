@@ -1,0 +1,132 @@
+/* Só aparece em telas largas: no celular não há margem lateral livre */
+.nav {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .nav {
+    display: block;
+  }
+}
+
+/* Índice no canto inferior esquerdo, fora da coluna de conteúdo */
+.index {
+  position: fixed;
+  left: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 15;
+  opacity: 0;
+  transform: translateY(0.5rem);
+  transition: opacity 0.4s, transform 0.4s;
+  pointer-events: none;
+}
+
+.index[data-visible="true"] {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.index ol {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.index a {
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.index a:hover {
+  color: var(--ink);
+}
+
+/* As letras da seção ativa "saíram" do índice para a lateral */
+.index li[data-active="true"] a {
+  color: color-mix(in srgb, var(--muted) 30%, transparent);
+}
+
+/* Lateral direita */
+.rail {
+  position: fixed;
+  top: var(--header-h);
+  right: 0;
+  bottom: 0;
+  z-index: 15;
+  width: 4rem;
+  border-left: 1px solid var(--line);
+  background: color-mix(in srgb, var(--paper) 70%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+/* Nome da seção na vertical (lido de cima para baixo) */
+.label {
+  position: absolute;
+  top: calc(var(--bar-h) + 1.25rem);
+  left: 0.75rem;
+  writing-mode: vertical-rl;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  color: var(--violet);
+  white-space: nowrap;
+}
+
+/* inline-block: <span> comum não aceita transform */
+.label span {
+  display: inline-block;
+}
+
+/* Régua de progresso, colada na borda direita */
+.ruler {
+  position: absolute;
+  top: calc(var(--bar-h) + 1rem);
+  bottom: 1.5rem;
+  right: 0;
+  width: 1.75rem;
+  cursor: crosshair;
+}
+
+.tick {
+  position: absolute;
+  right: 0;
+  width: 0.35rem;
+  height: 1px;
+  background: var(--line);
+}
+
+.tick[data-major="true"] {
+  width: 0.7rem;
+  background: var(--muted);
+}
+
+.tickNumber {
+  position: absolute;
+  right: 0.95rem;
+  top: -0.45rem;
+  font-size: 0.6rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.marker {
+  position: absolute;
+  right: 0;
+  top: calc(var(--progress, 0) * 100%);
+  width: 1.75rem;
+  height: 2px;
+  background: var(--violet);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--violet) 20%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .index {
+    transition: none;
+  }
+}
