@@ -176,3 +176,16 @@ html.name-flight [data-name-start],
 html.name-flight [data-name-end] {
   visibility: hidden;
 }
+
+/* Em telas largas a régua da lateral substitui a barra de rolagem do
+   navegador, então escondemos a nativa (a rolagem continua funcionando
+   com mouse, trackpad e teclado). No celular a barra já é discreta. */
+@media (min-width: 1280px) {
+  html {
+    scrollbar-width: none; /* Firefox */
+  }
+
+  html::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+  }
+}
