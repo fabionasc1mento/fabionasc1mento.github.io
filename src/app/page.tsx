@@ -5,6 +5,7 @@ import { Projects } from "@/components/Projects";
 import { Education } from "@/components/Education";
 import { Contact } from "@/components/Contact";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
+import { AmbientBackground } from "@/components/motion/AmbientBackground";
 import { NameFlight } from "@/components/motion/NameFlight";
 import { SectionNav } from "@/components/motion/SectionNav";
 
@@ -12,6 +13,7 @@ export default function Home() {
   return (
     <>
       <SmoothScroll />
+      <AmbientBackground />
       <Header />
       <main id="conteudo">
         <Hero />
