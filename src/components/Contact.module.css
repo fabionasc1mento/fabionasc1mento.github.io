@@ -1,6 +1,6 @@
 /* Rodapé um tom abaixo do fundo para fechar a página */
 .contact {
-  background: var(--deep);
+  background: color-mix(in srgb, var(--deep) 75%, transparent);
   color: var(--ink);
 }
 
