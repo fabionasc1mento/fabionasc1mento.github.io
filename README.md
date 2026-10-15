@@ -4,10 +4,14 @@ Meu portfólio: [fabionasc1mento.github.io](https://fabionasc1mento.github.io)
 
 Feito com Next.js (export estático), TypeScript e CSS Modules, em português e inglês.
 
-Animações (em `src/components/motion/`): rolagem suave com Lenis, o nome que se monta
-no cabeçalho conforme a rolagem, barras numeradas por seção, índice de seções e o nome
-da seção atual montado na lateral, com régua de progresso. Tudo desliga para quem
-ativou "reduzir movimento" no sistema.
+Visual cybercore editorial: grid de linhas pretas sobre cinza, vermelho como sinal,
+Unbounded nos títulos e Space Mono nos rótulos.
+
+Motion (em `src/components/motion/`): tela de boot em terminal, linhas que se desenham,
+títulos que decodificam, glitch, flash vermelho na troca de seção, timecode, caixa de
+pixels, faixa rolante de tecnologias, foto em pontilhado 1-bit, nome que se monta no
+cabeçalho, índice de seções, fundo vivo e rolagem suave com Lenis. Tudo desliga para
+quem ativou "reduzir movimento" no sistema.
 
 ## Rodando localmente
 

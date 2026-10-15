@@ -1,42 +1,64 @@
+/* Demo do extrator como uma "janela de terminal": à esquerda o PDF bruto
+   (preto, texto corrido), à direita a tabela limpa que sai dele. */
 .demo {
   display: grid;
-  gap: 0.9rem;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  border: var(--rule) solid var(--ink);
 }
 
-/* Documento de origem: texto corrido, como vem no PDF */
+/* Documento de origem */
 .doc {
   position: relative;
-  padding: 2.25rem 1.25rem 1.1rem;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  font-size: 0.78rem;
-  line-height: 1.75;
-  color: var(--muted);
+  padding: 3.4rem 1.5rem 1.4rem;
+  background: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  line-height: 1.8;
+  color: #8a8a86;
 }
 
+/* Barra de título da janela, com os três quadradinhos */
 .fileName {
   position: absolute;
-  top: 0.7rem;
-  left: 1.25rem;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  height: 2.3rem;
+  padding-inline: 1.5rem;
+  border-bottom: 1px solid #2a2a28;
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #b9b9b5;
+}
+
+.fileName::before {
+  content: "";
+  width: 0.6rem;
+  height: 0.6rem;
+  margin-right: 1.7rem;
+  background: var(--red);
+  box-shadow:
+    0.95rem 0 0 #3a3a37,
+    1.9rem 0 0 #3a3a37;
 }
 
 .docLine + .docLine {
-  margin-top: 0.65rem;
-  padding-top: 0.65rem;
-  border-top: 1px dashed var(--line);
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed #2a2a28;
 }
 
-/* Marca-texto: a faixa amarela "passa" da esquerda para a direita */
+/* Marca-texto vermelho: a faixa "passa" da esquerda para a direita */
 .marker {
-  padding: 0.05em 0.15em;
-  border-radius: 3px;
+  padding: 0.05em 0.2em;
   color: inherit;
   background: linear-gradient(var(--marker), var(--marker)) no-repeat left / 0% 100%;
-  transition: background-size 0.45s ease-out, color 0.2s;
+  transition: background-size 0.45s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s;
 }
 
 /* Só muda a cor, não o peso: negrito alargaria a palavra e empurraria a linha */
@@ -48,27 +70,29 @@
 /* Tabela de saída: o dado limpo */
 .table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-collapse: collapse;
+  border-left: var(--rule) solid var(--ink);
+  background: var(--paper);
   font-family: var(--font-mono);
   font-size: 0.85rem;
+  align-self: stretch;
 }
 
 .table th {
-  padding: 0.7rem 1.1rem 0.5rem;
+  height: 2.3rem;
+  padding: 0 1.25rem;
   text-align: left;
-  font-family: var(--font-sans);
-  font-size: var(--step--1);
-  font-weight: 600;
-  color: var(--muted);
-  border-bottom: 1px solid var(--line);
+  font-size: var(--step--2);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  border-bottom: var(--rule) solid var(--ink);
 }
 
 .table td {
-  padding: 0.55rem 1.1rem;
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid var(--hair);
 }
 
 .table th:last-child,
@@ -78,51 +102,83 @@
 
 .row {
   opacity: 0;
-  transform: translateY(-0.4rem);
-  transition: opacity 0.35s, transform 0.35s;
+  transform: translateX(-0.75rem);
+  transition: opacity 0.3s, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Ao chegar na tabela, a linha pisca em vermelho e assenta */
 .row[data-on="true"] {
   opacity: 1;
   transform: none;
+  animation: landed 0.7s steps(4) 1;
+}
+
+@keyframes landed {
+  0% { background: var(--red); color: var(--paper); }
+  50% { background: transparent; color: var(--ink); }
+  75% { background: var(--red); color: var(--paper); }
+  100% { background: transparent; color: var(--ink); }
 }
 
 .caption {
+  grid-column: 1 / -1;
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
-  gap: 0.5rem 1rem;
-  font-size: var(--step--1);
-  color: var(--muted);
+  gap: 0.5rem 1.5rem;
+  padding: 0.85rem 1.25rem;
+  border-top: var(--rule) solid var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
 .caption span {
-  max-width: 38ch;
+  max-width: 70ch;
 }
 
 .replay {
-  padding: 0.35rem 0;
-  border: 0;
-  background: none;
-  color: var(--violet);
+  padding: 0.4rem 0.8rem;
+  border: var(--rule) solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
   font: inherit;
-  font-weight: 600;
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
+  font-weight: 700;
   cursor: pointer;
 }
 
+.replay:hover:not(:disabled) {
+  background: var(--red);
+  border-color: var(--red);
+}
+
 .replay:disabled {
-  color: var(--muted);
-  text-decoration: none;
+  background: transparent;
+  color: var(--dim);
+  border-color: var(--hair);
   cursor: default;
-  opacity: 0.6;
+}
+
+@media (max-width: 760px) {
+  .demo {
+    grid-template-columns: 1fr;
+  }
+
+  .table {
+    border-left: 0;
+    border-top: var(--rule) solid var(--ink);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .marker,
   .row {
     transition: none;
+  }
+
+  .row[data-on="true"] {
+    animation: none;
   }
 }

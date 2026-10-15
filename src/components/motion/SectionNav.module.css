@@ -33,11 +33,13 @@
 }
 
 .index a {
-  font-size: 0.95rem;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  line-height: 1.25;
-  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  color: var(--dim);
   text-decoration: none;
   transition: color 0.2s;
 }
@@ -59,9 +61,8 @@
   bottom: 0;
   z-index: 15;
   width: 4rem;
-  border-left: 1px solid var(--line);
-  background: color-mix(in srgb, var(--paper) 70%, transparent);
-  backdrop-filter: blur(6px);
+  border-left: var(--rule) solid var(--ink);
+  background: var(--paper);
 }
 
 /* Nome da seção na vertical (lido de cima para baixo) */
@@ -70,11 +71,12 @@
   top: calc(var(--bar-h) + 1.25rem);
   left: 0.75rem;
   writing-mode: vertical-rl;
-  font-size: 1.15rem;
-  font-weight: 800;
-  letter-spacing: 0.01em;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 900;
+  text-transform: lowercase;
   line-height: 1;
-  color: var(--violet);
+  color: var(--red);
   white-space: nowrap;
 }
 
@@ -98,21 +100,23 @@
   right: 0;
   width: 0.35rem;
   height: 1px;
-  background: var(--line);
+  background: var(--hair);
 }
 
 .tick[data-major="true"] {
   width: 0.7rem;
-  background: var(--muted);
+  height: 2px;
+  background: var(--ink);
 }
 
 .tickNumber {
   position: absolute;
   right: 0.95rem;
   top: -0.45rem;
+  font-family: var(--font-mono);
   font-size: 0.6rem;
   font-variant-numeric: tabular-nums;
-  color: var(--muted);
+  color: var(--dim);
 }
 
 .marker {
@@ -120,13 +124,37 @@
   right: 0;
   top: calc(var(--progress, 0) * 100%);
   width: 1.75rem;
-  height: 2px;
-  background: var(--violet);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--violet) 20%, transparent);
+  height: 3px;
+  background: var(--red);
+}
+
+/* Flash vermelho quando a seção muda (como corte de vídeo) */
+.flash {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  pointer-events: none;
+  background: var(--red);
+  mix-blend-mode: multiply;
+  opacity: 0;
+}
+
+.flash[data-on="true"] {
+  animation: section-flash 0.22s steps(1) 1;
+}
+
+@keyframes section-flash {
+  0% { opacity: 0.35; }
+  50% { opacity: 0.12; }
+  100% { opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .index {
     transition: none;
+  }
+
+  .flash {
+    display: none;
   }
 }

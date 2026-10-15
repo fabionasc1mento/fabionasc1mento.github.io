@@ -1,47 +1,187 @@
+/* O hero é um "grid editorial": faixas separadas por linhas de 2px que se
+   desenham ao carregar, como na referência. */
 .hero {
+  position: relative;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.hline {
+  display: block;
+  height: var(--rule);
+  margin-inline: calc(var(--gutter) * -1);
+  background: var(--ink);
+}
+
+.vline {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--rule);
+  background: var(--ink);
+}
+
+/* Faixa de cima */
+.band {
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-  gap: clamp(2.5rem, 5vw, 5rem);
-  align-items: start;
-  padding-block: clamp(2.5rem, 7vw, 5.5rem) clamp(3.5rem, 8vw, 6.5rem);
+  grid-template-columns: 4fr 5fr 1.4fr 1.6fr;
+  min-height: clamp(9rem, 16vw, 13rem);
+  margin-inline: calc(var(--gutter) * -1);
+}
+
+.photo {
+  position: relative;
+  overflow: hidden;
+  border-right: 0;
+}
+
+.caption {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+}
+
+.captionDim {
+  color: var(--dim);
+}
+
+.pixels {
+  align-self: center;
+  justify-self: center;
+  width: min(5.5rem, 70%);
+}
+
+.corner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+}
+
+/* Linha do nome */
+.nameRow {
+  position: relative;
+  padding-block: clamp(1.5rem, 4vw, 3.25rem);
 }
 
 .name {
-  grid-column: 1 / -1;
-  margin-bottom: clamp(0.5rem, 3vw, 2rem);
   font-size: var(--step-4);
-  font-weight: 800;
-  line-height: 0.9;
-  letter-spacing: -0.045em;
+  text-align: center;
   white-space: nowrap;
 }
 
+.astLeft,
+.astRight {
+  position: absolute;
+  top: 1rem;
+  font-size: 1.1rem;
+}
+
+.astLeft {
+  left: 0;
+}
+
+.astRight {
+  right: 0;
+}
+
+/* Título + bloco vermelho */
+.lede {
+  position: relative;
+  display: grid;
+  grid-template-columns: 62fr 38fr;
+  margin-inline: calc(var(--gutter) * -1);
+}
+
+.intro {
+  padding: clamp(1.5rem, 4vw, 3rem) var(--gutter);
+}
+
 .title {
-  font-size: var(--step-2);
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.025em;
-  max-width: 16ch;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 1rem + 1.8vw, 2.5rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  max-width: 20ch;
   text-wrap: balance;
 }
 
 .lead {
-  margin-top: 1.5rem;
-  max-width: 46ch;
+  margin-top: 1.25rem;
+  max-width: 54ch;
   font-size: var(--step-1);
   line-height: 1.5;
-  color: var(--muted);
+  color: var(--dim);
+}
+
+.word {
+  display: inline-block;
+  white-space: pre;
+}
+
+.redbox {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  background: var(--red);
+  color: var(--paper);
+}
+
+.redLabel {
+  color: var(--paper);
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-top: 2rem;
 }
 
-@media (max-width: 880px) {
-  .hero {
+.redPrimary {
+  background: var(--paper);
+  border-color: var(--paper);
+  color: var(--ink);
+}
+
+.redGhost {
+  background: transparent;
+  border-color: var(--paper);
+  color: var(--paper);
+}
+
+.redPrimary:hover,
+.redGhost:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+.demo {
+  padding-block: clamp(1.5rem, 4vw, 3rem);
+}
+
+@media (max-width: 860px) {
+  .band {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .band .vline,
+  .pixels,
+  .corner {
+    display: none;
+  }
+
+  .lede {
     grid-template-columns: 1fr;
+  }
+
+  .lede .vline {
+    display: none;
   }
 }

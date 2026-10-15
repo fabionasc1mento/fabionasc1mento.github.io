@@ -2,32 +2,37 @@
 
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { SectionBar } from "./SectionBar";
+import { GlitchPhoto } from "./motion/GlitchPhoto";
+import { Typewriter } from "./motion/Typewriter";
 import styles from "./Contact.module.css";
 
+// Contato como um terminal: fundo preto, título digitado com cursor
+// vermelho, foto 1-bit e os links como "comandos".
 export function Contact() {
   const { t } = useLanguage();
 
   return (
     <footer id="contato" className={styles.contact} aria-labelledby="contato-titulo" data-section>
-      <SectionBar number="04" title={t.nav.contact} meta={t.sections.contact} />
-      <div className={`container ${styles.inner}`}>
-        <img
-          src="/img/fabio.webp"
-          alt={t.contact.photoAlt}
-          width={640}
-          height={800}
-          loading="lazy"
-          className={styles.photo}
-        />
-        <div>
-          <h2 id="contato-titulo" className={styles.title}>
-            {t.contact.title}
+      <SectionBar number="04" title={t.nav.contact} meta={t.sections.contact} dark />
+      <div className={`container frame ${styles.inner}`} data-reveal>
+        <div className={`wipe-up ${styles.photo}`}>
+          <GlitchPhoto alt={t.contact.photoAlt} />
+        </div>
+        <div className={styles.body}>
+          <h2 id="contato-titulo" className={`display ${styles.title}`}>
+            <span className={styles.prompt} aria-hidden="true">
+              &gt;{" "}
+            </span>
+            <Typewriter text={t.contact.title} speed={60} />
           </h2>
-          <p className={styles.text}>{t.contact.text}</p>
+          <p className={`rise ${styles.text}`}>{t.contact.text}</p>
           <ul className={styles.links}>
-            {t.contact.links.map((link) => (
-              <li key={link.label}>
-                <a href={link.href} className={styles.link} target="_blank" rel="noreferrer">
+            {t.contact.links.map((link, i) => (
+              <li key={link.label} className="rise" style={{ ["--i" as string]: i + 2 }}>
+                <a href={link.href} className={`label ${styles.link}`} target="_blank" rel="noreferrer">
+                  <span className="ast" aria-hidden="true">
+                    ✱
+                  </span>
                   {link.label}
                 </a>
               </li>
@@ -35,11 +40,12 @@ export function Contact() {
           </ul>
         </div>
       </div>
-      <div className="container">
-        <div className={styles.bottom}>
-          <p>© {new Date().getFullYear()} Fábio Tarcio</p>
-          <p>{t.footer}</p>
-        </div>
+      <div className={`container frame label ${styles.bottom}`}>
+        <p>© {new Date().getFullYear()} Fábio Tarcio</p>
+        <p className={styles.exit} aria-hidden="true">
+          process exited with code 0
+        </p>
+        <p>{t.footer}</p>
       </div>
     </footer>
   );

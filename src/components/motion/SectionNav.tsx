@@ -19,6 +19,7 @@ const TICKS = Array.from({ length: 51 }, (_, i) => i * 2);
 export function SectionNav() {
   const { t } = useLanguage();
   const [active, setActive] = useState<SectionId | null>(null);
+  const [flash, setFlash] = useState(0);
   const railRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLParagraphElement>(null);
   const indexRef = useRef<HTMLOListElement>(null);
@@ -46,6 +47,16 @@ export function SectionNav() {
     });
     return () => observer.disconnect();
   }, []);
+
+  // Flash vermelho a cada troca de seção (a key nova reinicia a animação)
+  const first = useRef(true);
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    if (active) setFlash((n) => n + 1);
+  }, [active]);
 
   // Progresso da rolagem vai para uma variável CSS (sem re-renderizar o React)
   useEffect(() => {
@@ -116,6 +127,7 @@ export function SectionNav() {
 
   return (
     <div className={styles.nav}>
+      {flash > 0 && <div key={flash} className={styles.flash} data-on="true" aria-hidden="true" />}
       <nav aria-label={t.sections.indexLabel} className={styles.index} data-visible={active !== null}>
         <ol ref={indexRef}>
           {SECTION_IDS.map((id) => (

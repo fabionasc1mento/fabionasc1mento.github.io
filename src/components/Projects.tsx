@@ -11,15 +11,21 @@ export function Projects() {
   return (
     <Section id="projetos" number="02" title={t.projects.title} meta={t.sections.projects}>
       {/* Estudo de caso principal: problema → solução → resultado */}
-      <article className={styles.featured}>
+      <article className={`wipe-in ${styles.featured}`} data-reveal>
         <header className={styles.featuredHeader}>
-          <h3 className={styles.featuredName}>{featured.name}</h3>
-          <p className={styles.kind}>{featured.kind}</p>
+          <h3 className={`display glitch-in ${styles.featuredName}`}>{featured.name}</h3>
+          <p className={`label ${styles.kind}`}>
+            <span aria-hidden="true">✱ </span>
+            {featured.kind}
+          </p>
         </header>
         <ol className={styles.steps}>
-          {featured.steps.map((step) => (
-            <li key={step.label} className={styles.step}>
-              <h4 className={styles.stepLabel}>{step.label}</h4>
+          {featured.steps.map((step, i) => (
+            <li key={step.label} className={`rise ${styles.step}`} style={{ ["--i" as string]: i + 1 }}>
+              <span className={`label ${styles.stepNumber}`} aria-hidden="true">
+                0{i + 1}
+              </span>
+              <h4 className={`label ${styles.stepLabel}`}>{step.label}</h4>
               <p>{step.text}</p>
             </li>
           ))}
@@ -30,36 +36,39 @@ export function Projects() {
               <li key={item}>{item}</li>
             ))}
           </ul>
-          <p className={styles.note}>{featured.note}</p>
+          <p className={`label ${styles.note}`}>{featured.note}</p>
         </footer>
       </article>
 
       {/* Trabalho na ALPIUM: só descrição, os sistemas são de clientes */}
-      <article className={styles.alpium}>
-        <h3 className={styles.name}>{alpium.name}</h3>
+      <article className={`rise ${styles.alpium}`} data-reveal>
+        <h3 className={`display ${styles.name}`}>{alpium.name}</h3>
         <p>{alpium.text}</p>
         <ul className={styles.points}>
           {alpium.points.map((point) => (
-            <li key={point}>{point}</li>
+            <li key={point}>
+              <span className="ast" aria-hidden="true">
+                ✱
+              </span>
+              {point}
+            </li>
           ))}
         </ul>
-        <p className={styles.note}>{alpium.note}</p>
+        <p className={`label ${styles.note}`}>{alpium.note}</p>
       </article>
 
       <div className={styles.grid}>
-        {small.map((project) => (
-          <article key={project.image} className={styles.card}>
-            <img
-              src={project.image}
-              alt={project.imageAlt}
-              width={1200}
-              height={600}
-              loading="lazy"
-              className={styles.image}
-            />
+        {small.map((project, i) => (
+          <article key={project.image} className={`rise ${styles.card}`} data-reveal style={{ ["--i" as string]: i }}>
+            <div className={styles.media}>
+              <img src={project.image} alt={project.imageAlt} width={1200} height={600} loading="lazy" />
+              <span className={`label ${styles.fig}`} aria-hidden="true">
+                fig.0{i + 2}
+              </span>
+            </div>
             <div className={styles.cardBody}>
-              <h3 className={styles.name}>{project.name}</h3>
-              {project.note && <p className={styles.note}>{project.note}</p>}
+              <h3 className={`display ${styles.name}`}>{project.name}</h3>
+              {project.note && <p className={`label ${styles.note}`}>{project.note}</p>}
               <p className={styles.cardText}>{project.description}</p>
               <ul className="stack" aria-label={t.stackLabel}>
                 {project.stack.map((item) => (

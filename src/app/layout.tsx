@@ -2,8 +2,11 @@ import type { Metadata, Viewport } from "next";
 import "@fontsource/schibsted-grotesk/400.css";
 import "@fontsource/schibsted-grotesk/500.css";
 import "@fontsource/schibsted-grotesk/600.css";
-import "@fontsource/schibsted-grotesk/800.css";
-import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/unbounded/400.css";
+import "@fontsource/unbounded/700.css";
+import "@fontsource/unbounded/900.css";
+import "@fontsource/space-mono/400.css";
+import "@fontsource/space-mono/700.css";
 import "lenis/dist/lenis.css";
 import "./globals.css";
 import { dictionaries } from "@/i18n/dictionary";
@@ -24,7 +27,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#15112a",
+  themeColor: "#e3e3e1",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

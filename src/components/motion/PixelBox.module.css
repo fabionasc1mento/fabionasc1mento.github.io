@@ -1,0 +1,14 @@
+.box {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  aspect-ratio: 1;
+}
+
+.box i {
+  display: block;
+  background: var(--ink);
+}
+
+.box i[data-on="false"] {
+  background: transparent;
+}

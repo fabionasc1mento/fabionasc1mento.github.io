@@ -1,35 +1,45 @@
-/* Tokens do design: mude aqui para ajustar o site inteiro. */
+/* Tokens do design: mude aqui para ajustar o site inteiro.
+   Estética cybercore editorial: grid de linhas pretas sobre cinza claro,
+   vermelho só como sinal (asteriscos, blocos, destaques), rótulos em mono. */
 :root {
-  /* Visual escuro: fundo em tinta violeta (não preto puro), roxo de ipê
-     para ações e o amarelo de marca-texto só para dado extraído. */
-  --paper: #15112a;       /* fundo */
-  --deep: #0f0c20;        /* rodapé, um tom abaixo do fundo */
-  --surface: #1d1838;     /* blocos sobre o fundo */
-  --ink: #eeeaf7;         /* texto principal */
-  --muted: #a39cbd;       /* texto secundário */
-  --line: #2e2750;        /* bordas e divisórias */
-  --violet: #a98bff;      /* roxo de ipê: links, ações, letras animadas */
-  --violet-deep: #c8b6ff; /* hover: clareia no escuro */
-  --marker: #ffd84d;      /* marca-texto */
-  --on-marker: #15112a;   /* texto sobre o marca-texto */
+  --paper: #e3e3e1;      /* fundo */
+  --paper-2: #d8d8d5;    /* células em destaque / hover */
+  --ink: #0c0c0c;        /* texto e linhas */
+  --red: #e2372b;        /* sinal */
+  --dim: #6d6d6a;        /* texto secundário */
+  --hair: rgb(12 12 12 / 0.16); /* linha fina interna */
 
+  /* Nomes antigos apontando para a paleta nova (componentes usam estes) */
+  --surface: var(--paper);
+  --muted: var(--dim);
+  --line: var(--ink);
+  --violet: var(--red);
+  --violet-deep: var(--ink);
+  --marker: var(--red);
+  --on-marker: var(--paper);
+  --deep: var(--ink);
+
+  --font-display: "Unbounded", system-ui, sans-serif;
   --font-sans: "Schibsted Grotesk", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-mono: "Space Mono", ui-monospace, monospace;
 
+  --step--2: 0.72rem;
   --step--1: 0.875rem;
   --step-0: 1.0625rem;
   --step-1: 1.3125rem;
-  --step-2: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
-  --step-3: clamp(2.5rem, 1.4rem + 4.6vw, 4.75rem);
-  --step-4: clamp(3rem, 0.5rem + 10.5vw, 9rem);
+  --step-2: clamp(1.9rem, 1.1rem + 3vw, 3.4rem);
+  --step-3: clamp(2.2rem, 1.2rem + 4vw, 4.4rem);
+  --step-4: clamp(2.2rem, 0.4rem + 7.6vw, 7.6rem);
 
   --header-h: 4rem;
   --bar-h: 2.75rem;
+  --rule: 2px;
   --gutter: clamp(1rem, 4vw, 3rem);
-  --max: 72rem;
-  --radius: 10px;
+  --max: 76rem;
+  --radius: 0px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1); /* "power4.out" */
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 *,
@@ -55,7 +65,6 @@ body {
   font-family: var(--font-sans);
   font-size: var(--step-0);
   line-height: 1.6;
-  font-feature-settings: "tnum" 0;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -88,23 +97,32 @@ a {
   color: inherit;
 }
 
-:focus-visible {
-  outline: 3px solid var(--violet);
-  outline-offset: 3px;
-  border-radius: 4px;
+::selection {
+  background: var(--red);
+  color: var(--paper);
 }
 
-/* Âncoras do menu não ficam escondidas atrás do cabeçalho fixo */
+:focus-visible {
+  outline: var(--rule) solid var(--red);
+  outline-offset: 3px;
+}
+
 section[id],
 footer[id] {
   scroll-margin-top: var(--header-h);
 }
 
+/* A coluna central tem as bordas laterais do "grid": como as seções se
+   empilham, as linhas viram uma moldura contínua de cima a baixo. */
 .container {
   width: 100%;
   max-width: var(--max);
   margin-inline: auto;
   padding-inline: var(--gutter);
+}
+
+.frame {
+  border-inline: var(--rule) solid var(--ink);
 }
 
 .visually-hidden {
@@ -116,16 +134,47 @@ footer[id] {
   white-space: nowrap;
 }
 
-/* Botões e links de ação reaproveitados nas seções */
+/* ---------- Tipografia utilitária ---------- */
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: lowercase;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+}
+
+.ast {
+  color: var(--red);
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+/* ---------- Botões e links ---------- */
+
 .button {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.6em;
   min-height: 3rem;
-  padding: 0.75rem 1.4rem;
-  border-radius: 999px;
-  border: 2px solid var(--ink);
-  font-weight: 600;
+  padding: 0.75rem 1.3rem;
+  border: var(--rule) solid var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   text-decoration: none;
   transition: background-color 0.15s, color 0.15s, border-color 0.15s;
 }
@@ -135,39 +184,170 @@ footer[id] {
   color: var(--paper);
 }
 
-.button-primary:hover {
-  background: var(--violet);
-  border-color: var(--violet);
-  color: var(--paper);
-}
-
 .button-ghost {
+  background: var(--paper);
   color: var(--ink);
 }
 
-.button-ghost:hover {
-  border-color: var(--violet);
-  color: var(--violet);
+.button:hover {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--paper);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .button:hover {
+    animation: jitter 0.24s steps(1) 1;
+  }
 }
 
 .text-link {
-  color: var(--violet);
-  font-weight: 600;
-  text-underline-offset: 0.2em;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: var(--rule) solid var(--red);
+  padding-bottom: 0.1em;
 }
 
 .text-link:hover {
-  color: var(--violet-deep);
+  background: var(--red);
+  color: var(--paper);
 }
 
-/* Lista de tecnologias: texto simples separado por espaço, sem "pílulas" */
+/* Lista de tecnologias em mono, separada por barras */
 .stack {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem 1rem;
-  color: var(--muted);
-  font-size: var(--step--1);
-  font-weight: 500;
+  gap: 0.35rem 0;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dim);
+}
+
+.stack li:not(:last-child)::after {
+  content: "/";
+  margin-inline: 0.7em;
+  color: var(--hair);
+}
+
+/* ---------- Motion utilitário ----------
+   [data-reveal] ganha data-inview="true" quando entra na tela
+   (RevealObserver). As classes abaixo animam a partir disso. */
+
+/* Linhas que se desenham */
+.draw-x,
+.draw-y {
+  transition: transform 0.9s var(--ease);
+}
+
+.draw-x {
+  transform-origin: left center;
+}
+
+.draw-y {
+  transform-origin: center top;
+}
+
+/* Elementos que sobem/aparecem */
+.rise {
+  transition:
+    transform 0.8s var(--ease),
+    opacity 0.8s var(--ease);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+
+/* Bloco que se revela com uma "cortina" preta saindo para a direita.
+   (Uma cortina por cima, e não clip-path no próprio bloco: com clip-path o
+   navegador acha que o bloco está invisível e nunca dispara a revelação.) */
+.wipe-in {
+  position: relative;
+}
+
+.wipe-in::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--rule) * -1);
+  z-index: 2;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1) 0.1s;
+  pointer-events: none;
+}
+
+/* Bloco que "abre" de baixo para cima */
+.wipe-up {
+  transform-origin: bottom center;
+  transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.motion [data-reveal]:not([data-inview="true"]) .draw-x,
+  html.motion [data-reveal].draw-x:not([data-inview="true"]) {
+    transform: scaleX(0);
+  }
+
+  html.motion [data-reveal]:not([data-inview="true"]) .draw-y,
+  html.motion [data-reveal].draw-y:not([data-inview="true"]) {
+    transform: scaleY(0);
+  }
+
+  html.motion [data-reveal]:not([data-inview="true"]) .rise,
+  html.motion [data-reveal].rise:not([data-inview="true"]) {
+    transform: translateY(1.5rem);
+    opacity: 0;
+  }
+
+  html.motion [data-reveal]:not([data-inview="true"]) .wipe-up,
+  html.motion [data-reveal].wipe-up:not([data-inview="true"]) {
+    transform: scaleY(0);
+  }
+
+  html.motion [data-reveal].wipe-in:not([data-inview="true"])::after {
+    transform: scaleX(1);
+  }
+
+  /* Tremida de glitch ao entrar na tela */
+  html.motion [data-reveal][data-inview="true"] .glitch-in,
+  html.motion [data-reveal][data-inview="true"].glitch-in {
+    animation: jitter 0.3s steps(1) 0.45s 1;
+  }
+}
+
+@keyframes jitter {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(6px); }
+  40% { transform: translateX(-9px); }
+  60% { transform: translateX(4px); }
+  80% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* Cursor de terminal: bloco vermelho piscando */
+.cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  margin-left: 0.15em;
+  vertical-align: -0.12em;
+  background: var(--red);
+  animation: blink 1s steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor {
+    animation: none;
+  }
 }
 
 /* Enquanto a animação do nome estiver ativa, os nomes do hero e do
@@ -177,15 +357,13 @@ html.name-flight [data-name-end] {
   visibility: hidden;
 }
 
-/* Em telas largas a régua da lateral substitui a barra de rolagem do
-   navegador, então escondemos a nativa (a rolagem continua funcionando
-   com mouse, trackpad e teclado). No celular a barra já é discreta. */
+/* Em telas largas a régua da lateral substitui a barra de rolagem */
 @media (min-width: 1280px) {
   html {
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;
   }
 
   html::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Edge */
+    display: none;
   }
 }
