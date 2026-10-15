@@ -1,22 +1,69 @@
-.section {
-  padding-bottom: clamp(3.5rem, 8vw, 6.5rem);
+.wrap {
+  position: relative;
 }
 
-.grid {
-  padding-top: clamp(3rem, 7vw, 5.5rem);
-  display: grid;
-  grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
-  gap: 2rem clamp(2rem, 5vw, 5rem);
-  align-items: start;
+/* Linha do título: grande, em minúsculas, ocupando a largura toda */
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  padding-block: clamp(2rem, 5vw, 3.5rem) clamp(1.25rem, 3vw, 2rem);
+}
+
+.sec {
+  order: 2;
+  color: var(--red);
 }
 
 .title {
+  font-size: var(--step-3);
+  hyphens: none;
+}
+
+.hline {
+  display: block;
+  height: var(--rule);
+  margin-inline: calc(var(--gutter) * -1);
+  background: var(--ink);
+}
+
+.grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 10rem) minmax(0, 1fr);
+}
+
+/* Coluna estreita de rótulos, fixa ao rolar */
+.side {
+  padding: 1.5rem 1.5rem 1.5rem 0;
+}
+
+.sideSticky {
   position: sticky;
-  top: calc(var(--header-h) + var(--bar-h) + 2rem);
-  font-size: var(--step-2);
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+  top: calc(var(--header-h) + var(--bar-h) + 1.5rem);
+  display: grid;
+  gap: 1rem;
+  color: var(--dim);
+}
+
+.pixels {
+  width: 3.5rem;
+}
+
+.divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 10rem;
+  width: var(--rule);
+  background: var(--ink);
+}
+
+.content {
+  padding: clamp(1.75rem, 4vw, 2.75rem) 0 clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 3vw, 2.5rem);
+  min-width: 0;
 }
 
 @media (max-width: 880px) {
@@ -24,7 +71,12 @@
     grid-template-columns: 1fr;
   }
 
-  .title {
-    position: static;
+  .side,
+  .divider {
+    display: none;
+  }
+
+  .content {
+    padding-left: 0;
   }
 }

@@ -1,116 +1,108 @@
-/* Estudo de caso em destaque */
+/* Estudo de caso em destaque: uma "ficha" de bordas grossas */
 .featured {
-  padding: clamp(1.5rem, 4vw, 2.5rem);
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: calc(var(--radius) * 1.6);
+  border: var(--rule) solid var(--ink);
+  background: var(--paper);
 }
 
 .featuredHeader {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.25rem 1rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border-bottom: var(--rule) solid var(--ink);
 }
 
 .featuredName {
   font-size: var(--step-2);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
 }
 
 .kind {
-  color: var(--muted);
-  font-weight: 500;
-}
-
-/* Problema → solução → resultado: é uma sequência, por isso a seta
-   entre os passos (no desktop) e a linha à esquerda (no celular). */
-.steps {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.75rem;
-  margin-top: 1.75rem;
-}
-
-.step {
-  position: relative;
-}
-
-.step + .step::before {
-  content: "";
-  position: absolute;
-  left: -1.2rem;
-  top: 0.55rem;
-  width: 0.55rem;
-  height: 0.55rem;
-  border-top: 2px solid var(--line);
-  border-right: 2px solid var(--line);
-  transform: rotate(45deg);
-}
-
-.stepLabel {
-  margin-bottom: 0.4rem;
-  font-size: var(--step-0);
+  color: var(--red);
   font-weight: 700;
 }
 
-/* O resultado é o que o recrutador precisa ver: ganha destaque pela tipografia */
+/* Problema → solução → resultado em três colunas separadas por linhas.
+   O resultado ganha o bloco vermelho. */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.step {
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+.step + .step {
+  border-left: var(--rule) solid var(--ink);
+}
+
+.step:last-child {
+  background: var(--red);
+  color: var(--paper);
+}
+
 .step:last-child p {
+  font-family: var(--font-display);
+  font-weight: 700;
   font-size: var(--step-1);
-  line-height: 1.45;
-  font-weight: 600;
+  line-height: 1.3;
+}
+
+.stepNumber {
+  display: block;
+  margin-bottom: 1.5rem;
+  color: var(--dim);
+}
+
+.step:last-child .stepNumber,
+.step:last-child .stepLabel {
+  color: var(--paper);
+}
+
+.stepLabel {
+  margin-bottom: 0.6rem;
+  font-weight: 700;
 }
 
 .featuredFooter {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
   gap: 0.75rem 1.5rem;
-  margin-top: 2rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--line);
+  padding: 1rem clamp(1.25rem, 3vw, 2rem);
+  border-top: var(--rule) solid var(--ink);
 }
 
 .note {
-  font-size: var(--step--1);
-  color: var(--muted);
+  color: var(--dim);
 }
 
 /* ALPIUM */
 .alpium {
-  margin-top: clamp(2.5rem, 6vw, 3.5rem);
-  max-width: 62ch;
+  margin-top: clamp(2rem, 5vw, 3rem);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: var(--rule) solid var(--ink);
+  max-width: 48rem;
 }
 
 .name {
-  font-size: var(--step-1);
-  font-weight: 800;
-  letter-spacing: -0.015em;
-  line-height: 1.3;
-  margin-bottom: 0.4rem;
+  font-size: clamp(1.15rem, 0.9rem + 1vw, 1.6rem);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.6rem;
 }
 
 .points {
   display: grid;
-  gap: 0.4rem;
-  margin-block: 1rem;
+  gap: 0.5rem;
+  margin-block: 1rem 1.25rem;
 }
 
 .points li {
-  position: relative;
-  padding-left: 1.25rem;
-}
-
-.points li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.7em;
-  width: 0.5rem;
-  height: 2px;
-  background: var(--violet);
+  display: flex;
+  gap: 0.75rem;
 }
 
 /* Projetos menores */
@@ -118,24 +110,50 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.5rem;
-  margin-top: clamp(2.5rem, 6vw, 3.5rem);
+  margin-top: clamp(2rem, 5vw, 3rem);
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
+  border: var(--rule) solid var(--ink);
+  background: var(--paper);
 }
 
-.image {
+.media {
+  position: relative;
+  overflow: hidden;
+  border-bottom: var(--rule) solid var(--ink);
+  background: var(--ink);
+}
+
+/* Imagem em preto e branco; no hover ganha cor com um tranco de glitch */
+.media img {
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
   object-position: top;
-  border-bottom: 1px solid var(--line);
+  filter: grayscale(1) contrast(1.15);
+  transition: filter 0.3s;
+}
+
+.card:hover .media img {
+  filter: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card:hover .media img {
+    animation: jitter 0.3s steps(1) 1;
+  }
+}
+
+.fig {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  background: var(--paper);
+  color: var(--ink);
 }
 
 .cardBody {
@@ -143,7 +161,7 @@
   flex-direction: column;
   gap: 0.6rem;
   flex: 1;
-  padding: 1.25rem 1.25rem 1.4rem;
+  padding: 1.25rem;
 }
 
 .cardBody .name {
@@ -158,22 +176,17 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1.25rem;
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
 }
 
 @media (max-width: 880px) {
   .steps {
     grid-template-columns: 1fr;
-    gap: 1.25rem;
   }
 
-  .step + .step::before {
-    display: none;
-  }
-
-  .step {
-    padding-left: 1rem;
-    border-left: 2px solid var(--line);
+  .step + .step {
+    border-left: 0;
+    border-top: var(--rule) solid var(--ink);
   }
 }
 

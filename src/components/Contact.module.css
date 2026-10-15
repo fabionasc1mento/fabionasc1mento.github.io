@@ -1,37 +1,43 @@
-/* Rodapé um tom abaixo do fundo para fechar a página */
 .contact {
-  background: color-mix(in srgb, var(--deep) 75%, transparent);
-  color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* No fundo preto, a moldura vira cinza escuro */
+.contact :global(.frame) {
+  border-color: #2a2a28;
 }
 
 .inner {
-  padding-top: clamp(3.5rem, 9vw, 7rem);
   display: grid;
-  grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
-  gap: 2rem clamp(2rem, 5vw, 5rem);
+  grid-template-columns: minmax(0, 17rem) minmax(0, 1fr);
+  gap: 2rem clamp(2rem, 5vw, 4rem);
   align-items: center;
+  padding-block: clamp(3rem, 8vw, 6rem);
 }
 
+/* A foto 1-bit é preta sobre transparente: ganha um "papel" atrás */
 .photo {
-  width: 100%;
   aspect-ratio: 4 / 5;
-  object-fit: cover;
-  border-radius: calc(var(--radius) * 1.6);
+  background: var(--paper);
+  border: var(--rule) solid var(--paper);
 }
 
 .title {
   font-size: var(--step-3);
-  font-weight: 800;
-  letter-spacing: -0.035em;
-  line-height: 1;
+  overflow-wrap: anywhere;
+}
+
+.prompt {
+  color: var(--red);
 }
 
 .text {
   margin-top: 1.25rem;
-  max-width: 48ch;
+  max-width: 50ch;
   font-size: var(--step-1);
   line-height: 1.5;
-  color: var(--muted);
+  color: #b9b9b5;
 }
 
 .links {
@@ -44,35 +50,43 @@
 .link {
   display: inline-flex;
   align-items: center;
+  gap: 0.75rem;
   min-height: 3rem;
-  padding: 0.7rem 1.3rem;
-  border: 2px solid var(--line);
-  border-radius: 999px;
-  font-weight: 600;
+  padding: 0.7rem 1.2rem;
+  border: var(--rule) solid var(--paper);
+  font-weight: 700;
   text-decoration: none;
   transition: background-color 0.15s, color 0.15s, border-color 0.15s;
 }
 
 .link:hover {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--deep);
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--paper);
 }
 
-.link:focus-visible {
-  outline-color: var(--marker);
+.link:hover :global(.ast) {
+  color: var(--paper);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .link:hover {
+    animation: jitter 0.24s steps(1) 1;
+  }
 }
 
 .bottom {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 0.5rem 1rem;
-  margin-top: clamp(3.5rem, 8vw, 6rem);
-  padding-block: 1.5rem;
-  border-top: 1px solid var(--line);
-  font-size: var(--step--1);
-  color: var(--muted);
+  gap: 0.5rem 1.5rem;
+  padding-block: 1.25rem;
+  border-top: var(--rule) solid #2a2a28;
+  color: #8a8a86;
+}
+
+.exit {
+  color: #5a5a57;
 }
 
 @media (max-width: 720px) {
@@ -82,5 +96,9 @@
 
   .photo {
     max-width: 11rem;
+  }
+
+  .exit {
+    display: none;
   }
 }

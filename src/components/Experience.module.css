@@ -2,74 +2,68 @@
   display: grid;
 }
 
-/* Cada emprego: período numa coluna estreita, conteúdo ao lado.
-   A linha vertical à esquerda do conteúdo liga os empregos. */
+/* Cada emprego é uma linha do "grid": período à esquerda, conteúdo à direita,
+   separados por uma linha que se desenha ao entrar na tela */
 .job {
-  display: grid;
-  grid-template-columns: 8.5rem minmax(0, 1fr);
-  gap: 1.5rem;
-}
-
-.job > div {
   position: relative;
-  padding: 0 0 2.75rem 1.75rem;
-  border-left: 2px solid var(--line);
+  display: grid;
+  grid-template-columns: 9.5rem minmax(0, 1fr);
+  gap: 1.5rem;
+  padding-block: 1.75rem;
 }
 
-.job:last-child > div {
-  padding-bottom: 0;
+.job:first-child {
+  padding-top: 0.5rem;
 }
 
-.job > div::before {
-  content: "";
+.job:first-child .rule {
+  display: none;
+}
+
+.rule {
   position: absolute;
-  left: -7px;
-  top: 0.45rem;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--paper);
-  border: 2px solid var(--muted);
-}
-
-.job[data-current="true"] > div::before {
-  background: var(--violet);
-  border-color: var(--violet);
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--ink);
 }
 
 .period {
-  padding-top: 0.15rem;
-  font-size: var(--step--1);
-  font-weight: 500;
-  color: var(--muted);
+  padding-top: 0.45rem;
+  color: var(--dim);
   font-variant-numeric: tabular-nums;
 }
 
+.live {
+  animation: blink 1.2s steps(1) infinite;
+}
+
 .company {
-  font-size: var(--step-1);
-  font-weight: 800;
-  letter-spacing: -0.015em;
-  line-height: 1.3;
+  font-size: clamp(1.4rem, 1rem + 1.4vw, 2.1rem);
+  letter-spacing: -0.02em;
 }
 
 .role {
-  color: var(--violet);
-  font-weight: 600;
+  margin-top: 0.4rem;
+  color: var(--red);
+  font-weight: 700;
 }
 
 .description {
-  margin-block: 0.75rem 1rem;
+  margin-block: 0.85rem 1rem;
   max-width: 62ch;
 }
 
 @media (max-width: 560px) {
   .job {
     grid-template-columns: 1fr;
-    gap: 0.25rem;
+    gap: 0.5rem;
   }
+}
 
-  .period {
-    padding-left: 1.75rem;
-    border-left: 2px solid var(--line);
+@media (prefers-reduced-motion: reduce) {
+  .live {
+    animation: none;
   }
 }

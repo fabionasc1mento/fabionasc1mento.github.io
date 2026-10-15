@@ -2,6 +2,7 @@
 
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { SplitLetters } from "./motion/SplitLetters";
+import { Timecode } from "./motion/Timecode";
 import styles from "./Header.module.css";
 
 export function Header() {
@@ -17,11 +18,11 @@ export function Header() {
   return (
     <header className={styles.header}>
       <div className={`container ${styles.inner}`}>
-        <a href="#topo" className={styles.name}>
+        <a href="#topo" className={`display ${styles.name}`}>
           <SplitLetters text={t.hero.name} dataAttr="name-end" />
         </a>
         <nav aria-label={t.nav.aria}>
-          <ul className={styles.links}>
+          <ul className={`label ${styles.links}`}>
             {links.map((link) => (
               <li key={link.href}>
                 <a href={link.href}>{link.label}</a>
@@ -29,7 +30,8 @@ export function Header() {
             ))}
           </ul>
         </nav>
-        <button type="button" className={styles.lang} onClick={toggle} aria-label={t.langSwitch.aria}>
+        <Timecode className={`label ${styles.timecode}`} />
+        <button type="button" className={`label ${styles.lang}`} onClick={toggle} aria-label={t.langSwitch.aria}>
           {t.langSwitch.label}
         </button>
       </div>

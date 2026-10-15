@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import styles from "./AmbientBackground.module.css";
 
 // Fundo vivo, desenhado a cada quadro num <canvas> (nada de imagem em loop):
-// 1. duas manchas de tinta violeta, bem suaves, que derivam devagar;
+// 1. duas manchas de luz bem suaves (cinza) que derivam devagar;
 // 2. uma malha de pontos que foge do cursor e acende em neon perto dele, e
 //    faixas de luz que correm pela malha enquanto você rola;
 // 3. o grão de filme fica no CSS (camada por cima, quase invisível).
@@ -13,9 +13,9 @@ const SPACING = 30; // distância entre os pontos da malha (px)
 const DOT = 1.1; // raio do ponto (px)
 const CURSOR_RADIUS = 220; // alcance do cursor (px)
 const CURSOR_PUSH = 16; // quanto o ponto foge do cursor (px)
-const NEON_EDGE = "#a98bff"; // roxo na borda do alcance do cursor
-const NEON_CORE = "#ff5cf0"; // magenta neon perto do cursor
-const WAVE_COLOR = "#c77dff"; // neon das faixas da onda
+const NEON_EDGE = "#0c0c0c"; // preto na borda do alcance do cursor
+const NEON_CORE = "#e2372b"; // vermelho perto do cursor
+const WAVE_COLOR = "#e2372b"; // vermelho das faixas da onda
 
 export function AmbientBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -27,9 +27,9 @@ export function AmbientBackground() {
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const css = getComputedStyle(document.documentElement);
-    const violet = css.getPropertyValue("--violet").trim() || "#a98bff";
+    const glowColor = "#ffffff"; // manchas de luz sobre o cinza
     const dotColor = css.getPropertyValue("--muted").trim() || "#a39cbd";
-    const dotFill = hexToRgba(dotColor, 0.24); // calculado uma vez, não por ponto
+    const dotFill = hexToRgba(dotColor, 0.32); // calculado uma vez, não por ponto
 
     let width = 0;
     let height = 0;
@@ -56,8 +56,8 @@ export function AmbientBackground() {
 
     const ink = (x: number, y: number, radius: number, alpha: number) => {
       const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-      gradient.addColorStop(0, hexToRgba(violet, alpha));
-      gradient.addColorStop(1, hexToRgba(violet, 0));
+      gradient.addColorStop(0, hexToRgba(glowColor, alpha));
+      gradient.addColorStop(1, hexToRgba(glowColor, 0));
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, width, height);
     };
@@ -68,13 +68,13 @@ export function AmbientBackground() {
 
       // 1. Tinta: duas manchas em trajetórias lentas (curvas de Lissajous)
       const big = Math.max(width, height);
-      ink(width * (0.25 + 0.15 * Math.sin(t * 0.07)), height * (0.3 + 0.2 * Math.cos(t * 0.05)), big * 0.55, 0.13);
-      ink(width * (0.78 + 0.12 * Math.cos(t * 0.06)), height * (0.75 + 0.15 * Math.sin(t * 0.08)), big * 0.45, 0.09);
+      ink(width * (0.25 + 0.15 * Math.sin(t * 0.07)), height * (0.3 + 0.2 * Math.cos(t * 0.05)), big * 0.55, 0.45);
+      ink(width * (0.78 + 0.12 * Math.cos(t * 0.06)), height * (0.75 + 0.15 * Math.sin(t * 0.08)), big * 0.45, 0.35);
 
       // Halo neon em volta do cursor
       if (pointer.active) {
         const halo = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, CURSOR_RADIUS);
-        halo.addColorStop(0, hexToRgba(NEON_CORE, 0.1));
+        halo.addColorStop(0, hexToRgba(NEON_CORE, 0.08));
         halo.addColorStop(1, hexToRgba(NEON_EDGE, 0));
         ctx.fillStyle = halo;
         ctx.fillRect(pointer.x - CURSOR_RADIUS, pointer.y - CURSOR_RADIUS, CURSOR_RADIUS * 2, CURSOR_RADIUS * 2);
@@ -167,6 +167,7 @@ export function AmbientBackground() {
     <div className={styles.ambient} aria-hidden="true">
       <canvas ref={canvasRef} className={styles.canvas} />
       <div className={styles.grain} />
+      <div className={styles.scan} />
     </div>
   );
 }

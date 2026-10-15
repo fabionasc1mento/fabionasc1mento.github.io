@@ -1,0 +1,66 @@
+.photo {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 9rem;
+  overflow: hidden;
+}
+
+.photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+}
+
+.base {
+  image-rendering: pixelated;
+}
+
+/* Fatias horizontais da versão vermelha, escondidas até o glitch */
+.slice {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.slice[data-slice="0"] {
+  clip-path: inset(18% 0 68% 0);
+}
+
+.slice[data-slice="1"] {
+  clip-path: inset(44% 0 44% 0);
+}
+
+.slice[data-slice="2"] {
+  clip-path: inset(70% 0 18% 0);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .slice {
+    animation: slice 4.2s steps(1) infinite;
+  }
+
+  .slice[data-slice="1"] {
+    animation-delay: 0.9s;
+  }
+
+  .slice[data-slice="2"] {
+    animation-delay: 2.1s;
+  }
+
+  .photo:hover .slice {
+    animation-duration: 0.9s;
+  }
+}
+
+/* Parado quase o tempo todo; no fim do ciclo, aparece e treme */
+@keyframes slice {
+  0%, 86% { opacity: 0; transform: translateX(0); }
+  88% { opacity: 1; transform: translateX(14px); }
+  91% { opacity: 1; transform: translateX(-22px); }
+  94% { opacity: 1; transform: translateX(8px); }
+  97% { opacity: 0; transform: translateX(0); }
+}

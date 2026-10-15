@@ -108,6 +108,7 @@ export function NameFlight() {
             letters.current[i] = el;
           }}
           className={styles.letter}
+          style={{ ["--i" as string]: i }}
         >
           {char === " " ? " " : char}
         </span>

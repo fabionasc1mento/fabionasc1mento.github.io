@@ -2,61 +2,71 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background: color-mix(in srgb, var(--paper) 85%, transparent);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+  border-bottom: var(--rule) solid var(--ink);
 }
 
 .inner {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.75rem;
   min-height: var(--header-h);
 }
 
 .name {
-  font-weight: 800;
-  font-size: var(--step-1);
-  letter-spacing: -0.02em;
+  font-size: 1.15rem;
   text-decoration: none;
   margin-right: auto;
 }
 
 .links {
   display: flex;
-  gap: 1.75rem;
+}
+
+.links li + li::before {
+  content: "/";
+  margin-inline: 0.9em;
+  color: var(--dim);
 }
 
 .links a {
   text-decoration: none;
-  font-weight: 500;
-  color: var(--muted);
 }
 
 .links a:hover {
-  color: var(--ink);
+  color: var(--red);
+}
+
+.timecode {
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+  min-width: 11ch;
+  text-align: right;
 }
 
 .lang {
   min-width: 2.75rem;
   min-height: 2.75rem;
-  border: 2px solid var(--ink);
-  border-radius: 999px;
+  border: var(--rule) solid var(--ink);
   background: transparent;
   color: var(--ink);
-  font: inherit;
-  font-weight: 600;
-  font-size: var(--step--1);
+  font-weight: 700;
   cursor: pointer;
 }
 
 .lang:hover {
-  background: var(--ink);
+  background: var(--red);
+  border-color: var(--red);
   color: var(--paper);
 }
 
-/* No celular o menu some: o hero já tem os atalhos para projetos e contato */
-@media (max-width: 720px) {
+@media (max-width: 1100px) {
+  .timecode {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
   .links {
     display: none;
   }
