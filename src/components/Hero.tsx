@@ -2,7 +2,6 @@
 
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { ExtractionDemo } from "./ExtractionDemo";
-import { GlitchPhoto } from "./motion/GlitchPhoto";
 import { PixelBox } from "./motion/PixelBox";
 import { SplitLetters } from "./motion/SplitLetters";
 import styles from "./Hero.module.css";
@@ -13,32 +12,29 @@ export function Hero() {
 
   return (
     <section id="topo" className={`container frame ${styles.hero}`} data-reveal>
-      {/* Faixa de cima: foto 1-bit, legendas e caixa de pixels */}
+      {/* Faixa de cima: legenda, caixa de pixels e canto */}
       <div className={styles.band}>
-        <div className={styles.photo}>
-          <GlitchPhoto alt={t.contact.photoAlt} />
-        </div>
         <div className={`label ${styles.caption}`}>
           <span>fig.01</span>
           <span className={styles.captionDim}>portfolio / 2026</span>
         </div>
-        <PixelBox className={styles.pixels} />
+        <div className={styles.pixelCell}>
+          <PixelBox className={styles.pixels} />
+        </div>
         <div className={`label ${styles.corner}`}>
           <span className="ast">✱</span>
           <span>pt / en</span>
         </div>
-        <span className={`draw-y ${styles.vline}`} style={{ left: "33.333%" }} />
-        <span className={`draw-y ${styles.vline}`} style={{ left: "75%" }} />
       </div>
       <span className={`draw-x ${styles.hline}`} />
 
-      {/* Nome grande: as letras voam até o cabeçalho conforme a rolagem */}
+      {/* Nome grande */}
       <div className={styles.nameRow}>
         <span className={`ast ${styles.astLeft}`} aria-hidden="true">
           ✱
         </span>
         <p className={`display ${styles.name}`}>
-          <SplitLetters text={t.hero.name} dataAttr="name-start" />
+          {t.hero.name}
         </p>
         <span className={`ast ${styles.astRight}`} aria-hidden="true">
           ✱

@@ -1,94 +1,125 @@
-/* Só aparece em telas largas: no celular não há margem lateral livre */
-.nav {
+/* Painel lateral direito. Só aparece em telas largas, e o body ganha um
+   padding do mesmo tamanho (globals.css), então o conteúdo termina antes
+   dele: nada fica sobreposto. */
+.panel {
   display: none;
 }
 
 @media (min-width: 1280px) {
-  .nav {
+  .panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 15;
     display: block;
+    width: var(--panel-w);
+    border-left: var(--rule) solid var(--ink);
+    background: var(--paper);
   }
 }
 
-/* Índice no canto inferior esquerdo, fora da coluna de conteúdo */
-.index {
-  position: fixed;
-  left: 1.5rem;
-  bottom: 1.5rem;
-  z-index: 15;
-  opacity: 0;
-  transform: translateY(0.5rem);
-  transition: opacity 0.4s, transform 0.4s;
-  pointer-events: none;
+/* Faixa de cima, alinhada com o cabeçalho */
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-h);
+  padding-inline: 1.25rem;
+  border-bottom: var(--rule) solid var(--ink);
+  font-weight: 700;
 }
 
-.index[data-visible="true"] {
-  opacity: 1;
-  transform: none;
-  pointer-events: auto;
+.count {
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Área onde o título da seção pousa */
+.ghosts {
+  position: absolute;
+  top: calc(var(--header-h) + 1.5rem);
+  left: 1.25rem;
+  right: 3rem;
+  visibility: hidden;
+}
+
+.heading {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  overflow: hidden;
+  font-size: var(--panel-title);
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* inline-block: a altura da caixa vira a da linha, igual nas três camadas
+   (molde do título, índice e letras que voam), então a escala bate. */
+.heading span,
+.index [data-index-letter],
+.flyLetter {
+  display: inline-block;
+}
+
+/* Índice embaixo, alinhado à direita */
+.index {
+  position: absolute;
+  left: 1.25rem;
+  right: 3rem;
+  bottom: 1.5rem;
+  text-align: right;
 }
 
 .index ol {
   display: grid;
-  gap: 0.15rem;
+  gap: 0.35rem;
 }
 
+/* As letras do link ficam transparentes: quem aparece é a camada que voa */
 .index a {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  line-height: 1.6;
-  color: var(--dim);
+  font-size: 0.95rem;
+  color: transparent;
   text-decoration: none;
-  transition: color 0.2s;
 }
 
-.index a:hover {
+.index a:focus-visible {
+  outline-offset: 4px;
+}
+
+/* Camada das letras que voam */
+.fly {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.flyLetter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: var(--panel-title);
+  white-space: pre;
+  transform-origin: 0 0;
+  color: var(--dim);
+  transition:
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.1, 1),
+    color 0.3s;
+  will-change: transform;
+}
+
+[data-active="true"] > .flyLetter {
   color: var(--ink);
 }
 
-/* As letras da seção ativa "saíram" do índice para a lateral */
-.index li[data-active="true"] a {
-  color: color-mix(in srgb, var(--muted) 30%, transparent);
-}
-
-/* Lateral direita */
-.rail {
-  position: fixed;
-  top: var(--header-h);
-  right: 0;
-  bottom: 0;
-  z-index: 15;
-  width: 4rem;
-  border-left: var(--rule) solid var(--ink);
-  background: var(--paper);
-}
-
-/* Nome da seção na vertical (lido de cima para baixo) */
-.label {
-  position: absolute;
-  top: calc(var(--bar-h) + 1.25rem);
-  left: 0.75rem;
-  writing-mode: vertical-rl;
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-  font-weight: 900;
-  text-transform: lowercase;
-  line-height: 1;
+[data-hover="true"] > .flyLetter {
   color: var(--red);
-  white-space: nowrap;
-}
-
-/* inline-block: <span> comum não aceita transform */
-.label span {
-  display: inline-block;
 }
 
 /* Régua de progresso, colada na borda direita */
 .ruler {
   position: absolute;
-  top: calc(var(--bar-h) + 1rem);
+  top: calc(var(--header-h) + 1rem);
   bottom: 1.5rem;
   right: 0;
   width: 1.75rem;
@@ -128,33 +159,8 @@
   background: var(--red);
 }
 
-/* Flash vermelho quando a seção muda (como corte de vídeo) */
-.flash {
-  position: fixed;
-  inset: 0;
-  z-index: 55;
-  pointer-events: none;
-  background: var(--red);
-  mix-blend-mode: multiply;
-  opacity: 0;
-}
-
-.flash[data-on="true"] {
-  animation: section-flash 0.22s steps(1) 1;
-}
-
-@keyframes section-flash {
-  0% { opacity: 0.35; }
-  50% { opacity: 0.12; }
-  100% { opacity: 0; }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .index {
-    transition: none;
-  }
-
-  .flash {
-    display: none;
+  .flyLetter {
+    transition: color 0.3s !important;
   }
 }

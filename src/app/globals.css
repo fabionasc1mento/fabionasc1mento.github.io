@@ -350,15 +350,18 @@ footer[id] {
   }
 }
 
-/* Enquanto a animação do nome estiver ativa, os nomes do hero e do
-   cabeçalho viram só moldes invisíveis (a camada animada desenha as letras) */
-html.name-flight [data-name-start],
-html.name-flight [data-name-end] {
-  visibility: hidden;
-}
-
-/* Em telas largas a régua da lateral substitui a barra de rolagem */
+/* Em telas largas entra o painel lateral direito (SectionNav): o conteúdo
+   termina antes dele, e a régua do painel substitui a barra de rolagem. */
 @media (min-width: 1280px) {
+  :root {
+    --panel-w: 18rem;
+    --panel-title: 1.9rem;
+  }
+
+  body {
+    padding-right: var(--panel-w);
+  }
+
   html {
     scrollbar-width: none;
   }

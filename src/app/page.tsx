@@ -4,12 +4,12 @@ import { StackBand } from "@/components/StackBand";
 import { Experience } from "@/components/Experience";
 import { Projects } from "@/components/Projects";
 import { Education } from "@/components/Education";
+import { Resume } from "@/components/Resume";
 import { Contact } from "@/components/Contact";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { AmbientBackground } from "@/components/motion/AmbientBackground";
 import { RevealObserver } from "@/components/motion/RevealObserver";
 import { BootScreen } from "@/components/motion/BootScreen";
-import { NameFlight } from "@/components/motion/NameFlight";
 import { SectionNav } from "@/components/motion/SectionNav";
 
 export default function Home() {
@@ -25,10 +25,10 @@ export default function Home() {
         <Experience />
         <Projects />
         <Education />
+        <Resume />
       </main>
       <Contact />
       {/* Camadas de animação, por cima da página */}
-      <NameFlight />
       <SectionNav />
       <BootScreen />
     </>

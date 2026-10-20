@@ -29,7 +29,7 @@ export function Section({ id, number, title, meta, children }: SectionProps) {
         <div className={styles.grid}>
           <aside className={styles.side} aria-hidden="true">
             <div className={styles.sideSticky}>
-              <p className="label">{number} / 04</p>
+              <p className="label">{number} / 05</p>
               <PixelBox className={styles.pixels} />
             </div>
           </aside>

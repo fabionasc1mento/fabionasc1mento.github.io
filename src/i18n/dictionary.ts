@@ -26,7 +26,14 @@ type SmallProject = {
 export type Dictionary = {
   stackLabel: string;
   meta: { title: string; description: string };
-  nav: { aria: string; experience: string; projects: string; education: string; contact: string };
+  nav: {
+    aria: string;
+    experience: string;
+    projects: string;
+    education: string;
+    resume: string;
+    contact: string;
+  };
   langSwitch: { label: string; aria: string };
   hero: {
     name: string;
@@ -43,6 +50,7 @@ export type Dictionary = {
     experience: string;
     projects: string;
     education: string;
+    resume: string;
     contact: string;
   };
   experience: { title: string; jobs: Job[] };
@@ -66,14 +74,23 @@ export type Dictionary = {
     languagesTitle: string;
     languages: { name: string; level: string }[];
   };
-  contact: { title: string; text: string; photoAlt: string; links: Link[] };
+  resume: {
+    title: string;
+    text: string;
+    download: string;
+    open: string;
+    fileInfo: string;
+    note: string;
+    previewAlt: string;
+  };
+  contact: { title: string; text: string; links: Link[] };
   footer: string;
 };
 
 const contactLinks = (whatsText: string): Link[] => [
   {
     label: "WhatsApp",
-    href: `https://wa.me/5565999853869?text=${encodeURIComponent(whatsText)}`,
+    href: `https://wa.me/5565984770675?text=${encodeURIComponent(whatsText)}`,
   },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/fabio-tcn" },
   { label: "GitHub", href: "https://github.com/fabionasc1mento" },
@@ -93,6 +110,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
       experience: "Experiência",
       projects: "Projetos",
       education: "Formação",
+      resume: "Currículo",
       contact: "Contato",
     },
     langSwitch: { label: "EN", aria: "Switch to English" },
@@ -101,6 +119,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
       experience: "2022 – hoje",
       projects: "Estudos de caso",
       education: "Engenharia de Software",
+      resume: "PDF · 1 página",
       contact: "Vagas e freelance",
     },
     hero: {
@@ -232,10 +251,18 @@ export const dictionaries: Record<Lang, Dictionary> = {
         { name: "Espanhol", level: "básico" },
       ],
     },
+    resume: {
+      title: "Currículo",
+      text: "Minha trajetória em uma página: experiência, competências técnicas, projetos e formação. Pronto para anexar em um processo seletivo.",
+      download: "Baixar PDF",
+      open: "Abrir no navegador",
+      fileInfo: "1 página · PDF · 99 KB",
+      note: "Versão em português.",
+      previewAlt: "Prévia da página do currículo de Fábio Tarcio",
+    },
     contact: {
       title: "Vamos conversar",
       text: "Estou aberto a vagas, inclusive remotas, e a projetos freelance. O jeito mais rápido de falar comigo é pelo WhatsApp ou pelo LinkedIn.",
-      photoAlt: "Foto do Fábio sorrindo",
       links: contactLinks("Olá, Fábio! Vi seu portfólio e gostaria de conversar."),
     },
     footer: "Feito com Next.js",
@@ -253,6 +280,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
       experience: "Experience",
       projects: "Projects",
       education: "Education",
+      resume: "Résumé",
       contact: "Contact",
     },
     langSwitch: { label: "PT", aria: "Mudar para português" },
@@ -261,6 +289,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
       experience: "2022 – present",
       projects: "Case studies",
       education: "Software Engineering",
+      resume: "PDF · 1 page",
       contact: "Jobs and freelance",
     },
     hero: {
@@ -392,10 +421,18 @@ export const dictionaries: Record<Lang, Dictionary> = {
         { name: "Spanish", level: "basic" },
       ],
     },
+    resume: {
+      title: "Résumé",
+      text: "My background on a single page: experience, technical skills, projects and education. Ready to attach to an application.",
+      download: "Download PDF",
+      open: "Open in browser",
+      fileInfo: "1 page · PDF · 99 KB",
+      note: "Currently available in Portuguese only.",
+      previewAlt: "Preview of Fábio Tarcio's résumé page",
+    },
     contact: {
       title: "Let's talk",
       text: "I'm open to job opportunities, including remote roles, and to freelance projects. The fastest way to reach me is WhatsApp or LinkedIn.",
-      photoAlt: "Photo of Fábio smiling",
       links: contactLinks("Hi Fábio! I saw your portfolio and would like to talk."),
     },
     footer: "Built with Next.js",

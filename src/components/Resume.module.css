@@ -1,0 +1,119 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 17rem) minmax(0, 1fr);
+  gap: 2rem 2.5rem;
+  align-items: start;
+}
+
+/* Prévia da página: "folha" com borda do grid e sombra dura */
+.preview {
+  display: block;
+  overflow: hidden;
+  border: var(--rule) solid var(--ink);
+  background: #fff;
+  box-shadow: 0.5rem 0.5rem 0 var(--ink);
+  transition:
+    transform 0.25s var(--ease),
+    box-shadow 0.25s var(--ease);
+}
+
+.preview img {
+  width: 100%;
+  height: auto;
+}
+
+.preview:hover {
+  transform: translate(-0.2rem, -0.2rem);
+  box-shadow: 0.7rem 0.7rem 0 var(--red);
+}
+
+/* Linha vermelha que passa pela folha (escaneando) */
+.scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 3px;
+  background: var(--red);
+  box-shadow: 0 0 12px var(--red);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.info {
+  display: grid;
+  gap: 0.5rem;
+  padding-top: 0.25rem;
+}
+
+.file {
+  font-weight: 700;
+  font-size: var(--step--1);
+  word-break: break-all;
+}
+
+.fileInfo {
+  color: var(--dim);
+}
+
+.rule {
+  display: block;
+  height: 1px;
+  margin-block: 0.75rem;
+  background: var(--ink);
+}
+
+.text {
+  max-width: 34rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.note {
+  margin-top: 0.5rem;
+  color: var(--dim);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Escaneia uma vez depois que a cortina sai, e de novo no hover */
+  :global(html.motion) .preview[data-inview="true"] .scan {
+    animation: scan 1.4s cubic-bezier(0.65, 0, 0.35, 1) 0.9s 1;
+  }
+
+  .preview:hover .scan {
+    animation: scan 1.1s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+}
+
+@keyframes scan {
+  0% {
+    top: 0;
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: calc(100% - 3px);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .preview {
+    max-width: 15rem;
+  }
+
+  .actions :global(.button) {
+    flex: 1 1 100%;
+  }
+}

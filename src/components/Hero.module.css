@@ -25,15 +25,15 @@
 .band {
   position: relative;
   display: grid;
-  grid-template-columns: 4fr 5fr 1.4fr 1.6fr;
-  min-height: clamp(9rem, 16vw, 13rem);
+  grid-template-columns: 1fr minmax(8rem, 14rem) minmax(8rem, 14rem);
+  min-height: clamp(7rem, 12vw, 10rem);
   margin-inline: calc(var(--gutter) * -1);
 }
 
-.photo {
-  position: relative;
-  overflow: hidden;
-  border-right: 0;
+.pixelCell {
+  display: grid;
+  place-items: center;
+  border-left: var(--rule) solid var(--ink);
 }
 
 .caption {
@@ -48,12 +48,11 @@
 }
 
 .pixels {
-  align-self: center;
-  justify-self: center;
   width: min(5.5rem, 70%);
 }
 
 .corner {
+  border-left: var(--rule) solid var(--ink);
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -67,7 +66,9 @@
   padding-block: clamp(1.5rem, 4vw, 3.25rem);
 }
 
+/* O nome mantém as iniciais maiúsculas (os outros títulos ficam em minúsculas) */
 .name {
+  text-transform: none;
   font-size: var(--step-4);
   text-align: center;
   white-space: nowrap;
@@ -168,11 +169,10 @@
 
 @media (max-width: 860px) {
   .band {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 
-  .band .vline,
-  .pixels,
+  .pixelCell,
   .corner {
     display: none;
   }
