@@ -9,18 +9,7 @@
 }
 
 .inner {
-  display: grid;
-  grid-template-columns: minmax(0, 17rem) minmax(0, 1fr);
-  gap: 2rem clamp(2rem, 5vw, 4rem);
-  align-items: center;
   padding-block: clamp(3rem, 8vw, 6rem);
-}
-
-/* A foto 1-bit é preta sobre transparente: ganha um "papel" atrás */
-.photo {
-  aspect-ratio: 4 / 5;
-  background: var(--paper);
-  border: var(--rule) solid var(--paper);
 }
 
 .title {
@@ -90,13 +79,6 @@
 }
 
 @media (max-width: 720px) {
-  .inner {
-    grid-template-columns: 1fr;
-  }
-
-  .photo {
-    max-width: 11rem;
-  }
 
   .exit {
     display: none;

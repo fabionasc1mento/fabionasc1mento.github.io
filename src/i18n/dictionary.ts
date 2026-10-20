@@ -66,7 +66,7 @@ export type Dictionary = {
     languagesTitle: string;
     languages: { name: string; level: string }[];
   };
-  contact: { title: string; text: string; photoAlt: string; links: Link[] };
+  contact: { title: string; text: string; links: Link[] };
   footer: string;
 };
 
@@ -235,7 +235,6 @@ export const dictionaries: Record<Lang, Dictionary> = {
     contact: {
       title: "Vamos conversar",
       text: "Estou aberto a vagas, inclusive remotas, e a projetos freelance. O jeito mais rápido de falar comigo é pelo WhatsApp ou pelo LinkedIn.",
-      photoAlt: "Foto do Fábio sorrindo",
       links: contactLinks("Olá, Fábio! Vi seu portfólio e gostaria de conversar."),
     },
     footer: "Feito com Next.js",
@@ -395,7 +394,6 @@ export const dictionaries: Record<Lang, Dictionary> = {
     contact: {
       title: "Let's talk",
       text: "I'm open to job opportunities, including remote roles, and to freelance projects. The fastest way to reach me is WhatsApp or LinkedIn.",
-      photoAlt: "Photo of Fábio smiling",
       links: contactLinks("Hi Fábio! I saw your portfolio and would like to talk."),
     },
     footer: "Built with Next.js",

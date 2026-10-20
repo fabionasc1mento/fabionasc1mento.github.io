@@ -22,7 +22,6 @@ export const metadata: Metadata = {
     description: pt.meta.description,
     url: "https://fabionasc1mento.github.io/",
     type: "website",
-    images: ["/img/fabio.webp"],
   },
 };
 

@@ -17,7 +17,6 @@
   line-height: normal;
   font-family: var(--font-display);
   font-weight: 900;
-  text-transform: lowercase;
   color: var(--ink);
 }
 

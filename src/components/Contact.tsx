@@ -2,12 +2,11 @@
 
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { SectionBar } from "./SectionBar";
-import { GlitchPhoto } from "./motion/GlitchPhoto";
 import { Typewriter } from "./motion/Typewriter";
 import styles from "./Contact.module.css";
 
 // Contato como um terminal: fundo preto, título digitado com cursor
-// vermelho, foto 1-bit e os links como "comandos".
+// vermelho e os links como "comandos".
 export function Contact() {
   const { t } = useLanguage();
 
@@ -15,9 +14,6 @@ export function Contact() {
     <footer id="contato" className={styles.contact} aria-labelledby="contato-titulo" data-section>
       <SectionBar number="04" title={t.nav.contact} meta={t.sections.contact} dark />
       <div className={`container frame ${styles.inner}`} data-reveal>
-        <div className={`wipe-up ${styles.photo}`}>
-          <GlitchPhoto alt={t.contact.photoAlt} />
-        </div>
         <div className={styles.body}>
           <h2 id="contato-titulo" className={`display ${styles.title}`}>
             <span className={styles.prompt} aria-hidden="true">

@@ -128,33 +128,8 @@
   background: var(--red);
 }
 
-/* Flash vermelho quando a seção muda (como corte de vídeo) */
-.flash {
-  position: fixed;
-  inset: 0;
-  z-index: 55;
-  pointer-events: none;
-  background: var(--red);
-  mix-blend-mode: multiply;
-  opacity: 0;
-}
-
-.flash[data-on="true"] {
-  animation: section-flash 0.22s steps(1) 1;
-}
-
-@keyframes section-flash {
-  0% { opacity: 0.35; }
-  50% { opacity: 0.12; }
-  100% { opacity: 0; }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .index {
     transition: none;
-  }
-
-  .flash {
-    display: none;
   }
 }
