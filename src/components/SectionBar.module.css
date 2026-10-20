@@ -9,7 +9,7 @@
 .bar[data-dark] {
   background: var(--ink);
   color: var(--paper);
-  border-bottom-color: #2a2a28;
+  border-bottom-color: var(--inv-line);
 }
 
 .inner {
@@ -22,7 +22,7 @@
 }
 
 .bar[data-dark] .inner {
-  border-color: #2a2a28;
+  border-color: var(--inv-line);
 }
 
 .number {

@@ -45,6 +45,11 @@
   text-align: right;
 }
 
+.controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
 .lang {
   min-width: 2.75rem;
   min-height: 2.75rem;

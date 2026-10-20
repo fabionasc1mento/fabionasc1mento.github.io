@@ -2,6 +2,7 @@
 
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { Timecode } from "./motion/Timecode";
+import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Header.module.css";
 
 export function Header() {
@@ -31,9 +32,12 @@ export function Header() {
           </ul>
         </nav>
         <Timecode className={`label ${styles.timecode}`} />
-        <button type="button" className={`label ${styles.lang}`} onClick={toggle} aria-label={t.langSwitch.aria}>
-          {t.langSwitch.label}
-        </button>
+        <div className={styles.controls}>
+          <ThemeToggle />
+          <button type="button" className={`label ${styles.lang}`} onClick={toggle} aria-label={t.langSwitch.aria}>
+            {t.langSwitch.label}
+          </button>
+        </div>
       </div>
     </header>
   );

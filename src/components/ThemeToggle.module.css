@@ -1,0 +1,39 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  border: var(--rule) solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.toggle:hover {
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--paper);
+}
+
+.toggle svg {
+  transition: transform 0.5s var(--ease);
+}
+
+.toggle[data-theme-state="light"] svg {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .toggle:hover {
+    animation: jitter 0.24s steps(1) 1;
+  }
+}
+
+@keyframes jitter {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(4px); }
+  50% { transform: translateX(-5px); }
+  75% { transform: translateX(2px); }
+  100% { transform: translateX(0); }
+}

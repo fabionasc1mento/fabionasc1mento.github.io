@@ -26,10 +26,23 @@ export function AmbientBackground() {
     if (!canvas || !ctx) return;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const css = getComputedStyle(document.documentElement);
-    const glowColor = "#ffffff"; // manchas de luz sobre o cinza
-    const dotColor = css.getPropertyValue("--muted").trim() || "#a39cbd";
-    const dotFill = hexToRgba(dotColor, 0.32); // calculado uma vez, não por ponto
+    // Cores que dependem do tema: lidas do CSS e lidas de novo quando o
+    // tema muda (o botão troca o data-theme do <html>)
+    const glowColor = "#ffffff"; // manchas de luz
+    let glowStrength = 1; // no escuro as manchas ficam bem mais fracas
+    let neonEdge = NEON_EDGE;
+    let dotFill = "";
+    const readTheme = () => {
+      const css = getComputedStyle(document.documentElement);
+      const dark = document.documentElement.dataset.theme === "dark";
+      const dotColor = css.getPropertyValue("--dim").trim() || "#6d6d6a";
+      dotFill = hexToRgba(dotColor, dark ? 0.45 : 0.32); // calculado uma vez, não por ponto
+      neonEdge = css.getPropertyValue("--ink").trim() || NEON_EDGE;
+      glowStrength = dark ? 0.08 : 1;
+      if (reduceMotion) draw(0);
+    };
+    const themeObserver = new MutationObserver(readTheme);
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
     let width = 0;
     let height = 0;
@@ -56,7 +69,7 @@ export function AmbientBackground() {
 
     const ink = (x: number, y: number, radius: number, alpha: number) => {
       const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-      gradient.addColorStop(0, hexToRgba(glowColor, alpha));
+      gradient.addColorStop(0, hexToRgba(glowColor, alpha * glowStrength));
       gradient.addColorStop(1, hexToRgba(glowColor, 0));
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, width, height);
@@ -75,7 +88,7 @@ export function AmbientBackground() {
       if (pointer.active) {
         const halo = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, CURSOR_RADIUS);
         halo.addColorStop(0, hexToRgba(NEON_CORE, 0.08));
-        halo.addColorStop(1, hexToRgba(NEON_EDGE, 0));
+        halo.addColorStop(1, hexToRgba(neonEdge, 0));
         ctx.fillStyle = halo;
         ctx.fillRect(pointer.x - CURSOR_RADIUS, pointer.y - CURSOR_RADIUS, CURSOR_RADIUS * 2, CURSOR_RADIUS * 2);
       }
@@ -111,7 +124,7 @@ export function AmbientBackground() {
           if (glow > 0.02) {
             // Perto do cursor: do roxo (borda) ao magenta neon (centro)
             ctx.arc(x, y, DOT + glow * 1.6, 0, Math.PI * 2);
-            ctx.fillStyle = mix(NEON_EDGE, NEON_CORE, glow, 0.35 + glow * 0.65);
+            ctx.fillStyle = mix(neonEdge, NEON_CORE, glow, 0.35 + glow * 0.65);
           } else if (band > 0.03) {
             ctx.arc(x, y, DOT + band * 1.2, 0, Math.PI * 2);
             ctx.fillStyle = hexToRgba(WAVE_COLOR, 0.2 + band * 0.75);
@@ -146,6 +159,7 @@ export function AmbientBackground() {
       pointer.active = false;
     };
 
+    readTheme();
     resize();
     window.addEventListener("resize", resize);
 
@@ -157,6 +171,7 @@ export function AmbientBackground() {
 
     return () => {
       cancelAnimationFrame(frame);
+      themeObserver.disconnect();
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", onPointerMove);
       document.documentElement.removeEventListener("pointerleave", onPointerLeave);
