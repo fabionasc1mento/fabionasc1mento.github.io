@@ -12,7 +12,7 @@ export function Contact() {
 
   return (
     <footer id="contato" className={styles.contact} aria-labelledby="contato-titulo" data-section>
-      <SectionBar number="04" title={t.nav.contact} meta={t.sections.contact} dark />
+      <SectionBar number="05" title={t.nav.contact} meta={t.sections.contact} dark />
       <div className={`container frame ${styles.inner}`} data-reveal>
         <div className={styles.body}>
           <h2 id="contato-titulo" className={`display ${styles.title}`}>

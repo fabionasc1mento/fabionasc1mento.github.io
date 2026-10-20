@@ -5,7 +5,7 @@ import { useLanguage } from "@/i18n/LanguageProvider";
 import { SplitLetters } from "./SplitLetters";
 import styles from "./SectionNav.module.css";
 
-const SECTION_IDS = ["experiencia", "projetos", "formacao", "contato"] as const;
+const SECTION_IDS = ["experiencia", "projetos", "formacao", "curriculo", "contato"] as const;
 type SectionId = (typeof SECTION_IDS)[number];
 
 // Marcas da régua: um traço a cada 2%, número a cada 25%
@@ -27,6 +27,7 @@ export function SectionNav() {
     experiencia: t.nav.experience,
     projetos: t.nav.projects,
     formacao: t.nav.education,
+    curriculo: t.nav.resume,
     contato: t.nav.contact,
   };
 

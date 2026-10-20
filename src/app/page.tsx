@@ -4,6 +4,7 @@ import { StackBand } from "@/components/StackBand";
 import { Experience } from "@/components/Experience";
 import { Projects } from "@/components/Projects";
 import { Education } from "@/components/Education";
+import { Resume } from "@/components/Resume";
 import { Contact } from "@/components/Contact";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { AmbientBackground } from "@/components/motion/AmbientBackground";
@@ -25,6 +26,7 @@ export default function Home() {
         <Experience />
         <Projects />
         <Education />
+        <Resume />
       </main>
       <Contact />
       {/* Camadas de animação, por cima da página */}

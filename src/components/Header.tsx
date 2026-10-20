@@ -12,6 +12,7 @@ export function Header() {
     { href: "#experiencia", label: t.nav.experience },
     { href: "#projetos", label: t.nav.projects },
     { href: "#formacao", label: t.nav.education },
+    { href: "#curriculo", label: t.nav.resume },
     { href: "#contato", label: t.nav.contact },
   ];
 
