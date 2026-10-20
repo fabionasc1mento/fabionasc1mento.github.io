@@ -35,85 +35,70 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Área onde o título da seção pousa */
-.ghosts {
-  position: absolute;
-  top: calc(var(--header-h) + 1.5rem);
-  left: 1.25rem;
-  right: 3rem;
-  visibility: hidden;
+.panel {
+  --slot: 1.3rem; /* altura de cada linha das listas */
+  --list-top: calc(var(--header-h) + 1rem);
 }
 
+.listTop,
+.listBottom,
 .heading {
   position: absolute;
-  inset-inline: 0;
-  top: 0;
-  overflow: hidden;
-  font-size: var(--panel-title);
+  left: 1.25rem;
+  right: 3rem;
   text-align: right;
   white-space: nowrap;
 }
 
-/* inline-block: a altura da caixa vira a da linha, igual nas três camadas
-   (molde do título, índice e letras que voam), então a escala bate. */
-.heading span,
-.index [data-index-letter],
-.flyLetter {
-  display: inline-block;
-}
-
-/* Índice embaixo, alinhado à direita */
-.index {
-  position: absolute;
-  left: 1.25rem;
-  right: 3rem;
-  bottom: 1.5rem;
-  text-align: right;
-}
-
-.index ol {
-  display: grid;
-  gap: 0.35rem;
-}
-
-/* As letras do link ficam transparentes: quem aparece é a camada que voa */
-.index a {
+.listTop,
+.listBottom {
   font-size: 0.95rem;
-  color: transparent;
-  text-decoration: none;
 }
 
-.index a:focus-visible {
-  outline-offset: 4px;
+.listTop li,
+.listBottom li {
+  height: var(--slot);
 }
 
-/* Camada das letras que voam */
-.fly {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
+/* Seções que já passaram, empilhadas no alto */
+.listTop {
+  top: var(--list-top);
 }
 
-.flyLetter {
-  position: absolute;
-  top: 0;
-  left: 0;
+/* Título: logo abaixo das seções que já passaram */
+.heading {
+  top: calc(var(--list-top) + var(--slot) * var(--i) + 0.4rem);
+  overflow: hidden;
   font-size: var(--panel-title);
-  white-space: pre;
-  transform-origin: 0 0;
-  color: var(--dim);
-  transition:
-    transform 0.8s cubic-bezier(0.2, 0.7, 0.1, 1),
-    color 0.3s;
-  will-change: transform;
-}
-
-[data-active="true"] > .flyLetter {
   color: var(--ink);
 }
 
-[data-hover="true"] > .flyLetter {
+/* Próximas seções, embaixo */
+.listBottom {
+  bottom: 1.5rem;
+}
+
+.item {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: var(--dim);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.item:hover {
   color: var(--red);
+}
+
+/* Tremida de glitch quando o título troca (igual aos títulos das seções) */
+@media (prefers-reduced-motion: no-preference) {
+  .heading {
+    animation: jitter 0.3s steps(1) 0.45s 1;
+  }
 }
 
 /* Régua de progresso, colada na borda direita */
@@ -159,8 +144,12 @@
   background: var(--red);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .flyLetter {
-    transition: color 0.3s !important;
-  }
+
+@keyframes jitter {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(6px); }
+  40% { transform: translateX(-9px); }
+  60% { transform: translateX(4px); }
+  80% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
 }

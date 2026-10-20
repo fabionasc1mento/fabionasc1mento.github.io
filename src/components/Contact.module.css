@@ -5,7 +5,7 @@
 
 /* No fundo preto, a moldura vira cinza escuro */
 .contact :global(.frame) {
-  border-color: #2a2a28;
+  border-color: var(--inv-line);
 }
 
 .inner {
@@ -26,7 +26,7 @@
   max-width: 50ch;
   font-size: var(--step-1);
   line-height: 1.5;
-  color: #b9b9b5;
+  color: var(--inv-text);
 }
 
 .links {
@@ -70,12 +70,12 @@
   justify-content: space-between;
   gap: 0.5rem 1.5rem;
   padding-block: 1.25rem;
-  border-top: var(--rule) solid #2a2a28;
-  color: #8a8a86;
+  border-top: var(--rule) solid var(--inv-line);
+  color: var(--inv-dim);
 }
 
 .exit {
-  color: #5a5a57;
+  color: var(--inv-faint);
 }
 
 @media (max-width: 720px) {

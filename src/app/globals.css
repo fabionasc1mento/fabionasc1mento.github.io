@@ -9,6 +9,16 @@
   --dim: #6d6d6a;        /* texto secundário */
   --hair: rgb(12 12 12 / 0.16); /* linha fina interna */
 
+  /* Blocos "invertidos" (fundo da cor do texto: contato, demo, faixas).
+     Os cinzas de dentro deles mudam junto com o tema. */
+  --inv-line: #2a2a28;
+  --inv-text: #b9b9b5;
+  --inv-dim: #8a8a86;
+  --inv-faint: #5a5a57;
+  --inv-dot: #3a3a37;
+
+  --scan-line: rgb(12 12 12 / 0.035); /* linhas de varredura */
+
   /* Nomes antigos apontando para a paleta nova (componentes usam estes) */
   --surface: var(--paper);
   --muted: var(--dim);
@@ -40,6 +50,39 @@
   --ease: cubic-bezier(0.16, 1, 0.3, 1); /* "power4.out" */
 
   color-scheme: light;
+}
+
+/* Tema escuro (o padrão): papel e tinta trocam de lugar. Quem usa os
+   tokens acima muda sozinho. O tema é aplicado antes da página desenhar
+   (script no layout.tsx), então não pisca. */
+:root[data-theme="dark"] {
+  --paper: #0f0f0e;
+  --paper-2: #1c1c1a;
+  --ink: #e3e3e1;
+  --red: #f0443a;
+  --dim: #8f8f8b;
+  --hair: rgb(227 227 225 / 0.16);
+
+  --inv-line: #c2c2be;
+  --inv-text: #3a3a37;
+  --inv-dim: #5f5f5c;
+  --inv-faint: #8a8a86;
+  --inv-dot: #b5b5b1;
+
+  --scan-line: rgb(0 0 0 / 0.22);
+
+  color-scheme: dark;
+}
+
+/* Durante a troca de tema as cores mudam com uma transição curta */
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition:
+    background-color 0.3s,
+    color 0.3s,
+    border-color 0.3s,
+    box-shadow 0.3s !important;
 }
 
 *,

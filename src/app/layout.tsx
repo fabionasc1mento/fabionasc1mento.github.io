@@ -14,6 +14,8 @@ import { LanguageProvider } from "@/i18n/LanguageProvider";
 
 const pt = dictionaries.pt;
 
+const THEME_SCRIPT = `try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}`;
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://fabionasc1mento.github.io"),
   icons: { icon: "/favicon.svg" },
@@ -26,12 +28,17 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#e3e3e1",
+  themeColor: "#0f0f0e",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR">
+    // data-theme="dark": o escuro é o padrão. O script troca para o tema
+    // salvo antes da página desenhar (sem piscar o tema errado).
+    <html lang="pt-BR" data-theme="dark" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body>
         <LanguageProvider>{children}</LanguageProvider>
       </body>

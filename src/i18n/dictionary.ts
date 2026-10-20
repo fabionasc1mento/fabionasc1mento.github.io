@@ -35,6 +35,7 @@ export type Dictionary = {
     contact: string;
   };
   langSwitch: { label: string; aria: string };
+  themeSwitch: { toLight: string; toDark: string };
   hero: {
     name: string;
     title: string;
@@ -114,6 +115,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
       contact: "Contato",
     },
     langSwitch: { label: "EN", aria: "Switch to English" },
+    themeSwitch: { toLight: "Mudar para o tema claro", toDark: "Mudar para o tema escuro" },
     sections: {
       indexLabel: "Seções",
       experience: "2022 – hoje",
@@ -284,6 +286,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
       contact: "Contact",
     },
     langSwitch: { label: "PT", aria: "Mudar para português" },
+    themeSwitch: { toLight: "Switch to light theme", toDark: "Switch to dark theme" },
     sections: {
       indexLabel: "Sections",
       experience: "2022 – present",

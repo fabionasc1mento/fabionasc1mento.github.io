@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useLanguage } from "@/i18n/LanguageProvider";
-import { SplitLetters } from "./SplitLetters";
+import { Scramble } from "./Scramble";
 import styles from "./SectionNav.module.css";
 
 const SECTION_IDS = ["experiencia", "projetos", "formacao", "curriculo", "contato"] as const;
@@ -11,29 +11,19 @@ type SectionId = (typeof SECTION_IDS)[number];
 // Marcas da régua: um traço a cada 2%, número a cada 25%
 const TICKS = Array.from({ length: 51 }, (_, i) => i * 2);
 
-// Atraso entre uma letra e a próxima no voo (em segundos)
-const STAGGER = 0.03;
-
 // Painel lateral direito (só em telas largas; o conteúdo do site termina
-// antes dele, então nada fica por cima de nada):
-// - embaixo, o índice das seções;
-// - em cima, o nome da seção atual em letras grandes;
-// - na borda, a régua de progresso.
-// As letras são uma camada só: cada letra fica no índice e, quando a seção
-// dela fica ativa, voa até o topo e cresce. Ao trocar de seção, as letras
-// da anterior voltam para o índice e as da nova sobem.
+// antes dele, então nada fica sobreposto). Funciona como uma linha do tempo:
+// - seções que já passaram ficam pequenas no alto;
+// - a seção atual é o título grande, logo abaixo delas;
+// - as próximas esperam pequenas embaixo.
+// Cada nome que aparece num lugar novo "decodifica" (símbolos aleatórios
+// até formar a palavra), o mesmo efeito dos títulos das seções, e o título
+// dá uma tremida de glitch.
 export function SectionNav() {
   const { t } = useLanguage();
   const [active, setActive] = useState<SectionId | null>(null);
-  const [hovered, setHovered] = useState<SectionId | null>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
   const railRef = useRef<HTMLDivElement>(null);
-  const indexRef = useRef<HTMLOListElement>(null);
-  const ghostRef = useRef<HTMLDivElement>(null);
-  const flyRef = useRef<HTMLDivElement>(null);
-  const activeRef = useRef<SectionId | null>(null);
-  // Onde cada letra fica no índice e no topo: [x, y, escala]
-  const spots = useRef<Record<string, { list: number[]; head: number[] }[]>>({});
+  const headingRef = useRef<HTMLParagraphElement>(null);
 
   const labels: Record<SectionId, string> = {
     experiencia: t.nav.experience,
@@ -43,89 +33,18 @@ export function SectionNav() {
     contato: t.nav.contact,
   };
 
-  // Coloca cada letra no lugar certo para a seção ativa
-  const place = useCallback((animate: boolean) => {
-    const fly = flyRef.current;
-    if (!fly) return;
-    const current = activeRef.current;
-    SECTION_IDS.forEach((id) => {
-      const letters = fly.querySelectorAll<HTMLElement>(`[data-fly="${id}"] [data-fly-letter]`);
-      const toHead = id === current;
-      letters.forEach((letter, i) => {
-        const spot = spots.current[id]?.[i];
-        if (!spot) return;
-        const [x, y, s] = toHead ? spot.head : spot.list;
-        // Quem sobe sai na ordem; quem desce volta do fim para o começo
-        const delay = toHead ? i * STAGGER : (letters.length - 1 - i) * STAGGER * 0.6;
-        letter.style.transition = animate ? "" : "none";
-        letter.style.transitionDelay = animate ? `${delay}s` : "0s";
-        letter.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
-      });
-    });
-  }, []);
+  const activeIndex = active ? SECTION_IDS.indexOf(active) : -1;
 
-  // Mede as posições a partir de "moldes" invisíveis: os links do índice e
-  // um título fantasma por seção.
-  const measure = useCallback(() => {
-    const panel = panelRef.current;
-    const ghost = ghostRef.current;
-    const index = indexRef.current;
-    const fly = flyRef.current;
-    if (!panel || !ghost || !index || !fly) return;
-    if (getComputedStyle(panel).display === "none") return; // tela estreita
-
-    const origin = panel.getBoundingClientRect();
-    const next: typeof spots.current = {};
-
-    SECTION_IDS.forEach((id) => {
-      const head = ghost.querySelector<HTMLElement>(`[data-ghost="${id}"]`);
-      if (!head) return;
-      // Nome comprido demais para o painel: diminui só o dele
-      head.style.fontSize = "";
-      if (head.scrollWidth > head.clientWidth) {
-        const size = parseFloat(getComputedStyle(head).fontSize);
-        head.style.fontSize = `${(size * head.clientWidth) / head.scrollWidth}px`;
-      }
-
-      const headLetters = head.querySelectorAll<HTMLElement>("[data-ghost-letter]");
-      const listLetters = index.querySelectorAll<HTMLElement>(`[data-index="${id}"] [data-index-letter]`);
-      const flyLetters = fly.querySelectorAll<HTMLElement>(`[data-fly="${id}"] [data-fly-letter]`);
-
-      next[id] = Array.from(flyLetters).map((letter, i) => {
-        const base = Math.max(1, letter.offsetHeight);
-        const toSpot = (el: HTMLElement | undefined) => {
-          if (!el) return [0, 0, 0];
-          const r = el.getBoundingClientRect();
-          return [r.left - origin.left, r.top - origin.top, r.height / base];
-        };
-        return { list: toSpot(listLetters[i]), head: toSpot(headLetters[i]) };
-      });
-    });
-
-    spots.current = next;
-    place(false);
-  }, [place]);
-
-  // Mede de novo quando as fontes carregam, a janela muda ou o idioma troca
-  useEffect(() => {
-    let frame = requestAnimationFrame(measure);
-    document.fonts?.ready.then(() => measure());
-    const onResize = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(measure);
-    };
-    window.addEventListener("resize", onResize);
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("resize", onResize);
-    };
-  }, [measure, t]);
-
-  // Seção ativa mudou: as letras voam
-  useEffect(() => {
-    activeRef.current = active;
-    place(true);
-  }, [active, place]);
+  // Nome comprido demais para o painel: diminui a fonte só dele
+  useLayoutEffect(() => {
+    const el = headingRef.current;
+    if (!el) return;
+    el.style.fontSize = "";
+    if (el.scrollWidth > el.clientWidth) {
+      const size = parseFloat(getComputedStyle(el).fontSize);
+      el.style.fontSize = `${(size * el.clientWidth) / el.scrollWidth}px`;
+    }
+  }, [active, t]);
 
   // Qual seção está cruzando o meio da tela
   useEffect(() => {
@@ -133,7 +52,6 @@ export function SectionNav() {
       (entries) => {
         const visible = entries.find((entry) => entry.isIntersecting);
         if (visible) setActive(visible.target.id as SectionId);
-        else if (window.scrollY < window.innerHeight * 0.5) setActive(null);
       },
       { rootMargin: "-45% 0px -54% 0px" },
     );
@@ -151,6 +69,9 @@ export function SectionNav() {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const progress = max > 0 ? window.scrollY / max : 0;
       railRef.current?.style.setProperty("--progress", progress.toFixed(4));
+      // Voltou para o topo (acima da primeira seção): nenhuma seção ativa
+      const first = document.getElementById(SECTION_IDS[0]);
+      if (first && window.scrollY + window.innerHeight * 0.45 < first.offsetTop) setActive(null);
     };
     const onScroll = () => {
       cancelAnimationFrame(frame);
@@ -173,12 +94,35 @@ export function SectionNav() {
     window.scrollTo({ top: fraction * max, behavior: "smooth" });
   };
 
-  const activeNumber = active ? String(SECTION_IDS.indexOf(active) + 1).padStart(2, "0") : "--";
+  const goTo = (id: SectionId) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // Lista de cima (passadas) ou de baixo (próximas). Cada linha tem lugar
+  // fixo; quando o nome aparece nela, o Scramble é montado de novo e
+  // decodifica.
+  const list = (show: (index: number) => boolean, className: string) => (
+    <ol className={`display ${className}`}>
+      {SECTION_IDS.map((id, i) => (
+        <li key={id}>
+          {show(i) && (
+            <button type="button" tabIndex={-1} className={styles.item} onClick={() => goTo(id)}>
+              <Scramble text={labels[id]} duration={450} />
+            </button>
+          )}
+        </li>
+      ))}
+    </ol>
+  );
+
+  const activeNumber = active ? String(activeIndex + 1).padStart(2, "0") : "--";
   const total = String(SECTION_IDS.length).padStart(2, "0");
 
+  // O painel é só visual (aria-hidden): quem usa teclado ou leitor de tela
+  // navega pelo menu do cabeçalho, que tem os mesmos links.
   return (
-    <div ref={panelRef} className={styles.panel}>
-      <p className={`label ${styles.top}`} aria-hidden="true">
+    <div className={styles.panel} aria-hidden="true">
+      <p className={`label ${styles.top}`}>
         <span>
           <span className="ast">✱ </span>
           {t.sections.indexLabel}
@@ -188,58 +132,22 @@ export function SectionNav() {
         </span>
       </p>
 
-      {/* Moldes invisíveis do título (um por seção, todos no mesmo lugar) */}
-      <div ref={ghostRef} className={styles.ghosts} aria-hidden="true">
-        {SECTION_IDS.map((id) => (
-          <p key={id} data-ghost={id} className={`display ${styles.heading}`}>
-            {Array.from(labels[id]).map((char, i) => (
-              <span key={i} data-ghost-letter="">
-                {char}
-              </span>
-            ))}
-          </p>
-        ))}
-      </div>
+      {list((i) => i < activeIndex, styles.listTop)}
 
-      <nav aria-label={t.sections.indexLabel} className={styles.index}>
-        <ol ref={indexRef}>
-          {SECTION_IDS.map((id) => (
-            <li key={id} data-index={id}>
-              <a
-                href={`#${id}`}
-                className="display"
-                aria-current={active === id ? "true" : undefined}
-                onMouseEnter={() => setHovered(id)}
-                onMouseLeave={() => setHovered(null)}
-                onFocus={() => setHovered(id)}
-                onBlur={() => setHovered(null)}
-              >
-                <SplitLetters text={labels[id]} dataAttr="index-letter" />
-              </a>
-            </li>
-          ))}
-        </ol>
-      </nav>
+      {active && (
+        <p
+          ref={headingRef}
+          key={active}
+          className={`display ${styles.heading}`}
+          style={{ ["--i" as string]: activeIndex }}
+        >
+          <Scramble text={labels[active]} duration={700} />
+        </p>
+      )}
 
-      {/* Camada das letras que voam */}
-      <div ref={flyRef} className={styles.fly} aria-hidden="true">
-        {SECTION_IDS.map((id) => (
-          <span
-            key={id}
-            data-fly={id}
-            data-active={active === id}
-            data-hover={hovered === id && active !== id}
-          >
-            {Array.from(labels[id]).map((char, i) => (
-              <span key={i} data-fly-letter="" className={`display ${styles.flyLetter}`}>
-                {char}
-              </span>
-            ))}
-          </span>
-        ))}
-      </div>
+      {list((i) => i > activeIndex, styles.listBottom)}
 
-      <div ref={railRef} className={styles.ruler} onClick={jumpTo} aria-hidden="true">
+      <div ref={railRef} className={styles.ruler} onClick={jumpTo}>
         {TICKS.map((tick) => (
           <span key={tick} className={styles.tick} data-major={tick % 10 === 0} style={{ top: `${tick}%` }}>
             {tick % 25 === 0 && <span className={styles.tickNumber}>{tick}</span>}
