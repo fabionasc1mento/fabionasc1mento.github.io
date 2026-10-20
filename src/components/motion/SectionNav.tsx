@@ -2,38 +2,49 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/i18n/LanguageProvider";
-import { SplitLetters } from "./SplitLetters";
 import styles from "./SectionNav.module.css";
 
 const SECTION_IDS = ["experiencia", "projetos", "formacao", "curriculo", "contato"] as const;
 type SectionId = (typeof SECTION_IDS)[number];
 
+// Onde a seção está na "linha do tempo" do painel
+type Place = "next" | "active" | "passed";
+
 // Marcas da régua: um traço a cada 2%, número a cada 25%
 const TICKS = Array.from({ length: 51 }, (_, i) => i * 2);
 
-// Atraso entre uma letra e a próxima no voo (em segundos)
-const STAGGER = 0.03;
+// Posição de uma letra: x, y, escala
+type Spot = { x: number; y: number; s: number };
+type LetterSpots = { next: Spot; active: Spot; passed: Spot; offset: number };
+
+const FLY_MS = 1200; // subir/descer pela lateral
+const SHIFT_MS = 700; // título que encolhe para a lista de cima (e volta)
+const STAGGER_MS = 18;
+const EASE = "cubic-bezier(0.65, 0, 0.35, 1)";
+
+const transformOf = (x: number, y: number, rotate: number, s: number) =>
+  `translate(${x}px, ${y}px) rotate(${rotate}deg) scale(${s})`;
 
 // Painel lateral direito (só em telas largas; o conteúdo do site termina
-// antes dele, então nada fica por cima de nada):
-// - embaixo, o índice das seções;
-// - em cima, o nome da seção atual em letras grandes;
-// - na borda, a régua de progresso.
-// As letras são uma camada só: cada letra fica no índice e, quando a seção
-// dela fica ativa, voa até o topo e cresce. Ao trocar de seção, as letras
-// da anterior voltam para o índice e as da nova sobem.
+// antes dele, então nada fica sobreposto). Funciona como uma linha do tempo:
+// - seções que já passaram ficam pequenas no alto;
+// - a seção atual é o título grande, logo abaixo delas;
+// - as próximas esperam pequenas embaixo.
+// Quando a próxima seção entra, as letras dela sobem "em pé" pela lateral
+// até virarem o título, e o título anterior encolhe para a lista de cima.
+// Rolando para cima, tudo faz o caminho inverso.
 export function SectionNav() {
   const { t } = useLanguage();
   const [active, setActive] = useState<SectionId | null>(null);
   const [hovered, setHovered] = useState<SectionId | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const railRef = useRef<HTMLDivElement>(null);
-  const indexRef = useRef<HTMLOListElement>(null);
   const ghostRef = useRef<HTMLDivElement>(null);
   const flyRef = useRef<HTMLDivElement>(null);
   const activeRef = useRef<SectionId | null>(null);
-  // Onde cada letra fica no índice e no topo: [x, y, escala]
-  const spots = useRef<Record<string, { list: number[]; head: number[] }[]>>({});
+  const spots = useRef<Partial<Record<SectionId, LetterSpots[]>>>({});
+  const edge = useRef({ x: 0, scale: 1 });
+  const places = useRef<Partial<Record<SectionId, Place>>>({});
 
   const labels: Record<SectionId, string> = {
     experiencia: t.nav.experience,
@@ -43,42 +54,101 @@ export function SectionNav() {
     contato: t.nav.contact,
   };
 
-  // Coloca cada letra no lugar certo para a seção ativa
-  const place = useCallback((animate: boolean) => {
+  const placeOf = (id: SectionId, current: SectionId | null): Place => {
+    if (!current) return "next";
+    const diff = SECTION_IDS.indexOf(id) - SECTION_IDS.indexOf(current);
+    return diff === 0 ? "active" : diff < 0 ? "passed" : "next";
+  };
+
+  // Move as letras de cada seção para o lugar novo
+  const update = useCallback((animate: boolean) => {
     const fly = flyRef.current;
     if (!fly) return;
     const current = activeRef.current;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     SECTION_IDS.forEach((id) => {
+      const letterSpots = spots.current[id];
+      if (!letterSpots) return;
+      const to = placeOf(id, current);
+      const from = places.current[id] ?? to;
+      places.current[id] = to;
+
       const letters = fly.querySelectorAll<HTMLElement>(`[data-fly="${id}"] [data-fly-letter]`);
-      const toHead = id === current;
+      // Indo de baixo para cima (ou o contrário): sobe pela lateral
+      const climbs = (from === "next") !== (to === "next");
+      const goingUp = from === "next";
+
       letters.forEach((letter, i) => {
-        const spot = spots.current[id]?.[i];
+        const spot = letterSpots[i];
         if (!spot) return;
-        const [x, y, s] = toHead ? spot.head : spot.list;
-        // Quem sobe sai na ordem; quem desce volta do fim para o começo
-        const delay = toHead ? i * STAGGER : (letters.length - 1 - i) * STAGGER * 0.6;
-        letter.style.transition = animate ? "" : "none";
-        letter.style.transitionDelay = animate ? `${delay}s` : "0s";
-        letter.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
+        const end = spot[to];
+        const final = transformOf(end.x, end.y, 0, end.s);
+
+        if (!animate || reduce || from === to) {
+          letter.getAnimations().forEach((a) => a.cancel());
+          letter.style.transform = final;
+          return;
+        }
+
+        // Começa de onde a letra está agora (mesmo se estiver no meio do voo)
+        const now = getComputedStyle(letter).transform;
+        letter.getAnimations().forEach((a) => a.cancel());
+        letter.style.transform = final;
+
+        if (!climbs) {
+          letter.animate([{ transform: now === "none" ? final : now }, { transform: final }], {
+            duration: SHIFT_MS,
+            easing: EASE,
+            delay: i * STAGGER_MS * 0.5,
+            fill: "backwards",
+          });
+          return;
+        }
+
+        // Na lateral a palavra fica em pé (girada -90°), lida de baixo para
+        // cima: cada letra fica acima da anterior.
+        const top = goingUp ? end : spot[from];
+        const bottom = spot.next;
+        const { x: edgeX, scale: edgeS } = edge.current;
+        const along = spot.offset * edgeS;
+        const word = letterSpots[letterSpots.length - 1].offset * edgeS;
+        const low = transformOf(edgeX, bottom.y - along, -90, edgeS);
+        const high = transformOf(edgeX, top.y + word + 24 - along, -90, edgeS);
+        const path = goingUp ? [low, high] : [high, low];
+
+        letter.animate(
+          [
+            { transform: now === "none" ? final : now, offset: 0 },
+            { transform: path[0], offset: 0.22 },
+            { transform: path[1], offset: 0.78 },
+            { transform: final, offset: 1 },
+          ],
+          // Sem atraso entre letras: na subida a palavra anda inteira (com
+          // atraso, as letras se espalhariam pela lateral)
+          { duration: FLY_MS, easing: EASE, fill: "backwards" },
+        );
       });
     });
   }, []);
 
-  // Mede as posições a partir de "moldes" invisíveis: os links do índice e
-  // um título fantasma por seção.
+  // Mede as posições a partir de moldes invisíveis: a lista de cima, a de
+  // baixo e um título fantasma por seção (cada um logo abaixo da lista de
+  // cima, na altura em que ele vai aparecer).
   const measure = useCallback(() => {
     const panel = panelRef.current;
     const ghost = ghostRef.current;
-    const index = indexRef.current;
     const fly = flyRef.current;
-    if (!panel || !ghost || !index || !fly) return;
+    if (!panel || !ghost || !fly) return;
     if (getComputedStyle(panel).display === "none") return; // tela estreita
 
     const origin = panel.getBoundingClientRect();
     const next: typeof spots.current = {};
+    let listScale = 0.5;
+    let base = 1;
 
     SECTION_IDS.forEach((id) => {
-      const head = ghost.querySelector<HTMLElement>(`[data-ghost="${id}"]`);
+      const head = ghost.querySelector<HTMLElement>(`[data-ghost-head="${id}"]`);
       if (!head) return;
       // Nome comprido demais para o painel: diminui só o dele
       head.style.fontSize = "";
@@ -87,24 +157,41 @@ export function SectionNav() {
         head.style.fontSize = `${(size * head.clientWidth) / head.scrollWidth}px`;
       }
 
-      const headLetters = head.querySelectorAll<HTMLElement>("[data-ghost-letter]");
-      const listLetters = index.querySelectorAll<HTMLElement>(`[data-index="${id}"] [data-index-letter]`);
+      const pick = (selector: string) => ghost.querySelectorAll<HTMLElement>(`${selector} [data-ghost-letter]`);
+      const headLetters = pick(`[data-ghost-head="${id}"]`);
+      const topLetters = pick(`[data-ghost-top="${id}"]`);
+      const bottomLetters = pick(`[data-ghost-bottom="${id}"]`);
       const flyLetters = fly.querySelectorAll<HTMLElement>(`[data-fly="${id}"] [data-fly-letter]`);
 
+      const first = bottomLetters[0]?.getBoundingClientRect().left ?? 0;
       next[id] = Array.from(flyLetters).map((letter, i) => {
-        const base = Math.max(1, letter.offsetHeight);
-        const toSpot = (el: HTMLElement | undefined) => {
-          if (!el) return [0, 0, 0];
+        base = Math.max(1, letter.offsetHeight);
+        const toSpot = (el: HTMLElement | undefined): Spot => {
+          if (!el) return { x: 0, y: 0, s: 0 };
           const r = el.getBoundingClientRect();
-          return [r.left - origin.left, r.top - origin.top, r.height / base];
+          return { x: r.left - origin.left, y: r.top - origin.top, s: r.height / base };
         };
-        return { list: toSpot(listLetters[i]), head: toSpot(headLetters[i]) };
+        const nextSpot = toSpot(bottomLetters[i]);
+        listScale = nextSpot.s || listScale;
+        return {
+          next: nextSpot,
+          active: toSpot(headLetters[i]),
+          passed: toSpot(topLetters[i]),
+          // Distância da letra até o começo da palavra, já na escala da lista
+          offset: ((bottomLetters[i]?.getBoundingClientRect().left ?? first) - first) / listScale,
+        };
       });
     });
 
+    // Coluna da lateral por onde as palavras sobem: logo antes da régua
+    const edgeScale = listScale * 1.3;
+    const ruler = railRef.current?.getBoundingClientRect();
+    const rulerLeft = ruler ? ruler.left - origin.left : origin.width - 28;
+    edge.current = { x: rulerLeft - 10 - base * edgeScale, scale: edgeScale };
+
     spots.current = next;
-    place(false);
-  }, [place]);
+    update(false);
+  }, [update]);
 
   // Mede de novo quando as fontes carregam, a janela muda ou o idioma troca
   useEffect(() => {
@@ -124,8 +211,8 @@ export function SectionNav() {
   // Seção ativa mudou: as letras voam
   useEffect(() => {
     activeRef.current = active;
-    place(true);
-  }, [active, place]);
+    update(true);
+  }, [active, update]);
 
   // Qual seção está cruzando o meio da tela
   useEffect(() => {
@@ -151,6 +238,9 @@ export function SectionNav() {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const progress = max > 0 ? window.scrollY / max : 0;
       railRef.current?.style.setProperty("--progress", progress.toFixed(4));
+      // Voltou para o topo (acima da primeira seção): nenhuma seção ativa
+      const first = document.getElementById(SECTION_IDS[0]);
+      if (first && window.scrollY + window.innerHeight * 0.45 < first.offsetTop) setActive(null);
     };
     const onScroll = () => {
       cancelAnimationFrame(frame);
@@ -173,12 +263,25 @@ export function SectionNav() {
     window.scrollTo({ top: fraction * max, behavior: "smooth" });
   };
 
+  const goTo = (id: SectionId) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
   const activeNumber = active ? String(SECTION_IDS.indexOf(active) + 1).padStart(2, "0") : "--";
   const total = String(SECTION_IDS.length).padStart(2, "0");
 
+  const ghostWord = (id: SectionId) =>
+    Array.from(labels[id]).map((char, i) => (
+      <span key={i} data-ghost-letter="">
+        {char}
+      </span>
+    ));
+
+  // O painel é só visual (aria-hidden): quem usa teclado ou leitor de tela
+  // navega pelo menu do cabeçalho, que tem os mesmos links.
   return (
-    <div ref={panelRef} className={styles.panel}>
-      <p className={`label ${styles.top}`} aria-hidden="true">
+    <div ref={panelRef} className={styles.panel} aria-hidden="true">
+      <p className={`label ${styles.top}`}>
         <span>
           <span className="ast">✱ </span>
           {t.sections.indexLabel}
@@ -188,47 +291,45 @@ export function SectionNav() {
         </span>
       </p>
 
-      {/* Moldes invisíveis do título (um por seção, todos no mesmo lugar) */}
-      <div ref={ghostRef} className={styles.ghosts} aria-hidden="true">
-        {SECTION_IDS.map((id) => (
-          <p key={id} data-ghost={id} className={`display ${styles.heading}`}>
-            {Array.from(labels[id]).map((char, i) => (
-              <span key={i} data-ghost-letter="">
-                {char}
-              </span>
-            ))}
-          </p>
-        ))}
-      </div>
-
-      <nav aria-label={t.sections.indexLabel} className={styles.index}>
-        <ol ref={indexRef}>
+      {/* Moldes invisíveis */}
+      <div ref={ghostRef} className={styles.ghosts}>
+        <ol className={`display ${styles.listTop}`}>
           {SECTION_IDS.map((id) => (
-            <li key={id} data-index={id}>
-              <a
-                href={`#${id}`}
-                className="display"
-                aria-current={active === id ? "true" : undefined}
-                onMouseEnter={() => setHovered(id)}
-                onMouseLeave={() => setHovered(null)}
-                onFocus={() => setHovered(id)}
-                onBlur={() => setHovered(null)}
-              >
-                <SplitLetters text={labels[id]} dataAttr="index-letter" />
-              </a>
+            <li key={id} data-ghost-top={id}>
+              {ghostWord(id)}
             </li>
           ))}
         </ol>
-      </nav>
+        {SECTION_IDS.map((id, i) => (
+          <p
+            key={id}
+            data-ghost-head={id}
+            className={`display ${styles.heading}`}
+            style={{ ["--i" as string]: i }}
+          >
+            {ghostWord(id)}
+          </p>
+        ))}
+        <ol className={`display ${styles.listBottom}`}>
+          {SECTION_IDS.map((id) => (
+            <li key={id} data-ghost-bottom={id}>
+              {ghostWord(id)}
+            </li>
+          ))}
+        </ol>
+      </div>
 
       {/* Camada das letras que voam */}
-      <div ref={flyRef} className={styles.fly} aria-hidden="true">
+      <div ref={flyRef} className={styles.fly}>
         {SECTION_IDS.map((id) => (
           <span
             key={id}
             data-fly={id}
             data-active={active === id}
             data-hover={hovered === id && active !== id}
+            onClick={() => goTo(id)}
+            onMouseEnter={() => setHovered(id)}
+            onMouseLeave={() => setHovered(null)}
           >
             {Array.from(labels[id]).map((char, i) => (
               <span key={i} data-fly-letter="" className={`display ${styles.flyLetter}`}>
@@ -239,7 +340,7 @@ export function SectionNav() {
         ))}
       </div>
 
-      <div ref={railRef} className={styles.ruler} onClick={jumpTo} aria-hidden="true">
+      <div ref={railRef} className={styles.ruler} onClick={jumpTo}>
         {TICKS.map((tick) => (
           <span key={tick} className={styles.tick} data-major={tick % 10 === 0} style={{ top: `${tick}%` }}>
             {tick % 25 === 0 && <span className={styles.tickNumber}>{tick}</span>}

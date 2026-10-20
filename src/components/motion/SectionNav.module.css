@@ -35,56 +35,57 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Área onde o título da seção pousa */
+/* Moldes invisíveis: só servem para medir onde cada letra deve ficar */
 .ghosts {
   position: absolute;
-  top: calc(var(--header-h) + 1.5rem);
-  left: 1.25rem;
-  right: 3rem;
+  inset: 0;
   visibility: hidden;
+  --slot: 1.3rem; /* altura de cada linha das listas */
+  --list-top: calc(var(--header-h) + 1rem);
 }
 
+.listTop,
+.listBottom,
 .heading {
   position: absolute;
-  inset-inline: 0;
-  top: 0;
-  overflow: hidden;
-  font-size: var(--panel-title);
+  left: 1.25rem;
+  right: 3rem;
   text-align: right;
   white-space: nowrap;
 }
 
-/* inline-block: a altura da caixa vira a da linha, igual nas três camadas
-   (molde do título, índice e letras que voam), então a escala bate. */
-.heading span,
-.index [data-index-letter],
+.listTop,
+.listBottom {
+  font-size: 0.95rem;
+}
+
+.listTop li,
+.listBottom li {
+  height: var(--slot);
+}
+
+/* Seções que já passaram, empilhadas no alto */
+.listTop {
+  top: var(--list-top);
+}
+
+/* Título: logo abaixo das seções que já passaram */
+.heading {
+  top: calc(var(--list-top) + var(--slot) * var(--i) + 0.4rem);
+  overflow: hidden;
+  font-size: var(--panel-title);
+}
+
+/* Próximas seções, embaixo */
+.listBottom {
+  bottom: 1.5rem;
+}
+
+/* inline-block: a altura da caixa vira a da linha, igual nos moldes e nas
+   letras que voam, então a escala bate. */
+.ghosts [data-ghost-letter],
 .flyLetter {
   display: inline-block;
-}
-
-/* Índice embaixo, alinhado à direita */
-.index {
-  position: absolute;
-  left: 1.25rem;
-  right: 3rem;
-  bottom: 1.5rem;
-  text-align: right;
-}
-
-.index ol {
-  display: grid;
-  gap: 0.35rem;
-}
-
-/* As letras do link ficam transparentes: quem aparece é a camada que voa */
-.index a {
-  font-size: 0.95rem;
-  color: transparent;
-  text-decoration: none;
-}
-
-.index a:focus-visible {
-  outline-offset: 4px;
 }
 
 /* Camada das letras que voam */
@@ -102,10 +103,13 @@
   white-space: pre;
   transform-origin: 0 0;
   color: var(--dim);
-  transition:
-    transform 0.8s cubic-bezier(0.2, 0.7, 0.1, 1),
-    color 0.3s;
+  transition: color 0.3s;
   will-change: transform;
+}
+
+[data-active="false"] > .flyLetter {
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 [data-active="true"] > .flyLetter {
@@ -159,8 +163,4 @@
   background: var(--red);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .flyLetter {
-    transition: color 0.3s !important;
-  }
-}
+
