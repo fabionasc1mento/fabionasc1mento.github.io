@@ -35,11 +35,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Moldes invisíveis: só servem para medir onde cada letra deve ficar */
-.ghosts {
-  position: absolute;
-  inset: 0;
-  visibility: hidden;
+.panel {
   --slot: 1.3rem; /* altura de cada linha das listas */
   --list-top: calc(var(--header-h) + 1rem);
 }
@@ -74,6 +70,7 @@
   top: calc(var(--list-top) + var(--slot) * var(--i) + 0.4rem);
   overflow: hidden;
   font-size: var(--panel-title);
+  color: var(--ink);
 }
 
 /* Próximas seções, embaixo */
@@ -81,43 +78,27 @@
   bottom: 1.5rem;
 }
 
-/* inline-block: a altura da caixa vira a da linha, igual nos moldes e nas
-   letras que voam, então a escala bate. */
-.ghosts [data-ghost-letter],
-.flyLetter {
-  display: inline-block;
-}
-
-/* Camada das letras que voam */
-.fly {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.flyLetter {
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: var(--panel-title);
-  white-space: pre;
-  transform-origin: 0 0;
+.item {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
   color: var(--dim);
-  transition: color 0.3s;
-  will-change: transform;
-}
-
-[data-active="false"] > .flyLetter {
-  pointer-events: auto;
   cursor: pointer;
+  transition: color 0.2s;
 }
 
-[data-active="true"] > .flyLetter {
-  color: var(--ink);
-}
-
-[data-hover="true"] > .flyLetter {
+.item:hover {
   color: var(--red);
+}
+
+/* Tremida de glitch quando o título troca (igual aos títulos das seções) */
+@media (prefers-reduced-motion: no-preference) {
+  .heading {
+    animation: jitter 0.3s steps(1) 0.45s 1;
+  }
 }
 
 /* Régua de progresso, colada na borda direita */
@@ -164,3 +145,11 @@
 }
 
 
+@keyframes jitter {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(6px); }
+  40% { transform: translateX(-9px); }
+  60% { transform: translateX(4px); }
+  80% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}

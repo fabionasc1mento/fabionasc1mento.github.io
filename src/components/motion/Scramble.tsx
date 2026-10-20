@@ -24,6 +24,9 @@ export function Scramble({ text, as = "span", className, id, duration = 700 }: S
     if (!el) return;
     el.textContent = text;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Já começa embaralhado: sem isso a palavra pronta pisca por um quadro
+    // antes de a animação começar
+    el.textContent = Array.from(text, (ch, i) => (ch === " " ? ch : GLYPHS[(i * 7) % GLYPHS.length])).join("");
 
     let frame = 0;
     let started = false;
