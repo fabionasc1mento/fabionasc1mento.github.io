@@ -10,7 +10,6 @@ import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { AmbientBackground } from "@/components/motion/AmbientBackground";
 import { RevealObserver } from "@/components/motion/RevealObserver";
 import { BootScreen } from "@/components/motion/BootScreen";
-import { NameFlight } from "@/components/motion/NameFlight";
 import { SectionNav } from "@/components/motion/SectionNav";
 
 export default function Home() {
@@ -30,7 +29,6 @@ export default function Home() {
       </main>
       <Contact />
       {/* Camadas de animação, por cima da página */}
-      <NameFlight />
       <SectionNav />
       <BootScreen />
     </>

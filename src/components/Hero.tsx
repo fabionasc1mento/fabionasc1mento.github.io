@@ -28,13 +28,13 @@ export function Hero() {
       </div>
       <span className={`draw-x ${styles.hline}`} />
 
-      {/* Nome grande: as letras voam até o cabeçalho conforme a rolagem */}
+      {/* Nome grande */}
       <div className={styles.nameRow}>
         <span className={`ast ${styles.astLeft}`} aria-hidden="true">
           ✱
         </span>
         <p className={`display ${styles.name}`}>
-          <SplitLetters text={t.hero.name} dataAttr="name-start" />
+          {t.hero.name}
         </p>
         <span className={`ast ${styles.astRight}`} aria-hidden="true">
           ✱

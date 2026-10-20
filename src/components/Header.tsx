@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguage } from "@/i18n/LanguageProvider";
-import { SplitLetters } from "./motion/SplitLetters";
 import { Timecode } from "./motion/Timecode";
 import styles from "./Header.module.css";
 
@@ -20,7 +19,7 @@ export function Header() {
     <header className={styles.header}>
       <div className={`container ${styles.inner}`}>
         <a href="#topo" className={`display ${styles.name}`}>
-          <SplitLetters text={t.hero.name} dataAttr="name-end" />
+          {t.hero.name}
         </a>
         <nav aria-label={t.nav.aria}>
           <ul className={`label ${styles.links}`}>
