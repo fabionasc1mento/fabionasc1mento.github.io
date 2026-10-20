@@ -17,9 +17,10 @@ const TICKS = Array.from({ length: 51 }, (_, i) => i * 2);
 type Spot = { x: number; y: number; s: number };
 type LetterSpots = { next: Spot; active: Spot; passed: Spot; offset: number };
 
-const FLY_MS = 1200; // subir/descer pela lateral
+const FLY_MS = 1300; // subir/descer pela lateral
 const SHIFT_MS = 700; // título que encolhe para a lista de cima (e volta)
 const STAGGER_MS = 18;
+const CLIMB_STAGGER_MS = 16; // atraso entre letras na subida pela lateral
 const EASE = "cubic-bezier(0.65, 0, 0.35, 1)";
 
 const transformOf = (x: number, y: number, rotate: number, s: number) =>
@@ -117,16 +118,19 @@ export function SectionNav() {
         const high = transformOf(edgeX, top.y + word + 24 - along, -90, edgeS);
         const path = goingUp ? [low, high] : [high, low];
 
+        // Letra por letra, como um trenzinho: quem vai na frente sai primeiro
+        // (subindo, a última letra; descendo, a primeira). Na subida a
+        // velocidade é constante, então o espaço entre as letras não muda e
+        // a palavra não se espalha.
+        const order = goingUp ? letters.length - 1 - i : i;
         letter.animate(
           [
-            { transform: now === "none" ? final : now, offset: 0 },
-            { transform: path[0], offset: 0.22 },
-            { transform: path[1], offset: 0.78 },
+            { transform: now === "none" ? final : now, offset: 0, easing: "cubic-bezier(0.5, 0, 1, 1)" },
+            { transform: path[0], offset: 0.22, easing: "linear" },
+            { transform: path[1], offset: 0.78, easing: "cubic-bezier(0, 0, 0.4, 1)" },
             { transform: final, offset: 1 },
           ],
-          // Sem atraso entre letras: na subida a palavra anda inteira (com
-          // atraso, as letras se espalhariam pela lateral)
-          { duration: FLY_MS, easing: EASE, fill: "backwards" },
+          { duration: FLY_MS, delay: order * CLIMB_STAGGER_MS, easing: "linear", fill: "backwards" },
         );
       });
     });
