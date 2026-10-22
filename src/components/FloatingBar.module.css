@@ -1,0 +1,55 @@
+/* Vidro "cybercore": quadrado, borda da tinta, sombra dura vermelha.
+   A posição e o mostrar/esconder vêm do motion.css do runtime. */
+.bar[data-floating-cta] {
+  gap: 0.75rem;
+  padding: 0.5rem 0.5rem 0.5rem 0.85rem;
+  border: var(--rule) solid var(--ink);
+  border-radius: 0;
+  background: color-mix(in srgb, var(--paper) 78%, transparent);
+  box-shadow: 6px 6px 0 var(--red);
+}
+
+/* No painel lateral (telas largas) a barra fica à esquerda dele */
+@media (min-width: 1280px) {
+  .bar[data-floating-cta] {
+    right: calc(var(--panel-w) + 1.5rem);
+  }
+}
+
+.mark {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--ink);
+}
+
+.text {
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+.action {
+  min-height: 2.6rem;
+  padding: 0.5rem 0.9rem;
+}
+
+@media (max-width: 640px) {
+  .text {
+    display: none;
+  }
+
+  .bar[data-floating-cta] {
+    justify-content: flex-end;
+  }
+
+  .mark {
+    margin-right: auto;
+  }
+}
+
+/* Escondida enquanto a trilha da experiência está fixada (o painel de
+   detalhes ocupa a parte de baixo da tela) */
+:global(html.is-pinning) .bar[data-floating-cta] {
+  opacity: 0;
+  transform: translateY(calc(100% + 40px));
+  pointer-events: none;
+}

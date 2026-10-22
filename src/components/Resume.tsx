@@ -23,7 +23,7 @@ export function Resume() {
           target="_blank"
           rel="noopener"
           className={`wipe-in ${styles.preview}`}
-          data-reveal
+          data-observe
           aria-label={resume.open}
         >
           <img
@@ -36,7 +36,7 @@ export function Resume() {
           <span className={styles.scan} aria-hidden="true" />
         </a>
 
-        <div className={styles.info} data-reveal>
+        <div className={styles.info} data-observe>
           <p className={`label rise ${styles.file}`}>
             <span className="ast" aria-hidden="true">
               ✱{" "}

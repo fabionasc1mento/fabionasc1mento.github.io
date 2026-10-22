@@ -54,7 +54,9 @@ export type Dictionary = {
     resume: string;
     contact: string;
   };
-  experience: { title: string; jobs: Job[] };
+  manifesto: { label: string; highlight: string[] };
+  floating: { text: string; whatsapp: string; resume: string };
+  experience: { title: string; jobs: Job[]; scrollHint: string; now: string };
   projects: {
     title: string;
     featured: {
@@ -135,8 +137,15 @@ export const dictionaries: Record<Lang, Dictionary> = {
       demoReplay: "Rodar de novo",
       demoColumns: ["Lote", "Peso (g)"],
     },
+    manifesto: {
+      label: "Sobre mim",
+      highlight: ["C#", "ASP.NET", "MVC", "JavaScript", "React"],
+    },
+    floating: { text: "Aberto a vagas e freelas", whatsapp: "WhatsApp", resume: "Currículo" },
     experience: {
       title: "Experiência",
+      scrollHint: "Role para seguir a trilha",
+      now: "hoje",
       jobs: [
         {
           company: "ALPIUM",
@@ -306,8 +315,15 @@ export const dictionaries: Record<Lang, Dictionary> = {
       demoReplay: "Play again",
       demoColumns: ["Lot", "Weight (g)"],
     },
+    manifesto: {
+      label: "About me",
+      highlight: ["C#", "ASP.NET", "MVC", "JavaScript", "React"],
+    },
+    floating: { text: "Open to jobs and freelance", whatsapp: "WhatsApp", resume: "Résumé" },
     experience: {
       title: "Experience",
+      scrollHint: "Scroll to follow the trace",
+      now: "now",
       jobs: [
         {
           company: "ALPIUM",

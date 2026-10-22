@@ -16,6 +16,13 @@ const pt = dictionaries.pt;
 
 const THEME_SCRIPT = `try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}`;
 
+// Roda antes da primeira pintura (landing-motion):
+// - .has-motion esconde o que vai animar, para não piscar antes do GSAP;
+// - .intro-seen: a abertura já passou nesta sessão (ou a pessoa pediu menos
+//   movimento), então o preloader nem aparece;
+// - se o runtime não subir em 4s, mostra a página assim mesmo.
+const MOTION_BOOT = `(function(d){d.classList.add("has-motion");try{if(sessionStorage.getItem("intro-seen")||matchMedia("(prefers-reduced-motion: reduce)").matches)d.classList.add("intro-seen");else{sessionStorage.setItem("intro-seen","1");d.classList.add("is-preloading");}}catch(e){}setTimeout(function(){if(window.__lmBooted)return;d.classList.remove("has-motion","is-preloading");document.querySelectorAll("[data-preloader]").forEach(function(n){n.remove()});},4000);})(document.documentElement);`;
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://fabionasc1mento.github.io"),
   icons: { icon: "/favicon.svg" },
@@ -38,6 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="pt-BR" data-theme="dark" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: MOTION_BOOT }} />
       </head>
       <body>
         <LanguageProvider>{children}</LanguageProvider>

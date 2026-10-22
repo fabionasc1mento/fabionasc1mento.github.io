@@ -1,0 +1,46 @@
+.manifesto {
+  position: relative;
+  padding-block: clamp(4rem, 12vh, 8rem) clamp(4rem, 10vh, 7rem);
+}
+
+.label {
+  margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
+  font-weight: 700;
+}
+
+/* Texto grande, sem ser o display: é para ler, não um título */
+.text {
+  max-width: 24ch;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: clamp(1.9rem, 1rem + 3.4vw, 4rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  text-wrap: pretty;
+}
+
+.word {
+  display: inline-block;
+}
+
+/* Tecnologias acendem em vermelho */
+.word[data-hot="true"] {
+  color: var(--red);
+}
+
+/* Barra de leitura na base da seção, de ponta a ponta da moldura */
+.bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--rule);
+  background: var(--red);
+  transform-origin: left center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar {
+    display: none;
+  }
+}

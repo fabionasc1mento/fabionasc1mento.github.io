@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 
 // Um único observador para a página inteira: todo elemento com
-// [data-reveal] ganha data-inview="true" quando entra na tela (uma vez só).
+// [data-observe] ganha data-inview="true" quando entra na tela (uma vez só).
 // O CSS em globals.css anima a partir disso (linhas que se desenham,
 // blocos que sobem, glitch...). A classe "motion" no <html> garante que,
 // sem JavaScript, nada fique escondido.
@@ -24,7 +24,7 @@ export function RevealObserver() {
     );
 
     const observeAll = () =>
-      document.querySelectorAll<HTMLElement>("[data-reveal]:not([data-inview])").forEach((el) => observer.observe(el));
+      document.querySelectorAll<HTMLElement>("[data-observe]:not([data-inview])").forEach((el) => observer.observe(el));
     observeAll();
 
     // Elementos que aparecem depois (troca de idioma, por exemplo)

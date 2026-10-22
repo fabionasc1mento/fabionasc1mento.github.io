@@ -113,11 +113,21 @@
   margin-top: clamp(2rem, 5vw, 3rem);
 }
 
+/* Card: levanta com sombra dura vermelha; a imagem dá zoom mais devagar
+   que o card (padrão "lift + inner zoom"), então parece "assentar" depois */
 .card {
   display: flex;
   flex-direction: column;
   border: var(--rule) solid var(--ink);
   background: var(--paper);
+  transition:
+    translate 0.45s var(--ease),
+    box-shadow 0.45s var(--ease);
+}
+
+.card:hover {
+  translate: -5px -5px;
+  box-shadow: 5px 5px 0 var(--red);
 }
 
 .media {
@@ -134,17 +144,14 @@
   object-fit: cover;
   object-position: top;
   filter: grayscale(1) contrast(1.15);
-  transition: filter 0.3s;
+  transition:
+    filter 0.3s,
+    transform 0.7s var(--ease);
 }
 
 .card:hover .media img {
   filter: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .card:hover .media img {
-    animation: jitter 0.3s steps(1) 1;
-  }
+  transform: scale(1.035);
 }
 
 .fig {

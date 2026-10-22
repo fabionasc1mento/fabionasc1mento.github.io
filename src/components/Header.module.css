@@ -14,10 +14,33 @@
 }
 
 .name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
   text-transform: none;
   font-size: 1.15rem;
   text-decoration: none;
+  white-space: nowrap;
   margin-right: auto;
+}
+
+/* Monograma: o cursor vermelho pisca quando o mouse passa no nome */
+.mark {
+  width: 1.6rem;
+  height: 1.6rem;
+  flex: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .name:hover .mark [data-mark-cursor] {
+    animation: blink 0.8s steps(1) infinite;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
 }
 
 .links {
@@ -66,7 +89,9 @@
   color: var(--paper);
 }
 
-@media (max-width: 1100px) {
+/* Com o painel lateral (a partir de 1280px) o cabeçalho fica mais
+   estreito: o relógio só aparece quando sobra espaço */
+@media (max-width: 1100px), (min-width: 1280px) and (max-width: 1499px) {
   .timecode {
     display: none;
   }

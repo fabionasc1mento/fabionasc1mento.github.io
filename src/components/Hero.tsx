@@ -3,17 +3,15 @@
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { ExtractionDemo } from "./ExtractionDemo";
 import { PixelBox } from "./motion/PixelBox";
-import { SplitLetters } from "./motion/SplitLetters";
 import styles from "./Hero.module.css";
 
 export function Hero() {
   const { t } = useLanguage();
-  const words = t.hero.lead.split(" ");
 
   return (
-    <section id="topo" className={`container frame ${styles.hero}`} data-reveal>
+    <section id="topo" className={`container frame ${styles.hero}`} data-observe>
       {/* Faixa de cima: legenda, caixa de pixels e canto */}
-      <div className={styles.band}>
+      <div className={styles.band} data-intro="blur">
         <div className={`label ${styles.caption}`}>
           <span>fig.01</span>
           <span className={styles.captionDim}>portfolio / 2026</span>
@@ -29,7 +27,7 @@ export function Hero() {
       <span className={`draw-x ${styles.hline}`} />
 
       {/* Nome grande */}
-      <div className={styles.nameRow}>
+      <div className={styles.nameRow} data-intro="blur">
         <span className={`ast ${styles.astLeft}`} aria-hidden="true">
           ✱
         </span>
@@ -44,17 +42,10 @@ export function Hero() {
 
       {/* Título, texto e o bloco vermelho com as ações */}
       <div className={styles.lede}>
-        <div className={styles.intro}>
-          <h1 className={`rise ${styles.title}`}>{t.hero.title}</h1>
-          <p className={styles.lead}>
-            {words.map((word, i) => (
-              <span key={i} className={`rise ${styles.word}`} style={{ ["--i" as string]: Math.min(i, 14) + 4 }}>
-                {word}{" "}
-              </span>
-            ))}
-          </p>
+        <div className={styles.intro} data-intro="blur">
+          <h1 className={styles.title}>{t.hero.title}</h1>
         </div>
-        <div className={`wipe-up ${styles.redbox}`}>
+        <div className={styles.redbox} data-intro="blur">
           <span className={`label ${styles.redLabel}`}>
             <span aria-hidden="true">✱</span> {t.nav.projects} / {t.nav.contact}
           </span>
@@ -71,7 +62,7 @@ export function Hero() {
       </div>
       <span className={`draw-x ${styles.hline}`} />
 
-      <div className={styles.demo}>
+      <div className={styles.demo} data-intro="fade">
         <ExtractionDemo />
       </div>
     </section>

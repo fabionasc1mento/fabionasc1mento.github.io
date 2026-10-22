@@ -232,16 +232,32 @@ footer[id] {
   color: var(--ink);
 }
 
-.button:hover {
-  background: var(--red);
-  border-color: var(--red);
-  color: var(--paper);
+/* Preenchimento líquido (landing-motion): no hover/foco uma camada da cor
+   de --fill varre da esquerda. Só visual: o clique navega na hora. */
+.button {
+  isolation: isolate;
+  overflow: hidden;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .button:hover {
-    animation: jitter 0.24s steps(1) 1;
-  }
+.button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--fill, var(--red));
+  transform: translateX(-101%);
+  transition: transform 0.6s cubic-bezier(0.3, 0.6, 0.3, 1);
+}
+
+.button:hover,
+.button:focus-visible {
+  border-color: var(--fill, var(--red));
+  color: var(--fill-ink, var(--paper));
+}
+
+.button:hover::before,
+.button:focus-visible::before {
+  transform: translateX(0);
 }
 
 .text-link {
@@ -280,7 +296,7 @@ footer[id] {
 }
 
 /* ---------- Motion utilitário ----------
-   [data-reveal] ganha data-inview="true" quando entra na tela
+   [data-observe] ganha data-inview="true" quando entra na tela
    (RevealObserver). As classes abaixo animam a partir disso. */
 
 /* Linhas que se desenham */
@@ -331,34 +347,34 @@ footer[id] {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  html.motion [data-reveal]:not([data-inview="true"]) .draw-x,
-  html.motion [data-reveal].draw-x:not([data-inview="true"]) {
+  html.motion [data-observe]:not([data-inview="true"]) .draw-x,
+  html.motion [data-observe].draw-x:not([data-inview="true"]) {
     transform: scaleX(0);
   }
 
-  html.motion [data-reveal]:not([data-inview="true"]) .draw-y,
-  html.motion [data-reveal].draw-y:not([data-inview="true"]) {
+  html.motion [data-observe]:not([data-inview="true"]) .draw-y,
+  html.motion [data-observe].draw-y:not([data-inview="true"]) {
     transform: scaleY(0);
   }
 
-  html.motion [data-reveal]:not([data-inview="true"]) .rise,
-  html.motion [data-reveal].rise:not([data-inview="true"]) {
+  html.motion [data-observe]:not([data-inview="true"]) .rise,
+  html.motion [data-observe].rise:not([data-inview="true"]) {
     transform: translateY(1.5rem);
     opacity: 0;
   }
 
-  html.motion [data-reveal]:not([data-inview="true"]) .wipe-up,
-  html.motion [data-reveal].wipe-up:not([data-inview="true"]) {
+  html.motion [data-observe]:not([data-inview="true"]) .wipe-up,
+  html.motion [data-observe].wipe-up:not([data-inview="true"]) {
     transform: scaleY(0);
   }
 
-  html.motion [data-reveal].wipe-in:not([data-inview="true"])::after {
+  html.motion [data-observe].wipe-in:not([data-inview="true"])::after {
     transform: scaleX(1);
   }
 
   /* Tremida de glitch ao entrar na tela */
-  html.motion [data-reveal][data-inview="true"] .glitch-in,
-  html.motion [data-reveal][data-inview="true"].glitch-in {
+  html.motion [data-observe][data-inview="true"] .glitch-in,
+  html.motion [data-observe][data-inview="true"].glitch-in {
     animation: jitter 0.3s steps(1) 0.45s 1;
   }
 }
