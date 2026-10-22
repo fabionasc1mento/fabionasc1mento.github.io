@@ -20,9 +20,9 @@ export function Header() {
   return (
     <header className={styles.header}>
       <div className={`container ${styles.inner}`}>
-        <a href="#topo" className={`display ${styles.name}`}>
+        {/* Só o monograma; o nome fica para leitor de tela */}
+        <a href="#topo" className={styles.name} aria-label={t.hero.name}>
           <Mark className={styles.mark} />
-          <span>{t.hero.name}</span>
         </a>
         <nav aria-label={t.nav.aria}>
           <ul className={`label ${styles.links}`}>

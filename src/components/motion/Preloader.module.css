@@ -18,16 +18,10 @@
 }
 
 .mark {
-  width: clamp(5rem, 14vmin, 9rem);
+  width: clamp(7rem, 26vmin, 15rem);
   height: auto;
   /* o cursor do monograma fica preto sobre o vermelho */
   --red: #0c0c0c;
-}
-
-.name {
-  text-transform: none;
-  font-size: clamp(2.4rem, min(9vw, 13vh), 7.5rem);
-  letter-spacing: -0.03em;
 }
 
 /* Log de boot no canto inferior esquerdo: a cortina revela letra a letra */

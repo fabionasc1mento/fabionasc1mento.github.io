@@ -32,7 +32,6 @@ export const Preloader = memo(function Preloader() {
     >
       <div className={styles.brand} data-preloader-split="">
         <Mark className={styles.mark} />
-        <p className={`display ${styles.name}`}>Fábio Tarcio</p>
       </div>
 
       <div className={`label ${styles.log}`}>
