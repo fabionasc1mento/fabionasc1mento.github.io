@@ -123,6 +123,11 @@
   filter: drop-shadow(0 0 5px var(--accent));
 }
 
+/* Começa escondida; o recorte é atualizado pela rolagem */
+.liveSvg {
+  clip-path: inset(-20px 100% -20px -20px);
+}
+
 /* "Pacote" na ponta da linha */
 .tip {
   position: absolute;

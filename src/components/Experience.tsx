@@ -50,8 +50,9 @@ export function Experience() {
 
     const live = pin.querySelector<SVGPathElement>("[data-trace-live]");
     const tip = pin.querySelector<HTMLElement>("[data-trace-tip]");
+    const liveSvg = live?.ownerSVGElement;
     const nodes = Array.from(pin.querySelectorAll<HTMLElement>("[data-node]"));
-    if (!live || !tip) return;
+    if (!live || !tip || !liveSvg) return;
 
     const length = live.getTotalLength();
     // Onde (fração da trilha) cada nó fica: ponto da trilha mais perto dele
@@ -83,9 +84,12 @@ export function Experience() {
     };
 
     const render = (progress: number) => {
-      live.style.strokeDashoffset = String(1000 * (1 - progress));
       // Ponta da trilha: um "pacote" que corre na frente da linha
       const p = live.getPointAtLength(length * progress);
+      // A linha acesa é revelada por um recorte que termina exatamente na
+      // ponta (a trilha só anda para a direita). Não usa tracejado: no Safari
+      // o tracejado com pathLength e traço sem escala sai de sincronia.
+      liveSvg.style.clipPath = `inset(-20px ${100 - p.x / 10}% -20px -20px)`;
       tip.style.transform = `translate(${(p.x / 1000) * 100}cqw, ${(p.y / 400) * 100}cqh)`;
       let index = 0;
       nodes.forEach((node, i) => {
@@ -97,7 +101,6 @@ export function Experience() {
       swap(index);
     };
 
-    live.style.strokeDasharray = "1000";
     render(0);
 
     const mm = gsap.matchMedia();
@@ -151,9 +154,10 @@ export function Experience() {
                 <path key={d} d={d} className={styles.stub} />
               ))}
               <path d={TRACE} className={styles.base} />
-              {/* pathLength="1000": o tracejado da animação fica na escala do
-                  desenho, mesmo com a trilha esticada e o traço sem escala */}
-              <path d={TRACE} className={styles.live} data-trace-live="" pathLength={1000} />
+            </svg>
+            {/* Linha acesa num SVG próprio, recortado até a ponta */}
+            <svg className={`${styles.svg} ${styles.liveSvg}`} viewBox="0 0 1000 400" preserveAspectRatio="none">
+              <path d={TRACE} className={styles.live} data-trace-live="" />
             </svg>
             <span className={styles.tip} data-trace-tip="" />
 
