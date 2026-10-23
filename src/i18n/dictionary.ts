@@ -138,7 +138,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
     hero: {
       name: "Fábio Tarcio",
       title: "Transformo processo manual em sistema.",
-      lead: "Sou o Fábio, desenvolvedor full stack. Há 3 anos construo sistemas web de ponta a ponta: modelagem de dados, regras de negócio, integrações e a interface que as pessoas usam no dia a dia. Hoje desenvolvo sistemas corporativos na ALPIUM e estou concluindo Engenharia de Software.",
+      lead: "Desenvolvedor full stack. Construo sistemas web de ponta a ponta: modelagem de dados, regras de negócio, integrações e a interface que as pessoas usam no dia a dia. Hoje desenvolvo sistemas corporativos e estou concluindo Engenharia de Software.",
       ctaProjects: "Ver projetos",
       ctaContact: "Falar comigo",
       demoCaption:
@@ -148,7 +148,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
     },
     manifesto: {
       label: "Sobre mim",
-      highlight: ["full stack", "de ponta a ponta", "ALPIUM", "Engenharia de Software"],
+      highlight: ["full stack", "de ponta a ponta", "sistemas corporativos", "Engenharia de Software"],
     },
     floating: { text: "Aberto a vagas e freelas", whatsapp: "WhatsApp", resume: "Currículo" },
     experience: {
@@ -206,7 +206,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
           },
           {
             label: "O resultado",
-            text: "O que levava dias passou a levar algumas horas, já contando a conferência.",
+            text: "O que levava dias passou a levar alguns minutos, já contando a conferência.",
           },
         ],
         stack: ["Python", "FastAPI", "PyPDF2", "JavaScript", "jsPDF"],
@@ -216,9 +216,9 @@ export const dictionaries: Record<Lang, Dictionary> = {
         name: "Sistemas sob medida na ALPIUM",
         text: "Sistemas web completos para clientes da empresa, do banco de dados à tela.",
         points: [
-          "Formulários dinâmicos com listas que crescem conforme o usuário preenche",
-          "Partial views reaproveitadas entre telas para manter tudo consistente",
-          "Consultas e gravação no SQL Server com Entity Framework",
+          "Formulários que se preenchem sozinhos a partir da leitura de QR code em documentos, tirando a digitação manual do processo",
+          "Otimização de consultas e gravações no SQL Server, reduzindo de forma expressiva o tempo das buscas",
+          "Contato direto com os clientes em reuniões, visitas e viagens a trabalho, para entender cada operação e levar isso para o sistema",
         ],
         note: "Os sistemas são de clientes, por isso mostro só a descrição.",
       },
@@ -324,7 +324,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
     hero: {
       name: "Fábio Tarcio",
       title: "I turn manual processes into software.",
-      lead: "I'm Fábio, a full stack developer. For 3 years I've been building web systems end to end: data modeling, business logic, integrations and the interfaces people use every day. I currently build enterprise systems at ALPIUM and I'm finishing my degree in Software Engineering.",
+      lead: "Full stack developer. I build web systems end to end: data modeling, business logic, integrations and the interfaces people use every day. I currently build enterprise systems and I'm finishing my degree in Software Engineering.",
       ctaProjects: "See projects",
       ctaContact: "Get in touch",
       demoCaption:
@@ -334,7 +334,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
     },
     manifesto: {
       label: "About me",
-      highlight: ["full stack", "end to end", "ALPIUM", "Software Engineering"],
+      highlight: ["full stack", "end to end", "enterprise systems", "Software Engineering"],
     },
     floating: { text: "Open to jobs and freelance", whatsapp: "WhatsApp", resume: "Résumé" },
     experience: {
@@ -392,7 +392,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
           },
           {
             label: "The result",
-            text: "Work that took days now takes a few hours, including the final review.",
+            text: "Work that took days now takes a few minutes, including the final review.",
           },
         ],
         stack: ["Python", "FastAPI", "PyPDF2", "JavaScript", "jsPDF"],
@@ -402,9 +402,9 @@ export const dictionaries: Record<Lang, Dictionary> = {
         name: "Custom systems at ALPIUM",
         text: "Complete web systems for the company's clients, from the database to the screen.",
         points: [
-          "Dynamic forms with lists that grow as the user fills them in",
-          "Partial views reused across screens to keep everything consistent",
-          "Queries and persistence in SQL Server with Entity Framework",
+          "Forms that fill themselves in by reading QR codes on documents, taking manual data entry out of the process",
+          "Optimized SQL Server queries and writes, cutting search times significantly",
+          "Direct client contact through meetings, on-site visits and business trips, to understand each operation and bring it into the system",
         ],
         note: "These systems belong to clients, so I can only describe them.",
       },
