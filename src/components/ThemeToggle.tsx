@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { sound } from "@/sound/engine";
 import styles from "./ThemeToggle.module.css";
 
 type Theme = "light" | "dark";
@@ -31,6 +32,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       // sem localStorage, a troca vale só até recarregar a página
     }
     window.setTimeout(() => html.classList.remove("theme-switching"), 350);
+    sound.toggle(next === "light");
     setTheme(next);
   };
 
@@ -41,6 +43,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       onClick={toggle}
       aria-label={theme === "dark" ? t.themeSwitch.toLight : t.themeSwitch.toDark}
       data-theme-state={theme}
+      data-sound="off"
     >
       {/* Círculo meio cheio: gira meia volta a cada troca */}
       <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">

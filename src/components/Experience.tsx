@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { sound } from "@/sound/engine";
 import { Section } from "./Section";
 import styles from "./Experience.module.css";
 
@@ -74,6 +75,7 @@ export function Experience() {
     const swap = (index: number) => {
       if (index === activeRef.current) return;
       activeRef.current = index;
+      sound.node(index);
       const targets = [detailRef.current, counterRef.current].filter(Boolean);
       gsap.to(targets, { filter: "blur(8px)", opacity: 0.35, duration: BLUR_OUT, ease: "power2.out", overwrite: true });
       setActive(index); // troca o conteúdo na hora, ainda desfocado

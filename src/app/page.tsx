@@ -13,6 +13,7 @@ import { MotionRoot } from "@/components/motion/MotionRoot";
 import { Manifesto } from "@/components/Manifesto";
 import { FloatingBar } from "@/components/FloatingBar";
 import { SectionNav } from "@/components/motion/SectionNav";
+import { SoundRoot } from "@/components/sound/SoundRoot";
 
 export default function Home() {
   return (
@@ -35,6 +36,7 @@ export default function Home() {
       <SectionNav />
       <FloatingBar />
       <MotionRoot />
+      <SoundRoot />
     </>
   );
 }

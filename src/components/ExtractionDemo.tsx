@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { sound } from "@/sound/engine";
 import styles from "./ExtractionDemo.module.css";
 
 // Lotes fictícios, no formato dos catálogos que o extrator lê.
@@ -48,6 +49,9 @@ export function ExtractionDemo() {
     setStep(0);
     const advance = (next: number) => {
       setStep(next);
+      // Passo ímpar marca no documento (tecla); par entra na tabela (bipe)
+      if (next % 2 === 1) sound.key();
+      else sound.blip();
       if (next < LAST_STEP) timer.current = setTimeout(() => advance(next + 1), STEP_MS);
     };
     timer.current = setTimeout(() => advance(1), START_DELAY_MS);

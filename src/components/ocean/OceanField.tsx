@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { Grid, World } from "./world";
 import { MAIN, VERTEX, WAVE } from "./shaders";
+import { sound } from "@/sound/engine";
 import styles from "./OceanField.module.css";
 
 // Oceano do fundo: tubarões e cardumes em ASCII nadando atrás da página, e
@@ -321,6 +322,7 @@ export function OceanField({ amount = 0.5 }: OceanFieldProps) {
         mouse.splatY = mouse.y;
       }
       render();
+      sound.stir(mouse.inside ? mouse.speed : 0);
     };
 
     const start = () => {
@@ -347,6 +349,8 @@ export function OceanField({ amount = 0.5 }: OceanFieldProps) {
     };
     const onPointerDown = (event: PointerEvent) => {
       if (drops.length < 3) drops.push([event.clientX, event.clientY, 0.9]);
+      // Clicou em botão ou link: o som é o do clique, não o da gota
+      if (!(event.target as Element | null)?.closest?.("a, button")) sound.drop(event.clientX);
     };
     const onPointerLeave = () => {
       mouse.inside = false;
