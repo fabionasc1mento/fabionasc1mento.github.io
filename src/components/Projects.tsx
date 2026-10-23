@@ -21,7 +21,7 @@ export function Projects() {
         </header>
         <ol className={styles.steps} data-reveal-group="" data-stagger="0.12" data-distance="40">
           {featured.steps.map((step, i) => (
-            <li key={step.label} className={styles.step} data-reveal-item="">
+            <li key={i} className={styles.step} data-reveal-item="">
               <span className={`label ${styles.stepNumber}`} aria-hidden="true">
                 0{i + 1}
               </span>

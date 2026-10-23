@@ -163,7 +163,10 @@ export function Experience() {
 
             {jobs.map((item, i) => (
               <div
-                key={item.company}
+                // Chave pela posição, não pelo nome: o nome muda com o idioma
+                // ("Freelancer"/"Freelance") e o React recriaria o nó, que
+                // perderia o estado aceso dado pela animação
+                key={i}
                 className={styles.node}
                 data-node=""
                 data-side={i % 2 === 0 ? "top" : "bottom"}
