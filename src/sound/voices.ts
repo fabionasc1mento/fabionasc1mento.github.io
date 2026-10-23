@@ -79,10 +79,16 @@ function burst(
 
 const pick = (r: number, min: number, max: number) => min + (max - min) * r;
 
-/** Hover em botões e links: gota pequena (bolha que sobe de tom) */
+/**
+ * Hover em botões e links: toque seco e tátil, da mesma família da tecla
+ * de digitação, só que menor e mais agudo (uma tecla pequena, sem a
+ * batida funda nem o retorno), para não competir com o clique.
+ */
 export function hover(ctx: BaseAudioContext, out: Out, t: number, r = Math.random()) {
-  const f = pick(r, 620, 860);
-  tone(ctx, out, t, "sine", f, f * 2.1, 0.05, 0.05, 0.003, 0.08);
+  const force = pick(Math.random(), 0.8, 1);
+  burst(ctx, out, t, "highpass", 5200, 0.7, 0.05 * force, 0.004);
+  burst(ctx, out, t + 0.001, "bandpass", pick(r, 1450, 1800), 6, 0.12 * force, 0.018);
+  tone(ctx, out, t + 0.002, "sine", 330, 230, 0.015, 0.025 * force, 0.001, 0.016);
 }
 
 /** Clique: tique seco de terminal + bipe + corpo grave de água */

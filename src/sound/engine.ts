@@ -192,7 +192,8 @@ export const sound = {
     if (ctx && enabled) void ctx.resume();
   },
 
-  hover: (x?: number) => play("hover", 45, (c, o, t) => voices.hover(c, o, t), panAt(x)),
+  /** Hover: seco como as teclas (bus sem reverb), com pan pela posição */
+  hover: (x?: number) => play("hover", 45, (c, o, t) => voices.hover(c, o, t), panAt(x), () => keys),
   click: (x?: number) => play("click", 40, (c, o, t) => voices.click(c, o, t), panAt(x)),
   toggle: (on: boolean) => play("toggle", 60, (c, o, t) => voices.toggle(c, o, t, on)),
   /** Tecla: o intervalo mínimo varia (38–70 ms), então rolar rápido soa
