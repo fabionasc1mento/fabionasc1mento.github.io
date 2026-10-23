@@ -322,7 +322,6 @@ export function OceanField({ amount = 0.5 }: OceanFieldProps) {
         mouse.splatY = mouse.y;
       }
       render();
-      sound.stir(mouse.inside ? mouse.speed : 0);
     };
 
     const start = () => {

@@ -108,10 +108,30 @@ export function toggle(ctx: BaseAudioContext, out: Out, t: number, on: boolean) 
   tone(ctx, lp, t + 0.06, "square", b, b, 0, 0.03, 0.002, 0.07);
 }
 
-/** Tecla de terminal (digitação do manifesto); apagar soa mais grave */
-export function key(ctx: BaseAudioContext, out: Out, t: number, erase = false, r = Math.random()) {
-  burst(ctx, out, t, "bandpass", (erase ? 1300 : 2500) * pick(r, 0.8, 1.2), 3, 0.11, 0.01);
-  tone(ctx, out, t, "sine", erase ? 120 : 150, erase ? 90 : 110, 0.02, 0.03, 0.001, 0.025);
+export type KeyKind = "key" | "space" | "erase";
+
+/**
+ * Tecla de teclado mecânico macio ("thock"), em quatro camadas:
+ * clique agudo do switch, corpo de plástico, batida grave no fundo e, às
+ * vezes, o clique mais fraco da tecla voltando. Espaço é mais grave e
+ * longo; apagar é um pouco mais abafado. Força e timbre variam a cada
+ * tecla, como dedo de verdade.
+ */
+export function key(ctx: BaseAudioContext, out: Out, t: number, kind: KeyKind = "key", r = Math.random()) {
+  const space = kind === "space";
+  const erase = kind === "erase";
+  const force = pick(Math.random(), 0.7, 1);
+  // 1) clique do switch: transiente agudo curtíssimo
+  burst(ctx, out, t, "highpass", 4200, 0.7, 0.05 * force, 0.006);
+  // 2) corpo da tecla
+  const body = (space ? 520 : erase ? 760 : 980) * pick(r, 0.88, 1.12);
+  burst(ctx, out, t + 0.002, "bandpass", body, space ? 3 : 5, 0.17 * force, space ? 0.06 : 0.035);
+  // 3) batida no fundo do curso
+  tone(ctx, out, t + 0.003, "sine", space ? 150 : 210, space ? 95 : 140, 0.03, 0.06 * force, 0.001, space ? 0.06 : 0.035);
+  // 4) a tecla voltando (nem sempre se ouve)
+  if (Math.random() < 0.55) {
+    burst(ctx, out, t + pick(Math.random(), 0.055, 0.085), "bandpass", 2600 * pick(Math.random(), 0.9, 1.1), 2, 0.035 * force, 0.008);
+  }
 }
 
 // Escala pentatônica: qualquer sequência de nós soa bem junta
@@ -133,26 +153,6 @@ export function blip(ctx: BaseAudioContext, out: Out, t: number, r = Math.random
   lp.frequency.value = 3500;
   lp.connect(out);
   tone(ctx, lp, t, "square", f, f, 0, 0.016, 0.002, 0.05);
-}
-
-/** Glitch de título trocando: chiado digital picotado */
-export function glitch(ctx: BaseAudioContext, out: Out, t: number) {
-  const hp = ctx.createBiquadFilter();
-  hp.type = "highpass";
-  hp.frequency.value = 500;
-  hp.connect(out);
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = "square";
-  // frequência pula a cada 14 ms, como dado corrompido
-  for (let i = 0; i < 9; i++) osc.frequency.setValueAtTime(pick(Math.random(), 180, 2400), t + i * 0.014);
-  gain.gain.setValueAtTime(0.0001, t);
-  for (let i = 0; i < 9; i++) gain.gain.setValueAtTime(Math.random() < 0.7 ? 0.016 : 0.0001, t + i * 0.014);
-  gain.gain.setValueAtTime(0.0001, t + 0.13);
-  osc.connect(gain).connect(hp);
-  osc.start(t);
-  osc.stop(t + 0.14);
-  burst(ctx, hp, t + 0.03, "highpass", 3000, 0.7, 0.03, 0.05);
 }
 
 /** Bolha subindo (ambiente e gotas) */

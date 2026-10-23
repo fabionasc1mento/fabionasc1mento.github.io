@@ -50,7 +50,7 @@ export function ExtractionDemo() {
     const advance = (next: number) => {
       setStep(next);
       // Passo ímpar marca no documento (tecla); par entra na tabela (bipe)
-      if (next % 2 === 1) sound.key();
+      if (next % 2 === 1) sound.key("key");
       else sound.blip();
       if (next < LAST_STEP) timer.current = setTimeout(() => advance(next + 1), STEP_MS);
     };
