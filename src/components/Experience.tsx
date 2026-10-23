@@ -98,10 +98,10 @@ export function Experience() {
       let index = 0;
       nodes.forEach((node, i) => {
         const lit = progress >= fractions[i] - 0.004;
-        // Ping quando o nó acende (descendo). Usa o estado aceso de cada nó,
-        // não o "emprego atual": o primeiro já começa como atual e por isso
-        // ficava sem som.
-        if (lit && node.dataset.lit !== "true" && armed) sound.node(i);
+        // Som quando o nó acende (descendo) ou apaga (subindo). Usa o estado
+        // aceso de cada nó, não o "emprego atual": o primeiro já começa como
+        // atual e por isso ficava sem som.
+        if (armed && lit !== (node.dataset.lit === "true")) sound.node(i, !lit);
         node.dataset.lit = String(lit);
         if (lit) index = i;
       });

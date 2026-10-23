@@ -68,26 +68,11 @@ function setup() {
   return ctx;
 }
 
-/** Fundo submarino: mar grave que respira, zumbido baixo e bolhas raras */
+/** Fundo submarino: zumbido bem baixo e bolhas raras (sem chiado de mar) */
 function startAmbient(c: AudioContext) {
   const gain = c.createGain();
   gain.gain.value = 0.0001;
   gain.connect(master);
-
-  const sea = c.createBufferSource();
-  sea.buffer = voices.brownNoise(c);
-  sea.loop = true;
-  const seaFilter = c.createBiquadFilter();
-  seaFilter.type = "lowpass";
-  seaFilter.frequency.value = 340;
-  const breathe = c.createOscillator(); // o filtro abre e fecha devagar: ondas
-  breathe.frequency.value = 0.07;
-  const breatheDepth = c.createGain();
-  breatheDepth.gain.value = 140;
-  breathe.connect(breatheDepth).connect(seaFilter.frequency);
-  const seaGain = c.createGain();
-  seaGain.gain.value = 0.55;
-  sea.connect(seaFilter).connect(seaGain).connect(gain);
 
   const drones = [55, 82.4].map((f, i) => {
     const osc = c.createOscillator();
@@ -98,7 +83,7 @@ function startAmbient(c: AudioContext) {
     return osc;
   });
 
-  const sources = [sea, breathe, ...drones];
+  const sources = drones;
   sources.forEach((s) => s.start());
   gain.gain.setTargetAtTime(0.035, c.currentTime, 1.2); // entra devagar, bem baixo
 
@@ -216,11 +201,11 @@ export const sound = {
     play("key", 38 + Math.random() * 32, (c, o, t) => voices.key(c, o, t, kind), undefined, () => keys),
   /** Ping da trilha: se vários acendem juntos (rolagem rápida), toca em
    *  sequência, 90 ms entre eles, em vez de descartar */
-  node(index: number) {
+  node(index: number, off = false) {
     if (!enabled || !ctx || ctx.state === "closed") return;
     const at = Math.max(ctx.currentTime + 0.005, nextNode);
     nextNode = at + 0.09;
-    voices.node(ctx, sfx, at, index);
+    voices.node(ctx, sfx, at, index, off);
   },
   blip: () => play("blip", 40, (c, o, t) => voices.blip(c, o, t)),
   drop: (x?: number) => play("drop", 80, (c, o, t) => voices.drop(c, o, t), panAt(x)),

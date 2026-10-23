@@ -137,9 +137,18 @@ export function key(ctx: BaseAudioContext, out: Out, t: number, kind: KeyKind = 
 // Escala pentatônica: qualquer sequência de nós soa bem junta
 const NODE_NOTES = [659.3, 784, 880, 1046.5, 1174.7, 1318.5];
 
-/** Nó da trilha de experiência acendendo: "ping" de sonar */
-export function node(ctx: BaseAudioContext, out: Out, t: number, index: number) {
+/**
+ * Nó da trilha de experiência: "ping" de sonar ao acender (descendo).
+ * Apagando (rolando para cima) é o mesmo nó "desligando": a nota escorrega
+ * para baixo e o eco vem uma oitava abaixo, em vez de acima.
+ */
+export function node(ctx: BaseAudioContext, out: Out, t: number, index: number, off = false) {
   const f = NODE_NOTES[index % NODE_NOTES.length];
+  if (off) {
+    tone(ctx, out, t, "sine", f, f * 0.75, 0.18, 0.045, 0.004, 0.35);
+    tone(ctx, out, t + 0.07, "sine", f / 2, f / 2.2, 0.2, 0.02, 0.004, 0.3);
+    return;
+  }
   tone(ctx, out, t, "sine", f, f, 0, 0.05, 0.004, 0.45);
   tone(ctx, out, t + 0.07, "sine", f * 2, f * 2, 0, 0.018, 0.004, 0.3);
   tone(ctx, out, t, "triangle", f / 2, f / 2, 0, 0.015, 0.004, 0.2);
@@ -195,25 +204,6 @@ export function roomImpulse(ctx: BaseAudioContext, seconds = 1.6) {
       last = last * 0.55 + (Math.random() * 2 - 1) * 0.45;
       data[i] = last * Math.pow(1 - i / length, 3.2);
     }
-  }
-  return buffer;
-}
-
-/** Ruído marrom (grave, como mar ao longe), em laço */
-export function brownNoise(ctx: BaseAudioContext, seconds = 4) {
-  const length = Math.floor(ctx.sampleRate * seconds);
-  const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
-  const data = buffer.getChannelData(0);
-  let last = 0;
-  for (let i = 0; i < length; i++) {
-    last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02;
-    data[i] = last * 3.5;
-  }
-  // emenda sem clique no laço
-  const fade = Math.floor(ctx.sampleRate * 0.05);
-  for (let i = 0; i < fade; i++) {
-    const k = i / fade;
-    data[length - fade + i] = data[length - fade + i] * (1 - k) + data[i] * k;
   }
   return buffer;
 }
