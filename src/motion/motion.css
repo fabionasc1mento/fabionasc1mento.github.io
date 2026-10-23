@@ -1,0 +1,207 @@
+/* landing-motion companion CSS v1.0
+ * Pairs with motion.js. Tokens live in :root so a brand can retune them in one place.
+ * Rule of thumb: animate only transform, opacity and filter. Never width/height/top/left.
+ */
+
+:root {
+  /* easing — CSS twins of the GSAP tokens */
+  --lm-ease-out: cubic-bezier(.22, .61, .36, 1);    /* default UI transitions */
+  --lm-ease-spring: cubic-bezier(.34, 1.56, .64, 1); /* small overshoot: chips, arrows */
+  --lm-ease-fill: cubic-bezier(.3, .6, .3, 1);       /* wipes and fills */
+  /* durations */
+  --lm-t-fast: .25s;
+  --lm-t-base: .45s;
+  --lm-t-slow: .7s;
+  /* brand hooks (override per project) */
+  --lm-accent: #2a7de1;
+  --lm-ink: #0a0f1e;
+  --lm-paper: #ffffff;
+}
+
+/* ---------- no flash before JS takes over ---------- */
+/* motion.js boot snippet adds .has-motion on <html> before first paint */
+.has-motion [data-reveal],
+.has-motion [data-reveal-item],
+.has-motion [data-intro] { visibility: hidden; }
+
+.is-preloading { overflow: hidden; }
+
+/* ---------- split words ---------- */
+.lm-word { display: inline-block; will-change: opacity; }
+.lm-sr {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ---------- preloader ---------- */
+[data-preloader] {
+  position: fixed; inset: 0; z-index: 99999;
+  display: grid; place-items: center;
+  background: var(--lm-preloader-bg, #000); color: #fff;
+  will-change: transform;
+}
+[data-preloader-track] { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; overflow: hidden; }
+[data-preloader-bar] {
+  position: absolute; inset: 0; background: currentColor;
+  transform: scaleX(0); transform-origin: 0 50%;
+}
+[data-preloader-count] {
+  position: absolute; right: clamp(18px, 4vw, 44px); bottom: clamp(28px, 6vh, 60px);
+  font-size: clamp(56px, 15vw, 150px); line-height: .9; font-variant-numeric: tabular-nums;
+}
+
+/* ---------- staged preloader: wipe reveal + split exit ---------- */
+/* Panel (revealed) → curtain recedes left-to-right → rider follows the edge → counter
+ * gets pushed out. Positions come from --lm-progress (0 → 1 + overshoot), set by JS.
+ * Centering uses the CSS `translate` property so GSAP's transform can move it freely. */
+[data-preloader="staged"] { background: var(--lm-stage-panel, #fff); overflow: hidden; display: block; }
+[data-preloader-split] {
+  position: absolute; left: 50%; top: 50%; translate: -50% -50%; z-index: 1;
+  margin: 0; text-align: center; line-height: .9; white-space: nowrap;
+}
+[data-preloader-curtain] {
+  position: absolute; inset: 0; z-index: 2; background: var(--lm-stage-curtain, #000);
+  transform: translateX(calc(min(var(--lm-progress, 0), 1.12) * 100%)); will-change: transform;
+}
+[data-preloader-rider] {
+  position: absolute; left: 0; top: 50%; z-index: 3; pointer-events: none;
+  transform: translate(calc(var(--lm-progress, 0) * 100vw - 100%), -50%); will-change: transform;
+}
+[data-preloader="staged"] [data-preloader-count] {
+  top: 50%; bottom: auto; right: clamp(12px, 2vw, 24px); z-index: 4;
+  transform: translate3d(0, -50%, 0); color: #fff; mix-blend-mode: difference;
+}
+
+/* ---------- page transitions ---------- */
+/* .lm-incoming is set by the head snippet when the visitor arrived through a transition:
+ * the new page is covered from its very first paint, same colour as the panel. */
+html.lm-incoming::before {
+  content: ""; position: fixed; inset: 0; z-index: 2147483646;
+  background: var(--lm-transition-bg, #080808);
+}
+.lm-transition { position: fixed; inset: 0; z-index: 2147483640; pointer-events: none; visibility: hidden; overflow: hidden; }
+.lm-transition.is-active { visibility: visible; pointer-events: auto; }
+.lm-transition-panel {
+  position: absolute; inset: 0; background: var(--lm-transition-bg, #080808);
+  will-change: transform; /* no CSS transform here: GSAP owns it (a CSS translate would be read as an offset) */
+}
+.lm-transition-label {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  color: var(--lm-transition-ink, #fff); text-transform: uppercase; opacity: 0;
+  font: var(--lm-transition-font, 400 clamp(48px, 7vw, 110px)/0.8 Georgia, serif);
+  will-change: opacity, clip-path;
+}
+
+/* ---------- boot cover (pages without a preloader) ---------- */
+[data-boot-cover] { position: fixed; inset: 0; z-index: 99998; background: var(--lm-boot-bg, #000); pointer-events: none; }
+
+/* ---------- focus list ---------- */
+[data-focus-list] { position: relative; overflow: hidden; }
+[data-focus-track] { will-change: transform; }
+[data-focus-item] { transition: none; }
+
+/* ---------- floating CTA (glass bar) ---------- */
+[data-floating-cta] {
+  position: fixed; right: clamp(14px, 2.4vw, 30px); bottom: clamp(14px, 2.4vw, 30px); z-index: 9000;
+  display: flex; align-items: center; gap: 20px;
+  padding: 10px 10px 10px 20px; border-radius: 16px;
+  background: rgb(0 0 0 / .32); border: 1px solid rgb(255 255 255 / .18);
+  -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
+  opacity: 0; transform: translateY(calc(100% + 40px)); pointer-events: none;
+  transition: opacity .5s var(--lm-ease-out), transform .7s var(--lm-ease-out), background .4s, border-color .4s;
+}
+[data-floating-cta].is-visible { opacity: 1; transform: none; pointer-events: auto; }
+[data-floating-cta].is-on-light { background: rgb(20 24 32 / .55); border-color: rgb(255 255 255 / .1); }
+@media (max-width: 640px) {
+  [data-floating-cta] { left: 12px; right: 12px; bottom: 12px; justify-content: space-between; padding: 8px 8px 8px 16px; }
+}
+
+/* ---------- CTA with liquid fill on hover ---------- */
+.lm-cta {
+  position: relative; isolation: isolate; overflow: hidden;
+  display: inline-flex; align-items: center; gap: 12px;
+  height: 48px; padding: 0 5px 0 22px; border-radius: 999px;
+  background: var(--lm-paper); color: var(--lm-ink);
+  font-weight: 500; text-decoration: none; white-space: nowrap;
+}
+.lm-cta::before {               /* the fill layer */
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: var(--lm-accent); border-radius: inherit;
+  transform: translateX(-101%);
+  transition: transform .6s var(--lm-ease-fill);
+}
+.lm-cta:hover::before, .lm-cta:focus-visible::before { transform: translateX(0); }
+.lm-cta:hover, .lm-cta:focus-visible { color: #fff; }
+.lm-cta { transition: color .35s; }
+.lm-chip {
+  display: grid; place-items: center; flex: none;
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--lm-accent); color: #fff;
+  transition: background .35s, color .35s;
+}
+.lm-cta:hover .lm-chip, .lm-cta:focus-visible .lm-chip { background: #fff; color: var(--lm-accent); }
+.lm-chip svg { transition: transform var(--lm-t-base) var(--lm-ease-spring); }
+.lm-cta:hover .lm-chip svg, .lm-cta:focus-visible .lm-chip svg { transform: rotate(45deg); }
+
+.lm-ghost {
+  display: inline-flex; align-items: center; height: 48px; padding: 0 24px; border-radius: 999px;
+  border: 1px solid rgb(255 255 255 / .4); color: inherit; text-decoration: none;
+  transition: background .35s, border-color .35s;
+}
+.lm-ghost:hover { background: rgb(255 255 255 / .12); border-color: rgb(255 255 255 / .75); }
+
+/* ---------- cards: lift + inner zoom ---------- */
+.lm-card {
+  transition: transform var(--lm-t-base) var(--lm-ease-out), box-shadow var(--lm-t-base), border-color var(--lm-t-base);
+}
+.lm-card:hover { transform: translateY(-5px); box-shadow: 0 22px 48px rgb(40 60 90 / .22); }
+.lm-card .lm-media { overflow: hidden; border-radius: inherit; }
+.lm-card .lm-media > * { transition: transform var(--lm-t-slow) var(--lm-ease-out); }
+.lm-card:hover .lm-media > * { transform: scale(1.035); }
+
+/* ---------- accordion without JS height math ---------- */
+.lm-acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--lm-t-base) var(--lm-ease-out); }
+.lm-acc-panel > * { overflow: hidden; }
+.is-open > .lm-acc-panel { grid-template-rows: 1fr; }
+.lm-acc-icon { transition: transform var(--lm-t-base) var(--lm-ease-out); }
+.lm-acc-icon .v { transition: opacity .3s; }
+.is-open .lm-acc-icon { transform: rotate(180deg); }
+.is-open .lm-acc-icon .v { opacity: 0; }
+
+/* ---------- modal: fade backdrop + pop frame ---------- */
+@keyframes lm-fade { from { opacity: 0; } }
+@keyframes lm-pop { from { opacity: 0; transform: scale(.94) translateY(14px); } }
+.lm-modal { animation: lm-fade .3s both; }
+.lm-modal > * { animation: lm-pop .35s var(--lm-ease-out) both; }
+
+/* ---------- visual finish helpers ---------- */
+.lm-grad-text {             /* vertical light → ice → brand: reads as "lit from above" */
+  background: linear-gradient(180deg, #fff 26%, #dcecff 62%, var(--lm-accent-light, #8fc2ff));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.lm-grad-text--ink {        /* on light backgrounds: ink fading into brand */
+  background: linear-gradient(110deg, var(--lm-ink) 8%, var(--lm-accent) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+.lm-glow-text { filter: drop-shadow(0 10px 28px rgb(56 128 255 / .35)); }
+
+.lm-grad-border { position: relative; }
+.lm-grad-border::before {   /* 1.5px gradient border that follows border-radius */
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none;
+  background: var(--lm-border-gradient, linear-gradient(180deg, #bcd7ff, #3880ff 70%, #0b2f8f));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+}
+
+.lm-marquee { overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 8% 92%, transparent); }
+.lm-marquee-track { display: flex; width: max-content; animation: lm-marquee 45s linear infinite; }
+@keyframes lm-marquee { to { transform: translateX(-50%); } }
+
+/* ---------- reduced motion: everything visible, nothing moving ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .has-motion [data-reveal], .has-motion [data-reveal-item], .has-motion [data-intro] { visibility: visible; }
+  .lm-marquee-track { animation: none; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}

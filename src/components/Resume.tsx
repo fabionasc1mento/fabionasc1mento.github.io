@@ -9,7 +9,7 @@ const RESUME_FILE = "/curriculo-fabio-tarcio.pdf";
 const RESUME_DOWNLOAD_NAME = "Curriculo_Fabio_Tarcio.pdf";
 
 // Seção do currículo: prévia da página à esquerda (revelada por uma cortina
-// e "escaneada" por uma linha vermelha) e, ao lado, o arquivo com os botões
+// e "escaneada" por uma linha azul) e, ao lado, o arquivo com os botões
 // de baixar e abrir.
 export function Resume() {
   const { t } = useLanguage();
@@ -23,7 +23,7 @@ export function Resume() {
           target="_blank"
           rel="noopener"
           className={`wipe-in ${styles.preview}`}
-          data-reveal
+          data-observe
           aria-label={resume.open}
         >
           <img
@@ -36,19 +36,19 @@ export function Resume() {
           <span className={styles.scan} aria-hidden="true" />
         </a>
 
-        <div className={styles.info} data-reveal>
-          <p className={`label rise ${styles.file}`}>
+        <div className={styles.info} data-observe>
+          <p className={`label rise tarja ${styles.file}`}>
             <span className="ast" aria-hidden="true">
               ✱{" "}
             </span>
             {RESUME_DOWNLOAD_NAME}
           </p>
-          <p className={`label rise ${styles.fileInfo}`} style={{ ["--i" as string]: 1 }}>
+          <p className={`label rise tarja ${styles.fileInfo}`} style={{ ["--i" as string]: 1 }}>
             {resume.fileInfo}
           </p>
           <span className={`draw-x ${styles.rule}`} aria-hidden="true" />
           <p className={`rise ${styles.text}`} style={{ ["--i" as string]: 2 }}>
-            {resume.text}
+            <span className="tarja">{resume.text}</span>
           </p>
           <div className={`rise ${styles.actions}`} style={{ ["--i" as string]: 3 }}>
             <a href={RESUME_FILE} download={RESUME_DOWNLOAD_NAME} className="button button-primary">
@@ -60,7 +60,7 @@ export function Resume() {
               <span aria-hidden="true">↗</span>
             </a>
           </div>
-          <p className={`label rise ${styles.note}`} style={{ ["--i" as string]: 4 }}>
+          <p className={`label rise tarja ${styles.note}`} style={{ ["--i" as string]: 4 }}>
             {resume.note}
           </p>
         </div>

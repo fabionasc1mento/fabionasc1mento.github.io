@@ -3,6 +3,7 @@
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { Timecode } from "./motion/Timecode";
 import { ThemeToggle } from "./ThemeToggle";
+import { Mark } from "./Mark";
 import styles from "./Header.module.css";
 
 export function Header() {
@@ -19,8 +20,9 @@ export function Header() {
   return (
     <header className={styles.header}>
       <div className={`container ${styles.inner}`}>
-        <a href="#topo" className={`display ${styles.name}`}>
-          {t.hero.name}
+        {/* Só o monograma; o nome fica para leitor de tela */}
+        <a href="#topo" className={styles.name} aria-label={t.hero.name}>
+          <Mark className={styles.mark} />
         </a>
         <nav aria-label={t.nav.aria}>
           <ul className={`label ${styles.links}`}>

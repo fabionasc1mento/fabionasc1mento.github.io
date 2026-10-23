@@ -27,7 +27,7 @@
   height: var(--header-h);
   padding-inline: 1.25rem;
   border-bottom: var(--rule) solid var(--ink);
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .count {
@@ -91,7 +91,7 @@
 }
 
 .item:hover {
-  color: var(--red);
+  color: var(--accent);
 }
 
 /* Tremida de glitch quando o título troca (igual aos títulos das seções) */
@@ -141,7 +141,7 @@
   top: calc(var(--progress, 0) * 100%);
   width: 1.75rem;
   height: 3px;
-  background: var(--red);
+  background: var(--accent);
 }
 
 

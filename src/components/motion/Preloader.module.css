@@ -1,0 +1,52 @@
+/* Cores da abertura: painel azul revelado por uma cortina preta.
+   (Os dois são fixos: a abertura é igual nos temas claro e escuro.) */
+.preloader {
+  --lm-stage-panel: #3554d1;
+  --lm-stage-curtain: #0c0c0c;
+  color: #0c0c0c;
+}
+
+/* Já viu nesta sessão, ou pediu menos movimento: nem aparece */
+:global(html.intro-seen) .preloader {
+  display: none;
+}
+
+.brand {
+  display: grid;
+  justify-items: center;
+  gap: clamp(1rem, 3vh, 2rem);
+}
+
+.mark {
+  width: clamp(7rem, 26vmin, 15rem);
+  height: auto;
+  /* o ponto do monograma fica preto sobre o painel azul */
+  --accent: #0c0c0c;
+}
+
+/* Log de boot no canto inferior esquerdo: a cortina revela letra a letra */
+.log {
+  position: absolute;
+  left: clamp(1rem, 4vw, 3rem);
+  bottom: clamp(1.25rem, 5vh, 3rem);
+  display: grid;
+  gap: 0.35rem;
+  font-size: clamp(0.7rem, 0.6rem + 0.4vw, 0.9rem);
+  font-weight: 500;
+  text-transform: none;
+}
+
+/* Linha clara colada na borda da cortina, como um feixe de leitura */
+.rider {
+  width: 2px;
+  height: 100vh;
+  background: #e3e3e1;
+  box-shadow: 0 0 18px #e3e3e1;
+}
+
+/* Contador: azul sobre a cortina preta, preto sobre o painel azul */
+.preloader [data-preloader-count].count {
+  font-size: clamp(3.5rem, 12vw, 9rem);
+  color: #6d8bff;
+  font-variant-numeric: tabular-nums;
+}

@@ -11,7 +11,7 @@ export function Projects() {
   return (
     <Section id="projetos" number="02" title={t.projects.title} meta={t.sections.projects}>
       {/* Estudo de caso principal: problema → solução → resultado */}
-      <article className={`wipe-in ${styles.featured}`} data-reveal>
+      <article className={`wipe-in ${styles.featured}`} data-observe>
         <header className={styles.featuredHeader}>
           <h3 className={`display glitch-in ${styles.featuredName}`}>{featured.name}</h3>
           <p className={`label ${styles.kind}`}>
@@ -19,9 +19,9 @@ export function Projects() {
             {featured.kind}
           </p>
         </header>
-        <ol className={styles.steps}>
+        <ol className={styles.steps} data-reveal-group="" data-stagger="0.12" data-distance="40">
           {featured.steps.map((step, i) => (
-            <li key={step.label} className={`rise ${styles.step}`} style={{ ["--i" as string]: i + 1 }}>
+            <li key={step.label} className={styles.step} data-reveal-item="">
               <span className={`label ${styles.stepNumber}`} aria-hidden="true">
                 0{i + 1}
               </span>
@@ -41,7 +41,7 @@ export function Projects() {
       </article>
 
       {/* Trabalho na ALPIUM: só descrição, os sistemas são de clientes */}
-      <article className={`rise ${styles.alpium}`} data-reveal>
+      <article className={styles.alpium} data-reveal="">
         <h3 className={`display ${styles.name}`}>{alpium.name}</h3>
         <p>{alpium.text}</p>
         <ul className={styles.points}>
@@ -57,9 +57,9 @@ export function Projects() {
         <p className={`label ${styles.note}`}>{alpium.note}</p>
       </article>
 
-      <div className={styles.grid}>
+      <div className={styles.grid} data-reveal-group="">
         {small.map((project, i) => (
-          <article key={project.image} className={`rise ${styles.card}`} data-reveal style={{ ["--i" as string]: i }}>
+          <article key={project.image} className={styles.card} data-reveal-item="">
             <div className={styles.media}>
               <img src={project.image} alt={project.imageAlt} width={1200} height={600} loading="lazy" />
               <span className={`label ${styles.fig}`} aria-hidden="true">

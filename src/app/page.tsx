@@ -6,22 +6,25 @@ import { Projects } from "@/components/Projects";
 import { Education } from "@/components/Education";
 import { Resume } from "@/components/Resume";
 import { Contact } from "@/components/Contact";
-import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { AmbientBackground } from "@/components/motion/AmbientBackground";
 import { RevealObserver } from "@/components/motion/RevealObserver";
-import { BootScreen } from "@/components/motion/BootScreen";
+import { Preloader } from "@/components/motion/Preloader";
+import { MotionRoot } from "@/components/motion/MotionRoot";
+import { Manifesto } from "@/components/Manifesto";
+import { FloatingBar } from "@/components/FloatingBar";
 import { SectionNav } from "@/components/motion/SectionNav";
 
 export default function Home() {
   return (
     <>
-      <SmoothScroll />
+      <Preloader />
       <RevealObserver />
       <AmbientBackground />
       <Header />
       <main id="conteudo">
         <Hero />
         <StackBand />
+        <Manifesto />
         <Experience />
         <Projects />
         <Education />
@@ -30,7 +33,8 @@ export default function Home() {
       <Contact />
       {/* Camadas de animação, por cima da página */}
       <SectionNav />
-      <BootScreen />
+      <FloatingBar />
+      <MotionRoot />
     </>
   );
 }

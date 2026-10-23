@@ -6,14 +6,14 @@ import { Typewriter } from "./motion/Typewriter";
 import styles from "./Contact.module.css";
 
 // Contato como um terminal: fundo preto, título digitado com cursor
-// vermelho e os links como "comandos".
+// azul e os links como "comandos".
 export function Contact() {
   const { t } = useLanguage();
 
   return (
-    <footer id="contato" className={styles.contact} aria-labelledby="contato-titulo" data-section>
+    <footer id="contato" className={styles.contact} aria-labelledby="contato-titulo" data-section data-floating-hide="">
       <SectionBar number="05" title={t.nav.contact} meta={t.sections.contact} dark />
-      <div className={`container frame ${styles.inner}`} data-reveal>
+      <div className={`container frame ${styles.inner}`} data-observe>
         <div className={styles.body}>
           <h2 id="contato-titulo" className={`display ${styles.title}`}>
             <span className={styles.prompt} aria-hidden="true">

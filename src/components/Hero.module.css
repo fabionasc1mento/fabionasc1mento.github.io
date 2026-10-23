@@ -89,7 +89,7 @@
   right: 0;
 }
 
-/* Título + bloco vermelho */
+/* Título + bloco azul */
 .lede {
   position: relative;
   display: grid;
@@ -103,25 +103,12 @@
 
 .title {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(1.5rem, 1rem + 1.8vw, 2.5rem);
-  line-height: 1.12;
-  letter-spacing: -0.02em;
-  max-width: 20ch;
+  font-weight: 300;
+  font-size: clamp(2rem, 1rem + 3.2vw, 3.9rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  max-width: 14ch;
   text-wrap: balance;
-}
-
-.lead {
-  margin-top: 1.25rem;
-  max-width: 54ch;
-  font-size: var(--step-1);
-  line-height: 1.5;
-  color: var(--dim);
-}
-
-.word {
-  display: inline-block;
-  white-space: pre;
 }
 
 .redbox {
@@ -130,7 +117,7 @@
   justify-content: space-between;
   gap: 2rem;
   padding: clamp(1.5rem, 3vw, 2.25rem);
-  background: var(--red);
+  background: var(--accent);
   color: var(--paper);
 }
 
@@ -156,11 +143,10 @@
   color: var(--paper);
 }
 
-.redPrimary:hover,
-.redGhost:hover {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--paper);
+/* Dentro do bloco azul o preenchimento é da cor da tinta */
+.redPrimary,
+.redGhost {
+  --fill: var(--ink);
 }
 
 .demo {

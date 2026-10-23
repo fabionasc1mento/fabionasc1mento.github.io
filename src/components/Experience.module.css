@@ -1,5 +1,7 @@
-.timeline {
+/* ---------- Lista simples (sem JS, movimento reduzido, leitor de tela) ---------- */
+.list {
   display: grid;
+  padding-block: clamp(1.75rem, 4vw, 2.75rem) clamp(2.5rem, 6vw, 4.5rem);
 }
 
 /* Cada emprego é uma linha do "grid": período à esquerda, conteúdo à direita,
@@ -16,27 +18,16 @@
   padding-top: 0.5rem;
 }
 
-.job:first-child .rule {
-  display: none;
-}
 
-.rule {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--ink);
+
+.job + .job {
+  border-top: 1px solid var(--ink);
 }
 
 .period {
   padding-top: 0.45rem;
   color: var(--dim);
   font-variant-numeric: tabular-nums;
-}
-
-.live {
-  animation: blink 1.2s steps(1) infinite;
 }
 
 .company {
@@ -46,8 +37,8 @@
 
 .role {
   margin-top: 0.4rem;
-  color: var(--red);
-  font-weight: 700;
+  color: var(--accent);
+  font-weight: 500;
 }
 
 .description {
@@ -62,8 +53,274 @@
   }
 }
 
+
+
+/* Com movimento, a lista vira só texto para leitor de tela e o palco aparece */
+:global(html.has-motion) .list {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Palco fixado com a trilha ---------- */
+.pin {
+  display: none;
+  height: 100svh;
+  padding-top: calc(var(--header-h) + var(--bar-h));
+}
+
+:global(html.has-motion) .pin {
+  display: block;
+}
+
+.stage {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto auto;
+  height: 100%;
+  padding-block: 0.5rem 1rem;
+}
+
+/* Placa do circuito: a trilha estica para a largura e altura da placa */
+.board {
+  position: relative;
+  min-height: 13rem;
+  container-type: size;
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+}
+
+.base,
+.stub,
+.live {
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: miter;
+}
+
+.base {
+  stroke: var(--hair);
+  stroke-width: 2;
+}
+
+.stub {
+  stroke: var(--hair);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 5;
+}
+
+.live {
+  stroke: var(--accent);
+  stroke-width: 3;
+  filter: drop-shadow(0 0 5px var(--accent));
+}
+
+/* "Pacote" na ponta da linha */
+.tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0.7rem;
+  height: 0.7rem;
+  margin: -0.35rem 0 0 -0.35rem;
+  background: var(--ink);
+  box-shadow: 0 0 0 3px var(--accent), 0 0 16px var(--accent);
+  will-change: transform;
+}
+
+/* Nó (pad do circuito) com o rótulo acima ou abaixo */
+.node {
+  position: absolute;
+  top: 50%;
+  left: var(--x);
+}
+
+.pad {
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  border: var(--rule) solid var(--dim);
+  background: var(--paper);
+  transform: translate(-50%, -50%);
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.node[data-lit="true"] .pad {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+/* Nó atual: anel que pulsa, como um LED */
+.node[data-current="true"] .pad::after {
+  content: "";
+  position: absolute;
+  inset: -0.55rem;
+  border: 1px solid var(--accent);
+  animation: ping 1.4s ease-out infinite;
+}
+
+@keyframes ping {
+  from {
+    opacity: 1;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+.nodeLabel {
+  position: absolute;
+  left: 0;
+  display: grid;
+  justify-items: center;
+  gap: 0.3rem;
+  width: max-content;
+  max-width: 14rem;
+  text-align: center;
+  transform: translateX(-50%);
+  opacity: 0.32;
+  transition: opacity 0.35s;
+}
+
+.node[data-side="top"] .nodeLabel {
+  bottom: 2.4rem;
+}
+
+.node[data-side="bottom"] .nodeLabel {
+  top: 2.4rem;
+}
+
+.node[data-lit="true"] .nodeLabel {
+  opacity: 1;
+}
+
+.nodePeriod {
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.nodeCompany {
+  font-size: clamp(1.1rem, 0.7rem + 1.4vw, 2rem);
+  letter-spacing: -0.02em;
+}
+
+.node[data-current="true"] .nodeCompany {
+  color: var(--accent);
+}
+
+/* Detalhes do emprego atual + contador gigante */
+.detailRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1.25rem clamp(1.5rem, 4vw, 3.5rem);
+  align-items: start;
+  padding-top: clamp(1rem, 2.5vh, 1.75rem);
+  border-top: var(--rule) solid var(--ink);
+}
+
+.counter {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  line-height: 0.8;
+}
+
+.counterNumber {
+  display: inline-block;
+  font-size: clamp(3.2rem, 2rem + 5vw, 7rem);
+  font-variant-numeric: tabular-nums;
+}
+
+.counterTotal {
+  font-size: 1rem;
+  color: var(--dim);
+}
+
+.detail {
+  display: grid;
+  gap: 0.7rem;
+  min-height: 9.5rem;
+}
+
+.detailRole {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.now {
+  color: var(--ink);
+}
+
+.detailText {
+  max-width: 62ch;
+}
+
+.hint {
+  justify-self: end;
+  margin-top: 0.75rem;
+  color: var(--dim);
+}
+
+@media (max-width: 760px) {
+  .nodeCompany {
+    font-size: 0.85rem;
+  }
+
+  .nodePeriod {
+    font-size: 0.6rem;
+  }
+
+  .nodeLabel {
+    max-width: 6rem;
+    white-space: normal;
+  }
+
+  /* Mais longe do nó: no celular a trilha estica na vertical e os
+     degraus ficam altos */
+  .node[data-side="top"] .nodeLabel {
+    bottom: 2.6rem;
+  }
+
+  .node[data-side="bottom"] .nodeLabel {
+    top: 2.6rem;
+  }
+
+  .detailRow {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  .counter {
+    display: none;
+  }
+
+  .detail {
+    min-height: 0;
+    font-size: 0.95rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .live {
-    animation: none;
+  :global(html.has-motion) .pin {
+    display: none;
+  }
+
+  :global(html.has-motion) .list {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
   }
 }

@@ -1,11 +1,11 @@
 /* Tokens do design: mude aqui para ajustar o site inteiro.
    Estética cybercore editorial: grid de linhas pretas sobre cinza claro,
-   vermelho só como sinal (asteriscos, blocos, destaques), rótulos em mono. */
+   azul só como sinal (asteriscos, blocos, destaques), rótulos em mono. */
 :root {
   --paper: #e3e3e1;      /* fundo */
   --paper-2: #d8d8d5;    /* células em destaque / hover */
   --ink: #0c0c0c;        /* texto e linhas */
-  --red: #e2372b;        /* sinal */
+  --accent: #3554d1;     /* sinal: azul calmo (vermelho passava sensação de alerta) */
   --dim: #6d6d6a;        /* texto secundário */
   --hair: rgb(12 12 12 / 0.16); /* linha fina interna */
 
@@ -23,15 +23,17 @@
   --surface: var(--paper);
   --muted: var(--dim);
   --line: var(--ink);
-  --violet: var(--red);
+  --violet: var(--accent);
   --violet-deep: var(--ink);
-  --marker: var(--red);
+  --marker: var(--accent);
   --on-marker: var(--paper);
   --deep: var(--ink);
 
-  --font-display: "Unbounded", system-ui, sans-serif;
-  --font-sans: "Schibsted Grotesk", system-ui, sans-serif;
-  --font-mono: "Space Mono", ui-monospace, monospace;
+  /* Uma família só, leve: Geist para títulos e texto, Geist Mono para
+     rótulos e números */
+  --font-display: "Geist Variable", system-ui, sans-serif;
+  --font-sans: "Geist Variable", system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, monospace;
 
   --step--2: 0.72rem;
   --step--1: 0.875rem;
@@ -59,7 +61,7 @@
   --paper: #0f0f0e;
   --paper-2: #1c1c1a;
   --ink: #e3e3e1;
-  --red: #f0443a;
+  --accent: #6d8bff;
   --dim: #8f8f8b;
   --hair: rgb(227 227 225 / 0.16);
 
@@ -141,12 +143,12 @@ a {
 }
 
 ::selection {
-  background: var(--red);
+  background: var(--accent);
   color: var(--paper);
 }
 
 :focus-visible {
-  outline: var(--rule) solid var(--red);
+  outline: var(--rule) solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -190,16 +192,16 @@ footer[id] {
 
 .display {
   font-family: var(--font-display);
-  font-weight: 900;
+  font-weight: 300;
   text-transform: lowercase;
-  letter-spacing: -0.03em;
-  line-height: 0.95;
+  letter-spacing: -0.045em;
+  line-height: 1;
 }
 
 .ast {
-  color: var(--red);
+  color: var(--accent);
   font-family: var(--font-mono);
-  font-weight: 700;
+  font-weight: 500;
 }
 
 /* ---------- Botões e links ---------- */
@@ -215,7 +217,7 @@ footer[id] {
   border: var(--rule) solid var(--ink);
   font-family: var(--font-mono);
   font-size: var(--step--1);
-  font-weight: 700;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   text-decoration: none;
@@ -232,33 +234,63 @@ footer[id] {
   color: var(--ink);
 }
 
-.button:hover {
-  background: var(--red);
-  border-color: var(--red);
-  color: var(--paper);
+/* Preenchimento líquido (landing-motion): no hover/foco uma camada da cor
+   de --fill varre da esquerda. Só visual: o clique navega na hora. */
+.button {
+  isolation: isolate;
+  overflow: hidden;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .button:hover {
-    animation: jitter 0.24s steps(1) 1;
-  }
+.button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--fill, var(--accent));
+  transform: translateX(-101%);
+  transition: transform 0.6s cubic-bezier(0.3, 0.6, 0.3, 1);
+}
+
+.button:hover,
+.button:focus-visible {
+  border-color: var(--fill, var(--accent));
+  color: var(--fill-ink, var(--paper));
+}
+
+.button:hover::before,
+.button:focus-visible::before {
+  transform: translateX(0);
 }
 
 .text-link {
   font-family: var(--font-mono);
   font-size: var(--step--1);
-  font-weight: 700;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--ink);
   text-decoration: none;
-  border-bottom: var(--rule) solid var(--red);
+  border-bottom: var(--rule) solid var(--accent);
   padding-bottom: 0.1em;
 }
 
 .text-link:hover {
-  background: var(--red);
+  background: var(--accent);
   color: var(--paper);
+}
+
+/* Tarja: faixa da cor do fundo atrás de texto fino que fica solto sobre a
+   fumaça do fundo (traço fino + pixels acesos = leitura ruim). Em texto que
+   quebra linha, cada linha ganha a sua faixa (box-decoration-break), e a
+   sobra lateral vem de box-shadow, então o texto não sai do lugar. */
+.tarja {
+  width: fit-content;
+  background: var(--paper);
+  box-shadow:
+    0.3em 0 0 var(--paper),
+    -0.3em 0 0 var(--paper);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 /* Lista de tecnologias em mono, separada por barras */
@@ -273,6 +305,14 @@ footer[id] {
   color: var(--dim);
 }
 
+/* Cada tecnologia com tarja (ver .tarja acima) */
+.stack li {
+  background: var(--paper);
+  box-shadow:
+    0.3em 0 0 var(--paper),
+    -0.3em 0 0 var(--paper);
+}
+
 .stack li:not(:last-child)::after {
   content: "/";
   margin-inline: 0.7em;
@@ -280,7 +320,7 @@ footer[id] {
 }
 
 /* ---------- Motion utilitário ----------
-   [data-reveal] ganha data-inview="true" quando entra na tela
+   [data-observe] ganha data-inview="true" quando entra na tela
    (RevealObserver). As classes abaixo animam a partir disso. */
 
 /* Linhas que se desenham */
@@ -331,34 +371,34 @@ footer[id] {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  html.motion [data-reveal]:not([data-inview="true"]) .draw-x,
-  html.motion [data-reveal].draw-x:not([data-inview="true"]) {
+  html.motion [data-observe]:not([data-inview="true"]) .draw-x,
+  html.motion [data-observe].draw-x:not([data-inview="true"]) {
     transform: scaleX(0);
   }
 
-  html.motion [data-reveal]:not([data-inview="true"]) .draw-y,
-  html.motion [data-reveal].draw-y:not([data-inview="true"]) {
+  html.motion [data-observe]:not([data-inview="true"]) .draw-y,
+  html.motion [data-observe].draw-y:not([data-inview="true"]) {
     transform: scaleY(0);
   }
 
-  html.motion [data-reveal]:not([data-inview="true"]) .rise,
-  html.motion [data-reveal].rise:not([data-inview="true"]) {
+  html.motion [data-observe]:not([data-inview="true"]) .rise,
+  html.motion [data-observe].rise:not([data-inview="true"]) {
     transform: translateY(1.5rem);
     opacity: 0;
   }
 
-  html.motion [data-reveal]:not([data-inview="true"]) .wipe-up,
-  html.motion [data-reveal].wipe-up:not([data-inview="true"]) {
+  html.motion [data-observe]:not([data-inview="true"]) .wipe-up,
+  html.motion [data-observe].wipe-up:not([data-inview="true"]) {
     transform: scaleY(0);
   }
 
-  html.motion [data-reveal].wipe-in:not([data-inview="true"])::after {
+  html.motion [data-observe].wipe-in:not([data-inview="true"])::after {
     transform: scaleX(1);
   }
 
   /* Tremida de glitch ao entrar na tela */
-  html.motion [data-reveal][data-inview="true"] .glitch-in,
-  html.motion [data-reveal][data-inview="true"].glitch-in {
+  html.motion [data-observe][data-inview="true"] .glitch-in,
+  html.motion [data-observe][data-inview="true"].glitch-in {
     animation: jitter 0.3s steps(1) 0.45s 1;
   }
 }
@@ -376,14 +416,14 @@ footer[id] {
   50% { opacity: 0; }
 }
 
-/* Cursor de terminal: bloco vermelho piscando */
+/* Cursor de terminal: bloco azul piscando */
 .cursor {
   display: inline-block;
   width: 0.55em;
   height: 1em;
   margin-left: 0.15em;
   vertical-align: -0.12em;
-  background: var(--red);
+  background: var(--accent);
   animation: blink 1s steps(1) infinite;
 }
 

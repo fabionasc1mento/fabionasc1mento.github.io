@@ -14,10 +14,33 @@
 }
 
 .name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
   text-transform: none;
   font-size: 1.15rem;
   text-decoration: none;
+  white-space: nowrap;
   margin-right: auto;
+}
+
+/* Monograma: o ponto azul pisca quando o mouse passa na marca */
+.mark {
+  width: 2.4rem;
+  height: 2.4rem;
+  flex: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .name:hover .mark [data-mark-cursor] {
+    animation: blink 0.8s steps(1) infinite;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
 }
 
 .links {
@@ -35,7 +58,7 @@
 }
 
 .links a:hover {
-  color: var(--red);
+  color: var(--accent);
 }
 
 .timecode {
@@ -56,17 +79,19 @@
   border: var(--rule) solid var(--ink);
   background: transparent;
   color: var(--ink);
-  font-weight: 700;
+  font-weight: 500;
   cursor: pointer;
 }
 
 .lang:hover {
-  background: var(--red);
-  border-color: var(--red);
+  background: var(--accent);
+  border-color: var(--accent);
   color: var(--paper);
 }
 
-@media (max-width: 1100px) {
+/* Com o painel lateral (a partir de 1280px) o cabeçalho fica mais
+   estreito: o relógio só aparece quando sobra espaço */
+@media (max-width: 1100px), (min-width: 1280px) and (max-width: 1499px) {
   .timecode {
     display: none;
   }

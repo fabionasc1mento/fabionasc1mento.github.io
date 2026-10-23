@@ -14,7 +14,7 @@
 
 .sec {
   order: 2;
-  color: var(--red);
+  color: var(--accent);
 }
 
 .title {

@@ -36,6 +36,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     document.documentElement.lang = lang === "pt" ? "pt-BR" : "en";
+    // Avisa as animações que o texto mudou (alturas mudam junto)
+    document.dispatchEvent(new Event("langchange"));
   }, [lang]);
 
   const toggle = useCallback(() => {
