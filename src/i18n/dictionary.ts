@@ -129,7 +129,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
     hero: {
       name: "Fábio Tarcio",
       title: "Transformo processo manual em sistema.",
-      lead: "Sou o Fábio, desenvolvedor full stack em Cuiabá. Trabalho com C# e ASP.NET MVC no back-end e com JavaScript e React no front-end, construindo sistemas web para empresas.",
+      lead: "Sou o Fábio, desenvolvedor full stack. Trabalho com C# e ASP.NET MVC no back-end e com JavaScript e React no front-end, construindo sistemas web para empresas.",
       ctaProjects: "Ver projetos",
       ctaContact: "Falar comigo",
       demoCaption:
@@ -307,7 +307,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
     hero: {
       name: "Fábio Tarcio",
       title: "I turn manual processes into software.",
-      lead: "I'm Fábio, a full stack developer based in Cuiabá, Brazil. I work with C# and ASP.NET MVC on the back end and JavaScript and React on the front end, building web systems for businesses.",
+      lead: "I'm Fábio, a full stack developer. I work with C# and ASP.NET MVC on the back end and JavaScript and React on the front end, building web systems for businesses.",
       ctaProjects: "See projects",
       ctaContact: "Get in touch",
       demoCaption:
