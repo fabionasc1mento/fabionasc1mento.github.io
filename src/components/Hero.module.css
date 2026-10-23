@@ -103,7 +103,7 @@
 
 .title {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 300;
   font-size: clamp(2rem, 1rem + 3.2vw, 3.9rem);
   line-height: 1.02;
   letter-spacing: -0.03em;

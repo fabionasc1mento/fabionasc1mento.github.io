@@ -27,7 +27,7 @@
   height: var(--header-h);
   padding-inline: 1.25rem;
   border-bottom: var(--rule) solid var(--ink);
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .count {

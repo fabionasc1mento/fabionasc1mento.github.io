@@ -43,7 +43,7 @@
   min-height: 3rem;
   padding: 0.7rem 1.2rem;
   border: var(--rule) solid var(--paper);
-  font-weight: 700;
+  font-weight: 500;
   text-decoration: none;
   transition: background-color 0.15s, color 0.15s, border-color 0.15s;
 }

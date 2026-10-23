@@ -79,7 +79,7 @@
   border: var(--rule) solid var(--ink);
   background: transparent;
   color: var(--ink);
-  font-weight: 700;
+  font-weight: 500;
   cursor: pointer;
 }
 

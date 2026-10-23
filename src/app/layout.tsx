@@ -1,12 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import "@fontsource/schibsted-grotesk/400.css";
-import "@fontsource/schibsted-grotesk/500.css";
-import "@fontsource/schibsted-grotesk/600.css";
-import "@fontsource/unbounded/400.css";
-import "@fontsource/unbounded/700.css";
-import "@fontsource/unbounded/900.css";
-import "@fontsource/space-mono/400.css";
-import "@fontsource/space-mono/700.css";
+import "@fontsource-variable/geist";
+import "@fontsource-variable/geist-mono";
 import "lenis/dist/lenis.css";
 import "./globals.css";
 import { dictionaries } from "@/i18n/dictionary";

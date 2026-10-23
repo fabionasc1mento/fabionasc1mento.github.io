@@ -38,7 +38,7 @@
 .role {
   margin-top: 0.4rem;
   color: var(--accent);
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .description {
@@ -254,7 +254,7 @@
 
 .detailRole {
   color: var(--accent);
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .now {

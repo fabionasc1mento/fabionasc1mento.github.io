@@ -29,9 +29,11 @@
   --on-marker: var(--paper);
   --deep: var(--ink);
 
-  --font-display: "Unbounded", system-ui, sans-serif;
-  --font-sans: "Schibsted Grotesk", system-ui, sans-serif;
-  --font-mono: "Space Mono", ui-monospace, monospace;
+  /* Uma família só, leve: Geist para títulos e texto, Geist Mono para
+     rótulos e números */
+  --font-display: "Geist Variable", system-ui, sans-serif;
+  --font-sans: "Geist Variable", system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, monospace;
 
   --step--2: 0.72rem;
   --step--1: 0.875rem;
@@ -190,16 +192,16 @@ footer[id] {
 
 .display {
   font-family: var(--font-display);
-  font-weight: 900;
+  font-weight: 300;
   text-transform: lowercase;
-  letter-spacing: -0.03em;
-  line-height: 0.95;
+  letter-spacing: -0.045em;
+  line-height: 1;
 }
 
 .ast {
   color: var(--accent);
   font-family: var(--font-mono);
-  font-weight: 700;
+  font-weight: 500;
 }
 
 /* ---------- Botões e links ---------- */
@@ -215,7 +217,7 @@ footer[id] {
   border: var(--rule) solid var(--ink);
   font-family: var(--font-mono);
   font-size: var(--step--1);
-  font-weight: 700;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   text-decoration: none;
@@ -263,7 +265,7 @@ footer[id] {
 .text-link {
   font-family: var(--font-mono);
   font-size: var(--step--1);
-  font-weight: 700;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--ink);
