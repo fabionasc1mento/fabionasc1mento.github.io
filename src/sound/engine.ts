@@ -18,7 +18,9 @@ export const SOUND_EVENT = "soundchange";
 let ctx: AudioContext | null = null;
 let master: GainNode;
 let sfx: GainNode;
-let ambient: { gain: GainNode; stir: GainNode; stop: () => void } | null = null;
+let keys: GainNode; // teclas: seco, sem reverb (reverb deixava a digitação embolada)
+let ambient: { gain: GainNode; stop: () => void } | null = null;
+let nextNode = 0; // pings da trilha em fila, para nenhum se perder
 let enabled = false;
 let bubbleTimer: ReturnType<typeof setTimeout> | undefined;
 const last: Record<string, number> = {};
@@ -60,6 +62,9 @@ function setup() {
   const wet = ctx.createGain();
   wet.gain.value = 0.22;
   sfx.connect(reverb).connect(wet).connect(master);
+  keys = ctx.createGain();
+  keys.gain.value = 1.3;
+  keys.connect(master);
   return ctx;
 }
 
@@ -93,19 +98,7 @@ function startAmbient(c: AudioContext) {
     return osc;
   });
 
-  // Água mexida pelo mouse: chiado que sobe com a velocidade
-  const stirSrc = c.createBufferSource();
-  stirSrc.buffer = voices.whiteNoise(c);
-  stirSrc.loop = true;
-  const stirFilter = c.createBiquadFilter();
-  stirFilter.type = "bandpass";
-  stirFilter.frequency.value = 650;
-  stirFilter.Q.value = 0.8;
-  const stir = c.createGain();
-  stir.gain.value = 0;
-  stirSrc.connect(stirFilter).connect(stir).connect(master);
-
-  const sources = [sea, breathe, stirSrc, ...drones];
+  const sources = [sea, breathe, ...drones];
   sources.forEach((s) => s.start());
   gain.gain.setTargetAtTime(0.035, c.currentTime, 1.2); // entra devagar, bem baixo
 
@@ -127,12 +120,10 @@ function startAmbient(c: AudioContext) {
 
   return {
     gain,
-    stir,
     stop: () => {
       clearTimeout(bubbleTimer);
       sources.forEach((s) => s.stop());
       gain.disconnect();
-      stir.disconnect();
     },
   };
 }
@@ -142,18 +133,24 @@ function announce() {
 }
 
 /** Toca uma voz respeitando um intervalo mínimo (evita metralhadora) */
-function play(name: string, gap: number, fn: (c: AudioContext, out: AudioNode, t: number) => void, pan?: number) {
+function play(
+  name: string,
+  gap: number,
+  fn: (c: AudioContext, out: AudioNode, t: number) => void,
+  pan?: number,
+  bus?: () => AudioNode,
+) {
   // (contexto recém-criado pode estar "suspended" por alguns ms: o som
   // fica agendado e toca assim que ele retoma)
   if (!enabled || !ctx || ctx.state === "closed") return;
   const now = performance.now();
   if (now - (last[name] ?? 0) < gap) return;
   last[name] = now;
-  let out: AudioNode = sfx;
+  let out: AudioNode = bus ? bus() : sfx;
   if (pan !== undefined && ctx.createStereoPanner) {
     const panner = ctx.createStereoPanner();
     panner.pan.value = Math.max(-0.6, Math.min(0.6, pan));
-    panner.connect(sfx);
+    panner.connect(out);
     out = panner;
   }
   fn(ctx, out, ctx.currentTime + 0.005);
@@ -213,20 +210,19 @@ export const sound = {
   hover: (x?: number) => play("hover", 45, (c, o, t) => voices.hover(c, o, t), panAt(x)),
   click: (x?: number) => play("click", 40, (c, o, t) => voices.click(c, o, t), panAt(x)),
   toggle: (on: boolean) => play("toggle", 60, (c, o, t) => voices.toggle(c, o, t, on)),
-  key: (erase = false) => play("key", 32, (c, o, t) => voices.key(c, o, t, erase)),
-  node: (index: number) => play("node", 90, (c, o, t) => voices.node(c, o, t, index)),
+  /** Tecla: o intervalo mínimo varia (38–70 ms), então rolar rápido soa
+   *  como alguém digitando, não como metralhadora em ritmo fixo */
+  key: (kind: voices.KeyKind = "key") =>
+    play("key", 38 + Math.random() * 32, (c, o, t) => voices.key(c, o, t, kind), undefined, () => keys),
+  /** Ping da trilha: se vários acendem juntos (rolagem rápida), toca em
+   *  sequência, 90 ms entre eles, em vez de descartar */
+  node(index: number) {
+    if (!enabled || !ctx || ctx.state === "closed") return;
+    const at = Math.max(ctx.currentTime + 0.005, nextNode);
+    nextNode = at + 0.09;
+    voices.node(ctx, sfx, at, index);
+  },
   blip: () => play("blip", 40, (c, o, t) => voices.blip(c, o, t)),
-  glitch: () => play("glitch", 150, (c, o, t) => voices.glitch(c, o, t)),
   drop: (x?: number) => play("drop", 80, (c, o, t) => voices.drop(c, o, t), panAt(x)),
   boot: () => play("boot", 500, (c, o, t) => voices.boot(c, o, t)),
-
-  /** Velocidade do mouse sobre a água (px/s) → volume do chiado */
-  stir(speed: number) {
-    if (!enabled || !ctx || !ambient) return;
-    const target = Math.min(1, speed / 2200) * 0.05;
-    const now = ctx.currentTime;
-    if (Math.abs(target - (last.stirValue ?? 0)) < 0.002) return;
-    last.stirValue = target;
-    ambient.stir.gain.setTargetAtTime(target, now, 0.12);
-  },
 };

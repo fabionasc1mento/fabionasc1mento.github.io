@@ -72,10 +72,12 @@ export function Experience() {
     });
 
     let settle: ReturnType<typeof setTimeout> | undefined;
+    // Só toca depois da primeira pintura (abrir a página já no meio da
+    // trilha não dispara vários pings de uma vez)
+    let armed = false;
     const swap = (index: number) => {
       if (index === activeRef.current) return;
       activeRef.current = index;
-      sound.node(index);
       const targets = [detailRef.current, counterRef.current].filter(Boolean);
       gsap.to(targets, { filter: "blur(8px)", opacity: 0.35, duration: BLUR_OUT, ease: "power2.out", overwrite: true });
       setActive(index); // troca o conteúdo na hora, ainda desfocado
@@ -96,6 +98,10 @@ export function Experience() {
       let index = 0;
       nodes.forEach((node, i) => {
         const lit = progress >= fractions[i] - 0.004;
+        // Ping quando o nó acende (descendo). Usa o estado aceso de cada nó,
+        // não o "emprego atual": o primeiro já começa como atual e por isso
+        // ficava sem som.
+        if (lit && node.dataset.lit !== "true" && armed) sound.node(i);
         node.dataset.lit = String(lit);
         if (lit) index = i;
       });
@@ -130,6 +136,7 @@ export function Experience() {
       const progress = tween.scrollTrigger?.progress ?? 0;
       tween.progress(progress);
       render(progress);
+      armed = true;
     });
 
     return () => {
