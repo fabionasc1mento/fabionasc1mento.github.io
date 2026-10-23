@@ -21,9 +21,51 @@
 
 .word {
   display: inline-block;
+  white-space: nowrap;
 }
 
-/* Tecnologias acendem em azul */
+.char {
+  position: relative;
+}
+
+/* Com movimento: letras ainda não digitadas ficam invisíveis, mas ocupam
+   o lugar delas (o texto não muda de linha enquanto aparece) */
+:global(html.has-motion) [data-char]:not([data-on="true"]) {
+  visibility: hidden;
+}
+
+/* Cursor de terminal: bloco na ponta da última letra digitada */
+[data-caret]::after,
+.text[data-empty="true"]::before {
+  content: "";
+  position: absolute;
+  top: 0.08em;
+  width: 0.5em;
+  height: 0.95em;
+  background: var(--accent);
+  visibility: visible;
+}
+
+[data-caret]::after {
+  left: 100%;
+  margin-left: 0.06em;
+}
+
+/* Antes da primeira letra o cursor espera no começo da linha */
+.text[data-empty="true"]::before {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  top: 0.08em;
+}
+
+/* Parado, o cursor pisca */
+.text[data-typing="false"] [data-caret]::after,
+.text[data-empty="true"]::before {
+  animation: blink 1s steps(1) infinite;
+}
+
+/* Tecnologias aparecem na cor de destaque */
 .word[data-hot="true"] {
   color: var(--accent);
 }
@@ -42,5 +84,21 @@
 @media (prefers-reduced-motion: reduce) {
   .bar {
     display: none;
+  }
+
+  /* Sem digitação: o texto aparece inteiro e sem cursor */
+  :global(html.has-motion) [data-char]:not([data-on="true"]) {
+    visibility: visible;
+  }
+
+  [data-caret]::after,
+  .text[data-empty="true"]::before {
+    display: none;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
   }
 }
