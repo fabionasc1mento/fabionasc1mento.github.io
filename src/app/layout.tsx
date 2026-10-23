@@ -45,7 +45,7 @@ const PERSON_JSON_LD = {
     "Entity Framework",
     "SQL Server",
     "Modelagem de dados",
-    "APIs REST",
+    "Integração com APIs REST",
     "Arquitetura de software",
     "JavaScript",
     "React",

@@ -106,7 +106,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
     meta: {
       title: "Fábio Tarcio | Desenvolvedor Full Stack",
       description:
-        "Fábio Tarcio, desenvolvedor full stack (C#/.NET, ASP.NET MVC, SQL Server, React, Next.js). Sistemas web de ponta a ponta: dados, APIs, regras de negócio e interface. Cuiabá, Brasil, aberto a vagas remotas.",
+        "Fábio Tarcio, desenvolvedor full stack (C#/.NET, ASP.NET MVC, SQL Server, React, Next.js). Sistemas web de ponta a ponta: dados, regras de negócio, integrações e interface. Cuiabá, Brasil, aberto a vagas remotas.",
     },
     nav: {
       aria: "Navegação principal",
@@ -129,7 +129,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
     hero: {
       name: "Fábio Tarcio",
       title: "Transformo processo manual em sistema.",
-      lead: "Sou o Fábio, desenvolvedor full stack. Há 3 anos construo sistemas web de ponta a ponta: modelagem de dados, APIs, regras de negócio e a interface que as pessoas usam no dia a dia. Hoje desenvolvo sistemas corporativos na ALPIUM e estou concluindo Engenharia de Software.",
+      lead: "Sou o Fábio, desenvolvedor full stack. Há 3 anos construo sistemas web de ponta a ponta: modelagem de dados, regras de negócio, integrações e a interface que as pessoas usam no dia a dia. Hoje desenvolvo sistemas corporativos na ALPIUM e estou concluindo Engenharia de Software.",
       ctaProjects: "Ver projetos",
       ctaContact: "Falar comigo",
       demoCaption:
@@ -284,7 +284,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
     meta: {
       title: "Fábio Tarcio | Full Stack Developer",
       description:
-        "Fábio Tarcio, full stack developer (C#/.NET, ASP.NET MVC, SQL Server, React, Next.js). End-to-end web systems: data, APIs, business logic and UI. Based in Cuiabá, Brazil, open to remote roles.",
+        "Fábio Tarcio, full stack developer (C#/.NET, ASP.NET MVC, SQL Server, React, Next.js). End-to-end web systems: data, business logic, integrations and UI. Based in Cuiabá, Brazil, open to remote roles.",
     },
     nav: {
       aria: "Main navigation",
@@ -307,7 +307,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
     hero: {
       name: "Fábio Tarcio",
       title: "I turn manual processes into software.",
-      lead: "I'm Fábio, a full stack developer. For 3 years I've been building web systems end to end: data modeling, APIs, business logic and the interfaces people use every day. I currently build enterprise systems at ALPIUM and I'm finishing my degree in Software Engineering.",
+      lead: "I'm Fábio, a full stack developer. For 3 years I've been building web systems end to end: data modeling, business logic, integrations and the interfaces people use every day. I currently build enterprise systems at ALPIUM and I'm finishing my degree in Software Engineering.",
       ctaProjects: "See projects",
       ctaContact: "Get in touch",
       demoCaption:
