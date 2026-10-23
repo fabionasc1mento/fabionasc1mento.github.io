@@ -18,7 +18,7 @@
 }
 
 .prompt {
-  color: var(--red);
+  color: var(--accent);
 }
 
 .text {
@@ -49,8 +49,8 @@
 }
 
 .link:hover {
-  background: var(--red);
-  border-color: var(--red);
+  background: var(--accent);
+  border-color: var(--accent);
   color: var(--paper);
 }
 

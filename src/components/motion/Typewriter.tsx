@@ -7,7 +7,7 @@ type TypewriterProps = {
   className?: string;
   /** ms por letra */
   speed?: number;
-  /** mostra o cursor vermelho piscando no fim */
+  /** mostra o cursor azul piscando no fim */
   cursor?: boolean;
 };
 

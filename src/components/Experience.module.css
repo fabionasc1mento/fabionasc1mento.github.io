@@ -37,7 +37,7 @@
 
 .role {
   margin-top: 0.4rem;
-  color: var(--red);
+  color: var(--accent);
   font-weight: 700;
 }
 
@@ -118,9 +118,9 @@
 }
 
 .live {
-  stroke: var(--red);
+  stroke: var(--accent);
   stroke-width: 3;
-  filter: drop-shadow(0 0 5px var(--red));
+  filter: drop-shadow(0 0 5px var(--accent));
 }
 
 /* "Pacote" na ponta da linha */
@@ -132,7 +132,7 @@
   height: 0.7rem;
   margin: -0.35rem 0 0 -0.35rem;
   background: var(--ink);
-  box-shadow: 0 0 0 3px var(--red), 0 0 16px var(--red);
+  box-shadow: 0 0 0 3px var(--accent), 0 0 16px var(--accent);
   will-change: transform;
 }
 
@@ -154,8 +154,8 @@
 }
 
 .node[data-lit="true"] .pad {
-  border-color: var(--red);
-  background: var(--red);
+  border-color: var(--accent);
+  background: var(--accent);
 }
 
 /* Nó atual: anel que pulsa, como um LED */
@@ -163,7 +163,7 @@
   content: "";
   position: absolute;
   inset: -0.55rem;
-  border: 1px solid var(--red);
+  border: 1px solid var(--accent);
   animation: ping 1.4s ease-out infinite;
 }
 
@@ -215,7 +215,7 @@
 }
 
 .node[data-current="true"] .nodeCompany {
-  color: var(--red);
+  color: var(--accent);
 }
 
 /* Detalhes do emprego atual + contador gigante */
@@ -253,7 +253,7 @@
 }
 
 .detailRole {
-  color: var(--red);
+  color: var(--accent);
   font-weight: 700;
 }
 

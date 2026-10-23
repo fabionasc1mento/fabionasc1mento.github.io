@@ -1,11 +1,11 @@
 /* Tokens do design: mude aqui para ajustar o site inteiro.
    Estética cybercore editorial: grid de linhas pretas sobre cinza claro,
-   vermelho só como sinal (asteriscos, blocos, destaques), rótulos em mono. */
+   azul só como sinal (asteriscos, blocos, destaques), rótulos em mono. */
 :root {
   --paper: #e3e3e1;      /* fundo */
   --paper-2: #d8d8d5;    /* células em destaque / hover */
   --ink: #0c0c0c;        /* texto e linhas */
-  --red: #e2372b;        /* sinal */
+  --accent: #3554d1;     /* sinal: azul calmo (vermelho passava sensação de alerta) */
   --dim: #6d6d6a;        /* texto secundário */
   --hair: rgb(12 12 12 / 0.16); /* linha fina interna */
 
@@ -23,9 +23,9 @@
   --surface: var(--paper);
   --muted: var(--dim);
   --line: var(--ink);
-  --violet: var(--red);
+  --violet: var(--accent);
   --violet-deep: var(--ink);
-  --marker: var(--red);
+  --marker: var(--accent);
   --on-marker: var(--paper);
   --deep: var(--ink);
 
@@ -59,7 +59,7 @@
   --paper: #0f0f0e;
   --paper-2: #1c1c1a;
   --ink: #e3e3e1;
-  --red: #f0443a;
+  --accent: #6d8bff;
   --dim: #8f8f8b;
   --hair: rgb(227 227 225 / 0.16);
 
@@ -141,12 +141,12 @@ a {
 }
 
 ::selection {
-  background: var(--red);
+  background: var(--accent);
   color: var(--paper);
 }
 
 :focus-visible {
-  outline: var(--rule) solid var(--red);
+  outline: var(--rule) solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -197,7 +197,7 @@ footer[id] {
 }
 
 .ast {
-  color: var(--red);
+  color: var(--accent);
   font-family: var(--font-mono);
   font-weight: 700;
 }
@@ -244,14 +244,14 @@ footer[id] {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: var(--fill, var(--red));
+  background: var(--fill, var(--accent));
   transform: translateX(-101%);
   transition: transform 0.6s cubic-bezier(0.3, 0.6, 0.3, 1);
 }
 
 .button:hover,
 .button:focus-visible {
-  border-color: var(--fill, var(--red));
+  border-color: var(--fill, var(--accent));
   color: var(--fill-ink, var(--paper));
 }
 
@@ -268,12 +268,12 @@ footer[id] {
   letter-spacing: 0.06em;
   color: var(--ink);
   text-decoration: none;
-  border-bottom: var(--rule) solid var(--red);
+  border-bottom: var(--rule) solid var(--accent);
   padding-bottom: 0.1em;
 }
 
 .text-link:hover {
-  background: var(--red);
+  background: var(--accent);
   color: var(--paper);
 }
 
@@ -392,14 +392,14 @@ footer[id] {
   50% { opacity: 0; }
 }
 
-/* Cursor de terminal: bloco vermelho piscando */
+/* Cursor de terminal: bloco azul piscando */
 .cursor {
   display: inline-block;
   width: 0.55em;
   height: 1em;
   margin-left: 0.15em;
   vertical-align: -0.12em;
-  background: var(--red);
+  background: var(--accent);
   animation: blink 1s steps(1) infinite;
 }
 

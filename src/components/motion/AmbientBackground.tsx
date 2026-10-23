@@ -4,8 +4,8 @@ import { useEffect, useRef } from "react";
 import styles from "./AmbientBackground.module.css";
 
 // Fundo da página, desenhado num <canvas> atrás do conteúdo: uma grade
-// de engenharia alinhada à página, só em tons de cinza (o vermelho fica
-// para o conteúdo; no fundo ele passaria sensação de alerta).
+// de engenharia alinhada à página, só em tons de cinza (a cor de destaque fica
+// para o conteúdo; no fundo ela pesaria demais).
 // O cursor vira uma mira discreta com coordenadas, e as cruzes perto dela
 // clareiam um pouco. Só redesenha quando algo muda (mouse, rolagem, tela,
 // tema): parado, não gasta nada.

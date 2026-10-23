@@ -13,7 +13,7 @@ const LOG = [
 
 // Abertura encenada (landing-motion, preloader "staged"): só começa depois
 // que a página carregou; uma cortina preta recua da esquerda para a direita
-// revelando o painel vermelho, com paradas em 30% e 60%, e o contador é
+// revelando o painel azul, com paradas em 30% e 60%, e o contador é
 // empurrado para fora pela borda. Na saída o painel desce e a marca sobe,
 // enquanto o hero já entra por baixo. Uma vez por sessão (script do <head>).
 export const Preloader = memo(function Preloader() {

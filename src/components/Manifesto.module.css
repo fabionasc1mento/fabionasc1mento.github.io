@@ -23,9 +23,9 @@
   display: inline-block;
 }
 
-/* Tecnologias acendem em vermelho */
+/* Tecnologias acendem em azul */
 .word[data-hot="true"] {
-  color: var(--red);
+  color: var(--accent);
 }
 
 /* Barra de leitura na base da seção, de ponta a ponta da moldura */
@@ -35,7 +35,7 @@
   right: 0;
   bottom: 0;
   height: var(--rule);
-  background: var(--red);
+  background: var(--accent);
   transform-origin: left center;
 }
 

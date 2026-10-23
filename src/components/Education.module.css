@@ -76,7 +76,7 @@
 }
 
 .level {
-  color: var(--red);
+  color: var(--accent);
 }
 
 @media (max-width: 640px) {

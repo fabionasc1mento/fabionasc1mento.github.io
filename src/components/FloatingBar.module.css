@@ -1,4 +1,4 @@
-/* Vidro "cybercore": quadrado, borda da tinta, sombra dura vermelha.
+/* Vidro "cybercore": quadrado, borda da tinta, sombra dura azul.
    A posição e o mostrar/esconder vêm do motion.css do runtime. */
 .bar[data-floating-cta] {
   gap: 0.75rem;
@@ -6,7 +6,7 @@
   border: var(--rule) solid var(--ink);
   border-radius: 0;
   background: color-mix(in srgb, var(--paper) 78%, transparent);
-  box-shadow: 6px 6px 0 var(--red);
+  box-shadow: 6px 6px 0 var(--accent);
 }
 
 /* No painel lateral (telas largas) a barra fica à esquerda dele */

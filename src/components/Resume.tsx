@@ -9,7 +9,7 @@ const RESUME_FILE = "/curriculo-fabio-tarcio.pdf";
 const RESUME_DOWNLOAD_NAME = "Curriculo_Fabio_Tarcio.pdf";
 
 // Seção do currículo: prévia da página à esquerda (revelada por uma cortina
-// e "escaneada" por uma linha vermelha) e, ao lado, o arquivo com os botões
+// e "escaneada" por uma linha azul) e, ao lado, o arquivo com os botões
 // de baixar e abrir.
 export function Resume() {
   const { t } = useLanguage();

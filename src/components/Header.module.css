@@ -24,7 +24,7 @@
   margin-right: auto;
 }
 
-/* Monograma: o cursor vermelho pisca quando o mouse passa no nome */
+/* Monograma: o cursor azul pisca quando o mouse passa no nome */
 .mark {
   width: 2.1rem;
   height: 2.1rem;
@@ -58,7 +58,7 @@
 }
 
 .links a:hover {
-  color: var(--red);
+  color: var(--accent);
 }
 
 .timecode {
@@ -84,8 +84,8 @@
 }
 
 .lang:hover {
-  background: var(--red);
-  border-color: var(--red);
+  background: var(--accent);
+  border-color: var(--accent);
   color: var(--paper);
 }
 

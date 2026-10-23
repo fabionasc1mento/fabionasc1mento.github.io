@@ -1,7 +1,7 @@
-/* Cores da abertura: painel vermelho revelado por uma cortina preta.
+/* Cores da abertura: painel azul revelado por uma cortina preta.
    (Os dois são fixos: a abertura é igual nos temas claro e escuro.) */
 .preloader {
-  --lm-stage-panel: #e2372b;
+  --lm-stage-panel: #3554d1;
   --lm-stage-curtain: #0c0c0c;
   color: #0c0c0c;
 }
@@ -20,8 +20,8 @@
 .mark {
   width: clamp(7rem, 26vmin, 15rem);
   height: auto;
-  /* o cursor do monograma fica preto sobre o vermelho */
-  --red: #0c0c0c;
+  /* o cursor do monograma fica preto sobre o azul */
+  --accent: #0c0c0c;
 }
 
 /* Log de boot no canto inferior esquerdo: a cortina revela letra a letra */
@@ -44,9 +44,9 @@
   box-shadow: 0 0 18px #e3e3e1;
 }
 
-/* Contador: vermelho sobre a cortina preta, preto sobre o painel vermelho */
+/* Contador: azul sobre a cortina preta, preto sobre o painel azul */
 .preloader [data-preloader-count].count {
   font-size: clamp(3.5rem, 12vw, 9rem);
-  color: #e2372b;
+  color: #6d8bff;
   font-variant-numeric: tabular-nums;
 }

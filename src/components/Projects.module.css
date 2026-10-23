@@ -19,12 +19,12 @@
 }
 
 .kind {
-  color: var(--red);
+  color: var(--accent);
   font-weight: 700;
 }
 
 /* Problema → solução → resultado em três colunas separadas por linhas.
-   O resultado ganha o bloco vermelho. */
+   O resultado ganha o bloco azul. */
 .steps {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -39,7 +39,7 @@
 }
 
 .step:last-child {
-  background: var(--red);
+  background: var(--accent);
   color: var(--paper);
 }
 
@@ -113,7 +113,7 @@
   margin-top: clamp(2rem, 5vw, 3rem);
 }
 
-/* Card: levanta com sombra dura vermelha; a imagem dá zoom mais devagar
+/* Card: levanta com sombra dura azul; a imagem dá zoom mais devagar
    que o card (padrão "lift + inner zoom"), então parece "assentar" depois */
 .card {
   display: flex;
@@ -127,7 +127,7 @@
 
 .card:hover {
   translate: -5px -5px;
-  box-shadow: 5px 5px 0 var(--red);
+  box-shadow: 5px 5px 0 var(--accent);
 }
 
 .media {

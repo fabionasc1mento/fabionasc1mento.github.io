@@ -89,7 +89,7 @@
   right: 0;
 }
 
-/* Título + bloco vermelho */
+/* Título + bloco azul */
 .lede {
   position: relative;
   display: grid;
@@ -117,7 +117,7 @@
   justify-content: space-between;
   gap: 2rem;
   padding: clamp(1.5rem, 3vw, 2.25rem);
-  background: var(--red);
+  background: var(--accent);
   color: var(--paper);
 }
 
@@ -143,7 +143,7 @@
   color: var(--paper);
 }
 
-/* Dentro do bloco vermelho o preenchimento é da cor da tinta */
+/* Dentro do bloco azul o preenchimento é da cor da tinta */
 .redPrimary,
 .redGhost {
   --fill: var(--ink);

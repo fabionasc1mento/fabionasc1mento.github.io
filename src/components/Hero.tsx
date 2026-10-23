@@ -40,7 +40,7 @@ export function Hero() {
       </div>
       <span className={`draw-x ${styles.hline}`} />
 
-      {/* Título, texto e o bloco vermelho com as ações */}
+      {/* Título, texto e o bloco azul com as ações */}
       <div className={styles.lede}>
         <div className={styles.intro} data-intro="blur">
           <h1 className={styles.title}>{t.hero.title}</h1>

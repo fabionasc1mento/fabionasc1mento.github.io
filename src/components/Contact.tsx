@@ -6,7 +6,7 @@ import { Typewriter } from "./motion/Typewriter";
 import styles from "./Contact.module.css";
 
 // Contato como um terminal: fundo preto, título digitado com cursor
-// vermelho e os links como "comandos".
+// azul e os links como "comandos".
 export function Contact() {
   const { t } = useLanguage();
 
