@@ -3,19 +3,18 @@
 import { useEffect, useRef } from "react";
 import styles from "./AmbientBackground.module.css";
 
-// Fundo vivo, desenhado a cada quadro num <canvas> (nada de imagem em loop):
-// 1. duas manchas de luz bem suaves (cinza) que derivam devagar;
-// 2. uma malha de pontos que foge do cursor e acende em neon perto dele, e
-//    faixas de luz que correm pela malha enquanto você rola;
-// 3. o grão de filme fica no CSS (camada por cima, quase invisível).
+// Fundo da página, desenhado num <canvas> atrás do conteúdo: uma grade
+// de engenharia alinhada à página, só em tons de cinza (o vermelho fica
+// para o conteúdo; no fundo ele passaria sensação de alerta).
+// O cursor vira uma mira discreta com coordenadas, e as cruzes perto dela
+// clareiam um pouco. Só redesenha quando algo muda (mouse, rolagem, tela,
+// tema): parado, não gasta nada.
 
-const SPACING = 30; // distância entre os pontos da malha (px)
-const DOT = 1.1; // raio do ponto (px)
-const CURSOR_RADIUS = 220; // alcance do cursor (px)
-const CURSOR_PUSH = 16; // quanto o ponto foge do cursor (px)
-const NEON_EDGE = "#0c0c0c"; // preto na borda do alcance do cursor
-const NEON_CORE = "#e2372b"; // vermelho perto do cursor
-const WAVE_COLOR = "#e2372b"; // vermelho das faixas da onda
+const CELL = 24; // grade fina (px)
+const MAJOR = 5; // a cada 5 células, uma linha forte + cruz
+const REACH = 190; // alcance do cursor (px)
+
+type Palette = { ink: string; dim: string; dark: boolean };
 
 export function AmbientBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -25,35 +24,24 @@ export function AmbientBackground() {
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
 
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    // Cores que dependem do tema: lidas do CSS e lidas de novo quando o
-    // tema muda (o botão troca o data-theme do <html>)
-    const glowColor = "#ffffff"; // manchas de luz
-    let glowStrength = 1; // no escuro as manchas ficam bem mais fracas
-    let neonEdge = NEON_EDGE;
-    let dotFill = "";
-    const readTheme = () => {
-      const css = getComputedStyle(document.documentElement);
-      const dark = document.documentElement.dataset.theme === "dark";
-      const dotColor = css.getPropertyValue("--dim").trim() || "#6d6d6a";
-      dotFill = hexToRgba(dotColor, dark ? 0.45 : 0.32); // calculado uma vez, não por ponto
-      neonEdge = css.getPropertyValue("--ink").trim() || NEON_EDGE;
-      glowStrength = dark ? 0.08 : 1;
-      if (reduceMotion) draw(0);
-    };
-    const themeObserver = new MutationObserver(readTheme);
-    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     let width = 0;
     let height = 0;
     let frame = 0;
+    let palette: Palette = { ink: "#e3e3e1", dim: "#8f8f8b", dark: true };
     const pointer = { x: -9999, y: -9999, active: false };
-    // Onda: "energia" de 0 a 1 que sobe quando você rola e some sozinha.
-    // As faixas andam para baixo ou para cima conforme o sentido da rolagem.
-    let wave = 0;
-    let waveDirection = 1;
-    let wavePhase = 0;
-    let lastScroll = window.scrollY;
+    const reticle = { x: -9999, y: -9999 }; // segue o cursor com atraso
+
+    const readTheme = () => {
+      const css = getComputedStyle(document.documentElement);
+      palette = {
+        ink: css.getPropertyValue("--ink").trim() || "#e3e3e1",
+        dim: css.getPropertyValue("--dim").trim() || "#8f8f8b",
+        dark: document.documentElement.dataset.theme !== "light",
+      };
+      invalidate();
+    };
 
     const resize = () => {
       const ratio = Math.min(window.devicePixelRatio || 1, 2);
@@ -64,115 +52,158 @@ export function AmbientBackground() {
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-      if (reduceMotion) draw(0);
+      invalidate();
     };
 
-    const ink = (x: number, y: number, radius: number, alpha: number) => {
-      const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-      gradient.addColorStop(0, hexToRgba(glowColor, alpha * glowStrength));
-      gradient.addColorStop(1, hexToRgba(glowColor, 0));
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, width, height);
+    const rgba = (hex: string, a: number) => {
+      const v = hex.replace("#", "");
+      const full = v.length === 3 ? v.replace(/./g, (c) => c + c) : v;
+      const n = parseInt(full, 16);
+      return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${a})`;
     };
 
-    const draw = (time: number) => {
-      const t = time / 1000;
+    // 0 longe do cursor, 1 em cima dele (com curva suave)
+    const near = (x: number, y: number) => {
+      if (!pointer.active) return 0;
+      const d = Math.hypot(x - reticle.x, y - reticle.y);
+      if (d >= REACH) return 0;
+      const f = 1 - d / REACH;
+      return f * f;
+    };
+
+    const draw = () => {
       ctx.clearRect(0, 0, width, height);
+      const offsetY = -(window.scrollY % (CELL * MAJOR));
+      const fine = palette.dark ? 0.035 : 0.05;
+      const strong = palette.dark ? 0.07 : 0.09;
 
-      // 1. Tinta: duas manchas em trajetórias lentas (curvas de Lissajous)
-      const big = Math.max(width, height);
-      ink(width * (0.25 + 0.15 * Math.sin(t * 0.07)), height * (0.3 + 0.2 * Math.cos(t * 0.05)), big * 0.55, 0.45);
-      ink(width * (0.78 + 0.12 * Math.cos(t * 0.06)), height * (0.75 + 0.15 * Math.sin(t * 0.08)), big * 0.45, 0.35);
-
-      // Halo neon em volta do cursor
-      if (pointer.active) {
-        const halo = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, CURSOR_RADIUS);
-        halo.addColorStop(0, hexToRgba(NEON_CORE, 0.08));
-        halo.addColorStop(1, hexToRgba(neonEdge, 0));
-        ctx.fillStyle = halo;
-        ctx.fillRect(pointer.x - CURSOR_RADIUS, pointer.y - CURSOR_RADIUS, CURSOR_RADIUS * 2, CURSOR_RADIUS * 2);
+      // Linhas finas e fortes (a grade acompanha a rolagem)
+      ctx.lineWidth = 1;
+      for (let i = 0, x = 0.5; x < width; x += CELL, i++) {
+        ctx.strokeStyle = rgba(palette.ink, i % MAJOR === 0 ? strong : fine);
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, height);
+        ctx.stroke();
+      }
+      const firstRow = Math.floor(offsetY / CELL) - 1;
+      for (let j = firstRow; j * CELL + offsetY < height + CELL; j++) {
+        const y = Math.round(j * CELL + offsetY) + 0.5;
+        const major = ((j % MAJOR) + MAJOR) % MAJOR === 0;
+        ctx.strokeStyle = rgba(palette.ink, major ? strong : fine);
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(width, y);
+        ctx.stroke();
       }
 
-      // 2. Malha de pontos. A grade acompanha a rolagem (parece presa à página)
-      const offsetY = -(window.scrollY % SPACING);
-      wave *= 0.95;
-
-      for (let gy = offsetY - SPACING; gy < height + SPACING; gy += SPACING) {
-        // Faixas da onda: picos estreitos de luz que correm pela tela
-        const phase = gy * 0.012 - wavePhase;
-        const band = wave * Math.pow(Math.max(0, Math.sin(phase)), 6);
-
-        for (let gx = SPACING / 2; gx < width; gx += SPACING) {
-          let x = gx + Math.sin(gx * 0.02 + phase) * band * 6;
-          let y = gy;
-          let glow = 0;
-
-          if (pointer.active) {
-            const dx = x - pointer.x;
-            const dy = y - pointer.y;
-            const dist = Math.hypot(dx, dy);
-            if (dist < CURSOR_RADIUS && dist > 0.01) {
-              const force = 1 - dist / CURSOR_RADIUS;
-              const eased = force * force;
-              x += (dx / dist) * CURSOR_PUSH * eased;
-              y += (dy / dist) * CURSOR_PUSH * eased;
-              glow = eased;
-            }
-          }
-
+      // Cruzes nas interseções fortes; perto da mira crescem e clareiam
+      const step = CELL * MAJOR;
+      for (let x = 0.5; x < width + step; x += step) {
+        for (let y = offsetY - step; y < height + step; y += step) {
+          const yy = Math.round(y) + 0.5;
+          const g = near(x, yy);
+          const arm = 3 + g * 3;
+          const base = palette.dark ? 0.22 : 0.3;
+          ctx.strokeStyle = rgba(palette.ink, base + g * 0.45);
+          ctx.lineWidth = 1;
           ctx.beginPath();
-          if (glow > 0.02) {
-            // Perto do cursor: do roxo (borda) ao magenta neon (centro)
-            ctx.arc(x, y, DOT + glow * 1.6, 0, Math.PI * 2);
-            ctx.fillStyle = mix(neonEdge, NEON_CORE, glow, 0.35 + glow * 0.65);
-          } else if (band > 0.03) {
-            ctx.arc(x, y, DOT + band * 1.2, 0, Math.PI * 2);
-            ctx.fillStyle = hexToRgba(WAVE_COLOR, 0.2 + band * 0.75);
-          } else {
-            ctx.arc(x, y, DOT, 0, Math.PI * 2);
-            ctx.fillStyle = dotFill;
-          }
-          ctx.fill();
+          ctx.moveTo(x - arm, yy);
+          ctx.lineTo(x + arm, yy);
+          ctx.moveTo(x, yy - arm);
+          ctx.lineTo(x, yy + arm);
+          ctx.stroke();
         }
       }
+
+      // Mira: linhas finas de ponta a ponta + cantos + coordenadas
+      if (pointer.active) {
+        const rx = Math.round(reticle.x) + 0.5;
+        const ry = Math.round(reticle.y) + 0.5;
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = rgba(palette.ink, palette.dark ? 0.06 : 0.08);
+        ctx.beginPath();
+        ctx.moveTo(0, ry);
+        ctx.lineTo(width, ry);
+        ctx.moveTo(rx, 0);
+        ctx.lineTo(rx, height);
+        ctx.stroke();
+
+        const s = 16;
+        const c = 6;
+        ctx.strokeStyle = rgba(palette.ink, palette.dark ? 0.55 : 0.6);
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (const [sx, sy] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) {
+          ctx.moveTo(rx + sx * s, ry + sy * (s - c));
+          ctx.lineTo(rx + sx * s, ry + sy * s);
+          ctx.lineTo(rx + sx * (s - c), ry + sy * s);
+        }
+        ctx.stroke();
+
+        const docY = Math.round(reticle.y + window.scrollY);
+        ctx.font = '700 10px "Space Mono", ui-monospace, monospace';
+        ctx.fillStyle = rgba(palette.dim, 0.9);
+        ctx.fillText(`X ${String(Math.round(reticle.x)).padStart(4, "0")}  Y ${String(docY).padStart(5, "0")}`, rx + s + 8, ry - s + 4);
+      }
     };
 
-    const loop = (time: number) => {
-      const current = window.scrollY;
-      const delta = current - lastScroll;
-      lastScroll = current;
-      if (delta !== 0) waveDirection = Math.sign(delta);
-      wave = Math.min(1, wave + Math.abs(delta) * 0.006);
-      // As faixas andam enquanto há energia, no sentido da rolagem
-      wavePhase += waveDirection * (0.06 + wave * 0.12);
-      draw(time);
-      frame = requestAnimationFrame(loop);
+    // Laço só enquanto a mira estiver chegando no cursor
+    const tick = () => {
+      frame = 0;
+      let busy = false;
+      if (pointer.active) {
+        const dx = pointer.x - reticle.x;
+        const dy = pointer.y - reticle.y;
+        if (Math.abs(dx) > 0.3 || Math.abs(dy) > 0.3) {
+          reticle.x += dx * 0.22;
+          reticle.y += dy * 0.22;
+          busy = true;
+        }
+      }
+      draw();
+      if (busy) frame = requestAnimationFrame(tick);
     };
+    function invalidate() {
+      if (!frame) frame = requestAnimationFrame(tick);
+    }
 
     const onPointerMove = (event: PointerEvent) => {
       if (event.pointerType !== "mouse") return;
+      if (!pointer.active) {
+        reticle.x = event.clientX;
+        reticle.y = event.clientY;
+      }
       pointer.x = event.clientX;
       pointer.y = event.clientY;
       pointer.active = true;
+      invalidate();
     };
     const onPointerLeave = () => {
       pointer.active = false;
+      invalidate();
     };
+    // A grade acompanha a rolagem
+    const onScroll = () => invalidate();
+
+    const themeObserver = new MutationObserver(readTheme);
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
     readTheme();
     resize();
+    document.fonts?.ready.then(invalidate);
     window.addEventListener("resize", resize);
-
-    if (!reduceMotion) {
+    window.addEventListener("scroll", onScroll, { passive: true });
+    if (!reduce) {
       window.addEventListener("pointermove", onPointerMove, { passive: true });
       document.documentElement.addEventListener("pointerleave", onPointerLeave);
-      frame = requestAnimationFrame(loop);
     }
 
     return () => {
       cancelAnimationFrame(frame);
       themeObserver.disconnect();
       window.removeEventListener("resize", resize);
+      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("pointermove", onPointerMove);
       document.documentElement.removeEventListener("pointerleave", onPointerLeave);
     };
@@ -185,25 +216,4 @@ export function AmbientBackground() {
       <div className={styles.scan} />
     </div>
   );
-}
-
-// Mistura duas cores hex (t de 0 a 1) e devolve rgba com a opacidade dada
-function mix(a: string, b: string, t: number, alpha: number) {
-  const [r1, g1, b1] = hexToRgb(a);
-  const [r2, g2, b2] = hexToRgb(b);
-  const c = (x: number, y: number) => Math.round(x + (y - x) * t);
-  return `rgba(${c(r1, r2)}, ${c(g1, g2)}, ${c(b1, b2)}, ${alpha})`;
-}
-
-function hexToRgb(hex: string): [number, number, number] {
-  const value = hex.replace("#", "");
-  const full = value.length === 3 ? value.replace(/./g, (c) => c + c) : value;
-  const n = parseInt(full, 16);
-  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
-}
-
-// "#a98bff" + 0.3 -> "rgba(169, 139, 255, 0.3)"
-function hexToRgba(hex: string, alpha: number) {
-  const [r, g, b] = hexToRgb(hex);
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
