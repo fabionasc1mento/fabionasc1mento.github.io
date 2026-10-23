@@ -24,10 +24,10 @@
   margin-right: auto;
 }
 
-/* Monograma: o cursor azul pisca quando o mouse passa no nome */
+/* Monograma: o ponto azul pisca quando o mouse passa na marca */
 .mark {
-  width: 2.1rem;
-  height: 2.1rem;
+  width: 2.4rem;
+  height: 2.4rem;
   flex: none;
 }
 

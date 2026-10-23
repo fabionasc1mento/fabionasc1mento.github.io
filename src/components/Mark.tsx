@@ -1,26 +1,32 @@
-// Monograma FT: as letras dividem a barra de cima (ligadura) e o bloco
-// azul no canto é um cursor de terminal. Desenhado numa grade 9×9 de
-// pixels; as cores vêm do tema (currentColor e --accent).
-const INK = "M0 0h9v1h-9zM0 1h9v1h-9zM0 2h2v1h-2zM5 2h2v1h-2zM0 3h2v1h-2zM5 3h2v1h-2zM0 4h4v1h-4zM5 4h2v1h-2zM0 5h4v1h-4zM5 5h2v1h-2zM0 6h2v1h-2zM5 6h2v1h-2zM0 7h2v1h-2zM5 7h2v1h-2zM0 8h2v1h-2zM5 8h2v1h-2z";
-const CURSOR = "M8 7h1v1h-1zM8 8h1v1h-1z";
-
+// Monograma FT em linha fina: o F e o T dividem a barra de cima (ligadura)
+// e um ponto na cor de destaque fecha a marca. O traço tem espessura fixa
+// em pixels de tela (vector-effect), então fica nítido e fino tanto no
+// cabeçalho quanto grande na abertura.
 type MarkProps = {
   className?: string;
   title?: string;
+  /** espessura do traço em px de tela */
+  weight?: number;
 };
 
-export function Mark({ className, title }: MarkProps) {
+export function Mark({ className, title, weight = 1.5 }: MarkProps) {
   return (
     <svg
       className={className}
-      viewBox="0 0 9 9"
-      shapeRendering="crispEdges"
+      viewBox="0 0 24 24"
       role={title ? "img" : undefined}
       aria-label={title}
       aria-hidden={title ? undefined : true}
     >
-      <path d={INK} fill="currentColor" />
-      <path d={CURSOR} fill="var(--accent)" data-mark-cursor="" />
+      <path
+        d="M3 4H21M3 4V20M3 12H10M15 4V20"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={weight}
+        strokeLinecap="square"
+        vectorEffect="non-scaling-stroke"
+      />
+      <circle cx="19.5" cy="19" r="1.15" fill="var(--accent)" data-mark-cursor="" />
     </svg>
   );
 }

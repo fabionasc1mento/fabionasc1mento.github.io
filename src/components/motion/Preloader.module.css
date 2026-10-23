@@ -20,7 +20,7 @@
 .mark {
   width: clamp(7rem, 26vmin, 15rem);
   height: auto;
-  /* o cursor do monograma fica preto sobre o azul */
+  /* o ponto do monograma fica preto sobre o painel azul */
   --accent: #0c0c0c;
 }
 

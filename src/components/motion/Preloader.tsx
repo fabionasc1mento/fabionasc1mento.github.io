@@ -31,7 +31,7 @@ export const Preloader = memo(function Preloader() {
       aria-hidden="true"
     >
       <div className={styles.brand} data-preloader-split="">
-        <Mark className={styles.mark} />
+        <Mark className={styles.mark} weight={3} />
       </div>
 
       <div className={`label ${styles.log}`}>
