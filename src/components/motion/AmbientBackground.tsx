@@ -10,7 +10,7 @@ import styles from "./AmbientBackground.module.css";
 export function AmbientBackground() {
   return (
     <div className={styles.ambient} aria-hidden="true">
-      <DitherField fixed amount={0.14} speed={0.22} scale={340} pixel={2} />
+      <DitherField fixed interactive amount={0.14} speed={0.22} scale={340} pixel={2} />
       <div className={styles.scan} />
     </div>
   );

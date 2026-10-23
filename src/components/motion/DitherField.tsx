@@ -10,6 +10,7 @@ import styles from "./DitherField.module.css";
 // 2. dithering Bayer 8×8: cada pixel vira ligado/desligado, e o tom vem da
 //    densidade de pixels ligados;
 // 3. desenhado em resolução reduzida e ampliado com pixels duros.
+// Com interactive, a fumaça gira em volta do mouse e o rastro some devagar.
 // Pausa com a aba escondida e fica parado com movimento reduzido.
 
 const VERTEX = `
@@ -25,6 +26,9 @@ uniform float uScroll;
 uniform vec3 uInk;
 uniform float uAmount;
 uniform float uScale;
+// Rastro do mouse: até 8 pontos (x, y em px do canvas; z = força 0..1)
+uniform vec3 uTrail[8];
+uniform float uReach;
 
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123); }
 float noise(vec2 p) {
@@ -47,7 +51,22 @@ float bayer8(vec2 a) { return bayer4(0.5 * a) * 0.25 + bayer2(a); }
 
 void main() {
   vec2 frag = gl_FragCoord.xy;
-  vec2 p = vec2(frag.x, frag.y - uScroll) / uScale;
+  // O mouse "mexe" a fumaça: cada ponto do rastro gira o espaço em volta
+  // dele (redemoinho) e os mais recentes giram mais. O dithering continua
+  // usando a grade original de pixels (frag), só o desenho se distorce.
+  vec2 c = frag;
+  float stir = 0.0;
+  for (int i = 0; i < 8; i++) {
+    vec3 m = uTrail[i];
+    if (m.z <= 0.001) continue;
+    vec2 rel = c - m.xy;
+    float fall = exp(-dot(rel, rel) / (uReach * uReach)) * m.z;
+    float ang = fall * 1.8;
+    float s = sin(ang), co = cos(ang);
+    c = m.xy + mat2(co, s, -s, co) * rel;
+    stir += fall;
+  }
+  vec2 p = vec2(c.x, c.y - uScroll) / uScale;
   float t = uTime;
   vec2 q = vec2(fbm(p + vec2(0.0, t * 0.05)), fbm(p + vec2(5.2, 1.3) - t * 0.04));
   vec2 r = vec2(fbm(p + 5.0 * q + vec2(1.7, 9.2) + t * 0.07), fbm(p + 5.0 * q + vec2(8.3, 2.8) - t * 0.05));
@@ -56,6 +75,8 @@ void main() {
   // mais clara e vazios pretos: o desenho da referência
   float edge = 1.0 - smoothstep(0.0, 0.06, abs(f - 0.47));
   float v = smoothstep(0.42, 0.64, f) * 0.55 + edge * 0.2 + smoothstep(0.64, 0.86, f) * 0.25;
+  // Onde o mouse mexeu, a fumaça fica um pouco mais densa
+  v += min(stir, 1.0) * 0.18 * smoothstep(0.3, 0.6, f);
   float bit = step(bayer8(frag) + 0.001, v);
   float a = bit * uAmount;
   gl_FragColor = vec4(uInk * a, a);
@@ -75,6 +96,8 @@ type DitherFieldProps = {
   fixed?: boolean;
   /** cor dos pixels: variável CSS lida do tema */
   colorVar?: string;
+  /** a fumaça reage ao mouse (só faz sentido no fundo fixo) */
+  interactive?: boolean;
   className?: string;
 };
 
@@ -85,6 +108,7 @@ export function DitherField({
   pixel = 2,
   fixed = false,
   colorVar = "--ink",
+  interactive = false,
   className,
 }: DitherFieldProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -121,6 +145,13 @@ export function DitherField({
     const uInk = u("uInk");
     const uAmount = u("uAmount");
     const uScale = u("uScale");
+    const uTrail = u("uTrail");
+    const uReach = u("uReach");
+    // Rastro do mouse em px do canvas: [x, y, força] × 8
+    const TRAIL = 8;
+    const trail = new Float32Array(TRAIL * 3);
+    const pointer = { x: 0, y: 0, moved: false };
+    let lastPush = 0;
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let frame = 0;
@@ -141,6 +172,23 @@ export function DitherField({
       gl.viewport(0, 0, canvas.width, canvas.height);
       gl.uniform2f(uRes, canvas.width, canvas.height);
       gl.uniform1f(uScale, scale / pixel);
+      gl.uniform1f(uReach, 110 / pixel);
+    };
+
+    // Um ponto novo no rastro a cada ~60ms de movimento; todos vão perdendo
+    // força devagar, então a fumaça volta ao normal ~1,5s depois de parar
+    const updateTrail = (now: number, dt: number) => {
+      const decay = Math.exp(-dt * 1.8);
+      for (let i = 0; i < TRAIL; i++) trail[i * 3 + 2] *= decay;
+      if (pointer.moved && now - lastPush > 60) {
+        trail.copyWithin(3, 0, (TRAIL - 1) * 3);
+        trail[0] = pointer.x;
+        trail[1] = pointer.y;
+        trail[2] = 1;
+        lastPush = now;
+        pointer.moved = false;
+      }
+      gl.uniform3fv(uTrail, trail);
     };
 
     const render = () => {
@@ -157,6 +205,7 @@ export function DitherField({
       const dt = last ? Math.min(0.1, (now - last) / 1000) : 0;
       last = now;
       time += dt * speed;
+      if (interactive) updateTrail(now, dt);
       render();
     };
 
@@ -184,11 +233,20 @@ export function DitherField({
     const onScroll = () => {
       if (reduce && fixed) render();
     };
+    const onPointerMove = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse") return;
+      const rect = canvas.getBoundingClientRect();
+      pointer.x = (event.clientX - rect.left) / pixel;
+      pointer.y = (rect.bottom - event.clientY) / pixel; // WebGL conta y de baixo
+      pointer.moved = true;
+    };
 
     readInk();
     resize();
+    gl.uniform3fv(uTrail, trail);
     render();
     start();
+    if (interactive && !reduce) window.addEventListener("pointermove", onPointerMove, { passive: true });
     document.addEventListener("visibilitychange", onVisibility);
     window.addEventListener("scroll", onScroll, { passive: true });
 
@@ -198,8 +256,9 @@ export function DitherField({
       resizeObserver.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("pointermove", onPointerMove);
     };
-  }, [amount, speed, scale, pixel, fixed, colorVar]);
+  }, [amount, speed, scale, pixel, fixed, colorVar, interactive]);
 
   return (
     <canvas
