@@ -7,18 +7,7 @@
   overflow: hidden;
 }
 
-.canvas {
-  display: block;
-}
 
-/* Grão de filme bem leve: ruído gerado por SVG (feTurbulence), sem imagem externa. */
-.grain {
-  position: absolute;
-  inset: -50%;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  /* Grão parado: a página fica calma (antes ele "tremia") */
-}
 
 /* Linhas de varredura (scanlines) por cima de tudo, como monitor antigo */
 .scan {

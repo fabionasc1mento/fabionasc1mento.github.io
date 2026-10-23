@@ -10,10 +10,10 @@
 
 /* Texto grande, sem ser o display: é para ler, não um título */
 .text {
-  max-width: 24ch;
+  max-width: 30ch;
   font-family: var(--font-sans);
   font-weight: 600;
-  font-size: clamp(1.9rem, 1rem + 3.4vw, 4rem);
+  font-size: clamp(1.6rem, 0.9rem + 2.6vw, 3.25rem);
   line-height: 1.12;
   letter-spacing: -0.025em;
   text-wrap: pretty;

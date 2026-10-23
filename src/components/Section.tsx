@@ -22,7 +22,7 @@ export function Section({ id, number, title, meta, wide, children }: SectionProp
       <SectionBar number={number} title={title} meta={meta} />
       <div className={`container frame ${styles.wrap}`} data-observe>
         <div className={styles.head}>
-          <p className={`label ${styles.sec}`}>
+          <p className={`label tarja ${styles.sec}`}>
             <span aria-hidden="true">✱ </span>sec.{number}
           </p>
           <Scramble as="h2" id={`${id}-titulo`} text={title} className={`display glitch-in ${styles.title}`} duration={800} />
@@ -34,7 +34,7 @@ export function Section({ id, number, title, meta, wide, children }: SectionProp
         <div className={styles.grid}>
           <aside className={styles.side} aria-hidden="true">
             <div className={styles.sideSticky}>
-              <p className="label">{number} / 05</p>
+              <p className="label tarja">{number} / 05</p>
               <PixelBox className={styles.pixels} />
             </div>
           </aside>

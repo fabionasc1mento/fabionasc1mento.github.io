@@ -167,7 +167,7 @@ export function Experience() {
               >
                 <span className={styles.pad} />
                 <div className={styles.nodeLabel}>
-                  <span className={`label ${styles.nodePeriod}`}>{item.period}</span>
+                  <span className={`label tarja ${styles.nodePeriod}`}>{item.period}</span>
                   <span className={`display ${styles.nodeCompany}`}>{item.company}</span>
                 </div>
               </div>
@@ -182,11 +182,13 @@ export function Experience() {
               <span className={styles.counterTotal}>/ {total}</span>
             </p>
             <div ref={detailRef} className={styles.detail}>
-              <p className={`label ${styles.detailRole}`}>
+              <p className={`label tarja ${styles.detailRole}`}>
                 {job.role}
                 {active === jobs.length - 1 && <span className={styles.now}> ● {t.experience.now}</span>}
               </p>
-              <p className={styles.detailText}>{job.description}</p>
+              <p className={styles.detailText}>
+                <span className="tarja">{job.description}</span>
+              </p>
               <ul className="stack">
                 {job.stack.map((tech) => (
                   <li key={tech}>{tech}</li>
@@ -195,7 +197,7 @@ export function Experience() {
             </div>
           </div>
 
-          <p className={`label ${styles.hint}`}>
+          <p className={`label tarja ${styles.hint}`}>
             {t.experience.scrollHint} <span aria-hidden="true">↓</span>
           </p>
         </div>
@@ -205,11 +207,13 @@ export function Experience() {
       <ol className={styles.list}>
         {t.experience.jobs.map((item) => (
           <li key={item.company} className={styles.job}>
-            <p className={`label ${styles.period}`}>{item.period}</p>
+            <p className={`label tarja ${styles.period}`}>{item.period}</p>
             <div>
               <h3 className={`display ${styles.company}`}>{item.company}</h3>
-              <p className={`label ${styles.role}`}>{item.role}</p>
-              <p className={styles.description}>{item.description}</p>
+              <p className={`label tarja ${styles.role}`}>{item.role}</p>
+              <p className={styles.description}>
+                <span className="tarja">{item.description}</span>
+              </p>
               <ul className="stack" aria-label={t.stackLabel}>
                 {item.stack.map((tech) => (
                   <li key={tech}>{tech}</li>

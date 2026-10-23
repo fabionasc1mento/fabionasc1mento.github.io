@@ -17,7 +17,6 @@ export function Manifesto() {
   const { t } = useLanguage();
   const ref = useRef<HTMLElement>(null);
   const text = t.hero.lead;
-  const highlight = new Set(t.manifesto.highlight);
 
   useEffect(() => {
     const section = ref.current;
@@ -72,10 +71,16 @@ export function Manifesto() {
     };
   }, [text]);
 
-  // "C#," -> destaca "C#" e mantém a vírgula
-  const words = text.split(" ").map((word) => {
-    const bare = word.replace(/[.,;:]+$/, "");
-    return { word, hot: highlight.has(bare) };
+  // Destaca trechos inteiros ("de ponta a ponta"), ignorando pontuação
+  const words = text.split(" ").map((word) => ({ word, hot: false }));
+  const bare = words.map(({ word }) => word.replace(/[.,;:]+$/, "").toLowerCase());
+  t.manifesto.highlight.forEach((phrase) => {
+    const parts = phrase.toLowerCase().split(" ");
+    for (let i = 0; i + parts.length <= bare.length; i++) {
+      if (parts.every((part, k) => bare[i + k] === part)) {
+        for (let k = 0; k < parts.length; k++) words[i + k].hot = true;
+      }
+    }
   });
 
   return (
@@ -85,7 +90,7 @@ export function Manifesto() {
       aria-labelledby="manifesto-label"
       data-floating-show=""
     >
-      <p id="manifesto-label" className={`label ${styles.label}`}>
+      <p id="manifesto-label" className={`label tarja ${styles.label}`}>
         <span className="ast" aria-hidden="true">
           ✱{" "}
         </span>

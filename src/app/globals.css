@@ -277,6 +277,20 @@ footer[id] {
   color: var(--paper);
 }
 
+/* Tarja: faixa da cor do fundo atrás de texto fino que fica solto sobre a
+   fumaça do fundo (traço fino + pixels acesos = leitura ruim). Em texto que
+   quebra linha, cada linha ganha a sua faixa (box-decoration-break), e a
+   sobra lateral vem de box-shadow, então o texto não sai do lugar. */
+.tarja {
+  width: fit-content;
+  background: var(--paper);
+  box-shadow:
+    0.3em 0 0 var(--paper),
+    -0.3em 0 0 var(--paper);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
 /* Lista de tecnologias em mono, separada por barras */
 .stack {
   display: flex;
@@ -287,6 +301,14 @@ footer[id] {
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--dim);
+}
+
+/* Cada tecnologia com tarja (ver .tarja acima) */
+.stack li {
+  background: var(--paper);
+  box-shadow:
+    0.3em 0 0 var(--paper),
+    -0.3em 0 0 var(--paper);
 }
 
 .stack li:not(:last-child)::after {

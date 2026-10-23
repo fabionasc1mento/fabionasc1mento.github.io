@@ -106,7 +106,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
     meta: {
       title: "Fábio Tarcio | Desenvolvedor Full Stack",
       description:
-        "Desenvolvedor full stack em Cuiabá-MT. C# e ASP.NET MVC no back-end, JavaScript e React no front-end.",
+        "Fábio Tarcio, desenvolvedor full stack (C#/.NET, ASP.NET MVC, SQL Server, React, Next.js). Sistemas web de ponta a ponta: dados, APIs, regras de negócio e interface. Cuiabá, Brasil, aberto a vagas remotas.",
     },
     nav: {
       aria: "Navegação principal",
@@ -129,7 +129,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
     hero: {
       name: "Fábio Tarcio",
       title: "Transformo processo manual em sistema.",
-      lead: "Sou o Fábio, desenvolvedor full stack. Trabalho com C# e ASP.NET MVC no back-end e com JavaScript e React no front-end, construindo sistemas web para empresas.",
+      lead: "Sou o Fábio, desenvolvedor full stack. Há 3 anos construo sistemas web de ponta a ponta: modelagem de dados, APIs, regras de negócio e a interface que as pessoas usam no dia a dia. Hoje desenvolvo sistemas corporativos na ALPIUM e estou concluindo Engenharia de Software.",
       ctaProjects: "Ver projetos",
       ctaContact: "Falar comigo",
       demoCaption:
@@ -139,7 +139,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
     },
     manifesto: {
       label: "Sobre mim",
-      highlight: ["C#", "ASP.NET", "MVC", "JavaScript", "React"],
+      highlight: ["full stack", "de ponta a ponta", "ALPIUM", "Engenharia de Software"],
     },
     floating: { text: "Aberto a vagas e freelas", whatsapp: "WhatsApp", resume: "Currículo" },
     experience: {
@@ -284,7 +284,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
     meta: {
       title: "Fábio Tarcio | Full Stack Developer",
       description:
-        "Full stack developer based in Cuiabá, Brazil. C# and ASP.NET MVC on the back end, JavaScript and React on the front end.",
+        "Fábio Tarcio, full stack developer (C#/.NET, ASP.NET MVC, SQL Server, React, Next.js). End-to-end web systems: data, APIs, business logic and UI. Based in Cuiabá, Brazil, open to remote roles.",
     },
     nav: {
       aria: "Main navigation",
@@ -307,7 +307,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
     hero: {
       name: "Fábio Tarcio",
       title: "I turn manual processes into software.",
-      lead: "I'm Fábio, a full stack developer. I work with C# and ASP.NET MVC on the back end and JavaScript and React on the front end, building web systems for businesses.",
+      lead: "I'm Fábio, a full stack developer. For 3 years I've been building web systems end to end: data modeling, APIs, business logic and the interfaces people use every day. I currently build enterprise systems at ALPIUM and I'm finishing my degree in Software Engineering.",
       ctaProjects: "See projects",
       ctaContact: "Get in touch",
       demoCaption:
@@ -317,7 +317,7 @@ export const dictionaries: Record<Lang, Dictionary> = {
     },
     manifesto: {
       label: "About me",
-      highlight: ["C#", "ASP.NET", "MVC", "JavaScript", "React"],
+      highlight: ["full stack", "end to end", "ALPIUM", "Software Engineering"],
     },
     floating: { text: "Open to jobs and freelance", whatsapp: "WhatsApp", resume: "Résumé" },
     experience: {

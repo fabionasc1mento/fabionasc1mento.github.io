@@ -15,7 +15,7 @@ export function Education() {
           <li key={degree.name} className={styles.degree} data-observe>
             <span className={`draw-x ${styles.rule}`} aria-hidden="true" />
             <h3 className={`display rise ${styles.degreeName}`}>{degree.name}</h3>
-            <p className={`label rise ${styles.meta}`} style={{ ["--i" as string]: 1 }}>
+            <p className={`label rise tarja ${styles.meta}`} style={{ ["--i" as string]: 1 }}>
               {degree.school}
               <span className={styles.sep} aria-hidden="true">
                 {" "}/{" "}

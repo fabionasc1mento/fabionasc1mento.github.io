@@ -13,15 +13,15 @@ export function Hero() {
       {/* Faixa de cima: legenda, caixa de pixels e canto */}
       <div className={styles.band} data-intro="blur">
         <div className={`label ${styles.caption}`}>
-          <span>fig.01</span>
-          <span className={styles.captionDim}>portfolio / 2026</span>
+          <span className="tarja">fig.01</span>
+          <span className={`tarja ${styles.captionDim}`}>portfolio / 2026</span>
         </div>
         <div className={styles.pixelCell}>
           <PixelBox className={styles.pixels} />
         </div>
         <div className={`label ${styles.corner}`}>
-          <span className="ast">✱</span>
-          <span>pt / en</span>
+          <span className="ast tarja">✱</span>
+          <span className="tarja">pt / en</span>
         </div>
       </div>
       <span className={`draw-x ${styles.hline}`} />

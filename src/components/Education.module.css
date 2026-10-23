@@ -47,6 +47,7 @@
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
   margin-top: 2rem;
   border: var(--rule) solid var(--ink);
+  background: var(--paper);
 }
 
 .box {

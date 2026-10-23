@@ -37,18 +37,18 @@ export function Resume() {
         </a>
 
         <div className={styles.info} data-observe>
-          <p className={`label rise ${styles.file}`}>
+          <p className={`label rise tarja ${styles.file}`}>
             <span className="ast" aria-hidden="true">
               ✱{" "}
             </span>
             {RESUME_DOWNLOAD_NAME}
           </p>
-          <p className={`label rise ${styles.fileInfo}`} style={{ ["--i" as string]: 1 }}>
+          <p className={`label rise tarja ${styles.fileInfo}`} style={{ ["--i" as string]: 1 }}>
             {resume.fileInfo}
           </p>
           <span className={`draw-x ${styles.rule}`} aria-hidden="true" />
           <p className={`rise ${styles.text}`} style={{ ["--i" as string]: 2 }}>
-            {resume.text}
+            <span className="tarja">{resume.text}</span>
           </p>
           <div className={`rise ${styles.actions}`} style={{ ["--i" as string]: 3 }}>
             <a href={RESUME_FILE} download={RESUME_DOWNLOAD_NAME} className="button button-primary">
@@ -60,7 +60,7 @@ export function Resume() {
               <span aria-hidden="true">↗</span>
             </a>
           </div>
-          <p className={`label rise ${styles.note}`} style={{ ["--i" as string]: 4 }}>
+          <p className={`label rise tarja ${styles.note}`} style={{ ["--i" as string]: 4 }}>
             {resume.note}
           </p>
         </div>

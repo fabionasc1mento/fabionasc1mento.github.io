@@ -85,6 +85,7 @@
   margin-top: clamp(2rem, 5vw, 3rem);
   padding: clamp(1.25rem, 3vw, 2rem);
   border: var(--rule) solid var(--ink);
+  background: var(--paper);
   max-width: 48rem;
 }
 

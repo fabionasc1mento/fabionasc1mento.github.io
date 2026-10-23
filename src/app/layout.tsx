@@ -23,6 +23,42 @@ const THEME_SCRIPT = `try{var t=localStorage.getItem("theme");if(t==="light"||t=
 // - se o runtime não subir em 4s, mostra a página assim mesmo.
 const MOTION_BOOT = `(function(d){d.classList.add("has-motion");try{if(sessionStorage.getItem("intro-seen")||matchMedia("(prefers-reduced-motion: reduce)").matches)d.classList.add("intro-seen");else{sessionStorage.setItem("intro-seen","1");d.classList.add("is-preloading");}}catch(e){}setTimeout(function(){if(window.__lmBooted)return;d.classList.remove("has-motion","is-preloading");document.querySelectorAll("[data-preloader]").forEach(function(n){n.remove()});},4000);})(document.documentElement);`;
 
+// Dados estruturados (schema.org): o "cartão de visita" que buscadores e
+// IAs leem direto do código, sem depender do layout. Tudo aqui está no
+// currículo; o e-mail fica de fora para não virar alvo de spam.
+const PERSON_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Fábio Tarcio Curvo Nascimento",
+  alternateName: "Fábio Tarcio",
+  url: "https://fabionasc1mento.github.io/",
+  jobTitle: "Desenvolvedor Full Stack",
+  worksFor: { "@type": "Organization", name: "ALPIUM" },
+  address: { "@type": "PostalAddress", addressLocality: "Cuiabá", addressRegion: "MT", addressCountry: "BR" },
+  alumniOf: { "@type": "CollegeOrUniversity", name: "Universidade de Cuiabá (UNIC)" },
+  knowsLanguage: ["pt-BR", "en", "es"],
+  knowsAbout: [
+    "Desenvolvimento full stack",
+    "C#",
+    ".NET",
+    "ASP.NET MVC",
+    "Entity Framework",
+    "SQL Server",
+    "Modelagem de dados",
+    "APIs REST",
+    "Arquitetura de software",
+    "JavaScript",
+    "React",
+    "Next.js",
+    "PHP",
+    "Laravel",
+    "UI/UX",
+    "Figma",
+    "Python",
+  ],
+  sameAs: ["https://www.linkedin.com/in/fabio-tcn", "https://github.com/fabionasc1mento"],
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://fabionasc1mento.github.io"),
   icons: { icon: "/favicon.svg" },
@@ -46,6 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         <script dangerouslySetInnerHTML={{ __html: MOTION_BOOT }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_JSON_LD) }} />
       </head>
       <body>
         <LanguageProvider>{children}</LanguageProvider>
