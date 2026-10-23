@@ -3,6 +3,7 @@
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { Timecode } from "./motion/Timecode";
 import { ThemeToggle } from "./ThemeToggle";
+import { SoundToggle } from "./SoundToggle";
 import { Mark } from "./Mark";
 import styles from "./Header.module.css";
 
@@ -35,6 +36,7 @@ export function Header() {
         </nav>
         <Timecode className={`label ${styles.timecode}`} />
         <div className={styles.controls}>
+          <SoundToggle />
           <ThemeToggle />
           <button type="button" className={`label ${styles.lang}`} onClick={toggle} aria-label={t.langSwitch.aria}>
             {t.langSwitch.label}

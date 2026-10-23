@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { sound } from "@/sound/engine";
 import styles from "./Manifesto.module.css";
 
 // Manifesto: a apresentação em letras grandes, "digitada" pela rolagem.
@@ -31,6 +32,8 @@ export function Manifesto() {
     // Mostra as n primeiras letras e põe o cursor depois da última
     const type = (n: number) => {
       if (n === shown) return;
+      // Som de tecla; apagando (rolando para cima) soa mais grave
+      if (shown >= 0) sound.key(n < shown);
       const from = Math.max(0, Math.min(n, shown));
       const to = Math.max(n, shown);
       for (let i = from; i < to; i++) chars[i].dataset.on = String(i < n);

@@ -2,6 +2,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { sound } from "@/sound/engine";
 import { Scramble } from "./Scramble";
 import styles from "./SectionNav.module.css";
 
@@ -45,6 +46,13 @@ export function SectionNav() {
       el.style.fontSize = `${(size * el.clientWidth) / el.scrollWidth}px`;
     }
   }, [active, t]);
+
+  // Título trocando: chiado de glitch junto com o embaralhar das letras
+  const previous = useRef<SectionId | null>(null);
+  useEffect(() => {
+    if (active && previous.current && active !== previous.current) sound.glitch();
+    previous.current = active;
+  }, [active]);
 
   // Qual seção está cruzando o meio da tela
   useEffect(() => {

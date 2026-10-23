@@ -12,6 +12,7 @@
  *   data-boot-cover                solid cover until load + fonts + paint (pages without a preloader)
  *   data-preloader                 real-progress preloader (one per page)
  *   data-preloader="staged"        choreographed brand intro: scripted stops, wipe, split exit
+ *     data-hold-until="event"      (opcional) segura no fim até esse evento na janela
  *   data-intro="up|fade|pop"       plays once after the preloader (hero entrance)
  *   data-reveal="up|left|right|scale|pop|fade"   one-shot reveal on enter, reverses on leave-back
  *   data-reveal-group              children with [data-reveal-item] reveal with stagger
@@ -625,13 +626,23 @@
           if (!last && holds[i]) tl.to({}, { duration: holds[i] });
         });
         tl.to({}, { duration: num(el.getAttribute('data-hold-end'), 0.5) });
-        tl.add(function () {
+        var exitNow = function () {
           var exit = num(el.getAttribute('data-exit-duration'), 1.2);
           var delay = num(el.getAttribute('data-exit-delay'), 0.3);
           gsap.delayedCall(num(el.getAttribute('data-intro-delay'), delay + 0.24), function () { release(); resolve(); });
           var out = gsap.timeline({ delay: delay, onComplete: function () { el.remove(); } });
           out.to(el, { yPercent: 100, duration: exit, ease: 'power2.inOut', force3D: true }, 0);
           if (split.length) out.to(split, { yPercent: -100 * 1.6, duration: exit, ease: 'power2.inOut', force3D: true }, 0);
+        };
+        // data-hold-until="evento": no fim, o preloader espera esse evento na
+        // janela antes de sair (ex.: a pessoa escolher entrar com ou sem som).
+        // Ganha a classe is-holding e dispara "lm:hold" enquanto espera.
+        tl.add(function () {
+          var gate = el.getAttribute('data-hold-until');
+          if (!gate) return exitNow();
+          el.classList.add('is-holding');
+          el.dispatchEvent(new CustomEvent('lm:hold', { bubbles: true }));
+          global.addEventListener(gate, function () { el.classList.remove('is-holding'); exitNow(); }, { once: true });
         });
       };
       var loaded = document.readyState === 'complete' ? Promise.resolve()

@@ -50,3 +50,81 @@
   color: #6d8bff;
   font-variant-numeric: tabular-nums;
 }
+
+/* Pergunta do som, logo abaixo do monograma. Fica escondida (e fora do
+   leitor de tela e do Tab) até a abertura parar no fim: classe is-holding,
+   posta pelo runtime. Sai junto com o monograma. */
+.choice {
+  position: absolute;
+  top: calc(100% + clamp(1.5rem, 4vh, 2.75rem));
+  /* mais larga que o monograma: centraliza pelo meio dele */
+  left: 50%;
+  width: max-content;
+  display: grid;
+  justify-items: center;
+  gap: 0.9rem;
+  white-space: nowrap;
+  color: #e3e3e1;
+  visibility: hidden;
+  opacity: 0;
+  transform: translate(-50%, 0.75rem);
+  transition:
+    opacity 0.45s var(--ease),
+    transform 0.45s var(--ease),
+    visibility 0s 0.45s;
+}
+
+:global(.is-holding) .choice {
+  visibility: visible;
+  opacity: 1;
+  transform: translate(-50%, 0);
+  transition:
+    opacity 0.45s var(--ease),
+    transform 0.45s var(--ease);
+}
+
+.question {
+  font-size: clamp(0.8rem, 0.7rem + 0.4vw, 1rem);
+  font-weight: 500;
+}
+
+.answers {
+  display: flex;
+  gap: 0.6rem;
+}
+
+/* Claro sobre o azul, como o monograma e o log */
+.answer {
+  min-height: 2.9rem;
+  padding: 0 1.4rem;
+  border: 1px solid #e3e3e1;
+  background: transparent;
+  color: #e3e3e1;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.primary {
+  background: #e3e3e1;
+  color: #0c0c0c;
+}
+
+.answer:hover {
+  background: #0c0c0c;
+  border-color: #0c0c0c;
+  color: #e3e3e1;
+}
+
+.answer:focus-visible {
+  outline: 2px solid #0c0c0c;
+  outline-offset: 3px;
+}
+
+.hint {
+  font-size: 0.7rem;
+  opacity: 0.8;
+  text-transform: none;
+}

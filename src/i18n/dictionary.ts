@@ -36,6 +36,7 @@ export type Dictionary = {
   };
   langSwitch: { label: string; aria: string };
   themeSwitch: { toLight: string; toDark: string };
+  sound: { question: string; hint: string; withSound: string; withoutSound: string; turnOn: string; turnOff: string };
   hero: {
     name: string;
     title: string;
@@ -118,6 +119,14 @@ export const dictionaries: Record<Lang, Dictionary> = {
     },
     langSwitch: { label: "EN", aria: "Switch to English" },
     themeSwitch: { toLight: "Mudar para o tema claro", toDark: "Mudar para o tema escuro" },
+    sound: {
+      question: "Entrar com som?",
+      hint: "Dá para mudar depois no cabeçalho.",
+      withSound: "Com som",
+      withoutSound: "Sem som",
+      turnOn: "Ligar o som",
+      turnOff: "Desligar o som",
+    },
     sections: {
       indexLabel: "Seções",
       experience: "2022 – hoje",
@@ -296,6 +305,14 @@ export const dictionaries: Record<Lang, Dictionary> = {
     },
     langSwitch: { label: "PT", aria: "Mudar para português" },
     themeSwitch: { toLight: "Switch to light theme", toDark: "Switch to dark theme" },
+    sound: {
+      question: "Enter with sound?",
+      hint: "You can change it later in the header.",
+      withSound: "With sound",
+      withoutSound: "No sound",
+      turnOn: "Turn sound on",
+      turnOff: "Turn sound off",
+    },
     sections: {
       indexLabel: "Sections",
       experience: "2022 – present",
